@@ -6,11 +6,12 @@ import {
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldSeparator,
+  // FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import loginImage from "../../public/auth-images/login-image.png";
 import Image from "next/image"
+import Link from "next/link"
 
 export function LoginForm({
   className,
@@ -52,10 +53,11 @@ export function LoginForm({
               <Field>
                 <Button type="submit">Login</Button>
               </Field>
-              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
+              {/* <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 Or continue with
-              </FieldSeparator>
-              <Field className="grid grid-cols-3 gap-4">
+              </FieldSeparator> */}
+              {/* social medial login */}
+              {/* <Field className="grid grid-cols-3 gap-4">
                 <Button variant="outline" type="button">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
@@ -83,9 +85,9 @@ export function LoginForm({
                   </svg>
                   <span className="sr-only">Login with Meta</span>
                 </Button>
-              </Field>
+              </Field> */}
               <FieldDescription className="text-center">
-                Don&apos;t have an account? <a href="#">Sign up</a>
+                Don&apos;t have an account? <Link href="/register">Register</Link>
               </FieldDescription>
             </FieldGroup>
           </form>
