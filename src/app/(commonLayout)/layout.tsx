@@ -1,4 +1,4 @@
-import { Navbar1 } from "@/components/layouts/navbar1";
+import { Navbar1 } from "@/components/layouts/common/navbar1";
 import React from "react";
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
