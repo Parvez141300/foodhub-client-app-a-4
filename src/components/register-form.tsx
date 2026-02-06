@@ -1,9 +1,11 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   // FieldSeparator,
@@ -12,17 +14,82 @@ import { Input } from "@/components/ui/input";
 import registerImage from "../../public/auth-images/register-image.png";
 import Image from "next/image";
 import Link from "next/link";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import * as z from "zod";
+import { useForm } from "@tanstack/react-form";
+import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+
+const formSchema = z.object({
+  name: z.string().min(1, "Name Must be minimum 1 character"),
+  email: z.email(),
+  role: z.string().min(1, "Role is Requried to create account"),
+  password: z.string().min(8, "Password must be minimum 8 characters long"),
+  confirmPassword: z.string(),
+});
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      role: "CUSTOMER",
+      password: "",
+      confirmPassword: "",
+    },
+    validators: {
+      onSubmit: formSchema,
+    },
+    onSubmit: async ({ value }) => {
+      const toastId = toast.loading("Creating Account...");
+      try {
+        if (value.password !== value.confirmPassword) {
+          return toast.error("password confirmation failed", { id: toastId });
+        }
+        const { data, error } = await authClient.signUp.email({
+          name: value.name,
+          email: value.email,
+          password: value.password,
+        });
+        if (error) {
+          toast.error(error.message, { id: toastId });
+          return;
+        }
+        if (data.user.id) {
+          toast.success("successfully registered", { id: toastId });
+          router.push("/login");
+        }
+      } catch (error: any) {
+        toast.error(error.message, { id: toastId });
+      }
+    },
+  });
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form
+            id="register-form"
+            className="p-6 md:p-8"
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}
+          >
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold">Create your account</h1>
@@ -30,54 +97,129 @@ export function RegisterForm({
                   Enter your email below to create your account
                 </p>
               </div>
-              <Field>
-                <FieldLabel htmlFor="name">Name</FieldLabel>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Enter your name"
-                  required
-                />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
-              </Field>
-              <Select>
-                <FieldLabel>Select Role</FieldLabel>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a Role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
-                    <SelectItem value="CUSTOMER">Customer</SelectItem>
-                    <SelectItem value="PROVIDER">Provider</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              {/* name field */}
+              <form.Field
+                name="name"
+                children={(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid;
 
-              <Field>
-                <Field className="grid grid-cols-2 gap-4">
-                  <Field>
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
-                    <Input id="password" type="password" required />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="confirm-password">
-                      Confirm Password
-                    </FieldLabel>
-                    <Input id="confirm-password" type="password" required />
-                  </Field>
-                </Field>
-                <FieldDescription>
-                  Must be at least 8 characters long.
-                </FieldDescription>
+                  return (
+                    <Field>
+                      <FieldLabel htmlFor="name">Name</FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        type="text"
+                        placeholder="Enter your name"
+                      />
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  );
+                }}
+              />
+              {/* email field */}
+              <form.Field
+                name="email"
+                children={(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  return (
+                    <Field>
+                      <FieldLabel htmlFor="email">Email</FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        type="email"
+                        placeholder="m@example.com"
+                      />
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  );
+                }}
+              />
+              {/* role field to select */}
+              <form.Field
+                name="role"
+                children={(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  return (
+                    <Field>
+                      <FieldLabel>Select Role</FieldLabel>
+                      <Select
+                        value={field.state.value}
+                        onValueChange={field.handleChange}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a Role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Roles</SelectLabel>
+                            <SelectItem value="CUSTOMER">Customer</SelectItem>
+                            <SelectItem value="PROVIDER">Provider</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  );
+                }}
+              />
+              {/* password field */}
+              <Field className="grid grid-cols-2 gap-4">
+                <form.Field
+                  name="password"
+                  children={(field) => {
+                    const isInvalid =
+                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    return (
+                      <Field>
+                        {/* password field */}
+                        <FieldLabel>Password</FieldLabel>
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="password"
+                        />
+                      </Field>
+                    );
+                  }}
+                />
+                {/* confirm password field */}
+                <form.Field
+                  name="confirmPassword"
+                  children={(field) => {
+                    const isInvalid =
+                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    return (
+                      <Field>
+                        {/* confirm password field */}
+                        <FieldLabel>Confirm Password</FieldLabel>
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="password"
+                        />
+                      </Field>
+                    );
+                  }}
+                />
               </Field>
               <Field>
                 <Button type="submit">Create Account</Button>
@@ -130,8 +272,9 @@ export function RegisterForm({
         </CardContent>
       </Card>
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our{" "}
+        <Link href="/terms-of-services">Terms of Service</Link> and{" "}
+        <Link href="/privacy-policy">Privacy Policy</Link>.
       </FieldDescription>
     </div>
   );
