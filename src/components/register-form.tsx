@@ -1,17 +1,18 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
   // FieldSeparator,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import registerImage from "../../public/auth-images/register-image.png";
-import Image from "next/image"
-import Link from "next/link"
+import Image from "next/image";
+import Link from "next/link";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
 
 export function RegisterForm({
   className,
@@ -47,6 +48,20 @@ export function RegisterForm({
                   required
                 />
               </Field>
+              <Select>
+                <FieldLabel>Select Role</FieldLabel>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a Role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Fruits</SelectLabel>
+                    <SelectItem value="CUSTOMER">Customer</SelectItem>
+                    <SelectItem value="PROVIDER">Provider</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
               <Field>
                 <Field className="grid grid-cols-2 gap-4">
                   <Field>
@@ -119,5 +134,5 @@ export function RegisterForm({
         and <a href="#">Privacy Policy</a>.
       </FieldDescription>
     </div>
-  )
+  );
 }
