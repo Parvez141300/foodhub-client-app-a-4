@@ -1,24 +1,11 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronUp, Clock, LucideIcon, MapPin, Phone } from "lucide-react";
 import { Fragment } from "react";
-import { Controller, useForm } from "react-hook-form";
-import z from "zod";
 
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
-import { Field, FieldError } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
@@ -71,9 +58,9 @@ interface ContactSectionProps {
 }
 
 interface EcommerceFooter1Props {
-  newsletter: NewsletterData;
-  footerLinks: FooterLinksSection[];
-  contactLinks: ContactLinks;
+  newsletter?: NewsletterData;
+  footerLinks?: FooterLinksSection[];
+  contactLinks?: ContactLinks;
   className?: string;
 }
 
@@ -93,36 +80,15 @@ const NEWSLETTER_DATA = {
 
 const FOOTER_LINKS: FooterLinksSection[] = [
   {
-    title: "Information",
-    items: [
-      {
-        text: "Terms and Conditions",
-        link: "#",
-      },
-      {
-        text: "Privacy Policy",
-        link: "#",
-      },
-      {
-        text: "Warranty Policy",
-        link: "#",
-      },
-      {
-        text: "Terms of Service",
-        link: "#",
-      },
-    ],
-  },
-  {
     title: "Collections",
     items: [
       {
-        text: "New Arrivals",
-        link: "#",
+        text: "Home",
+        link: "/",
       },
       {
-        text: "Best Sellers",
-        link: "#",
+        text: "Meals",
+        link: "/meals",
       },
       {
         text: "Seasonal Edits",
@@ -134,22 +100,38 @@ const FOOTER_LINKS: FooterLinksSection[] = [
       },
     ],
   },
+  {
+    title: "Information",
+    items: [
+      {
+        text: "Terms and Conditions",
+        link: "/terms-and-conditions",
+      },
+      {
+        text: "Privacy Policy",
+        link: "/privacy-policy",
+      },
+    ],
+  },
 ];
 
 const SOCIAL_ICONS = {
   facebook: {
     title: "Facebook",
-    light: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/facebook-icon.svg",
+    light:
+      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/facebook-icon.svg",
     dark: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/facebook-icon.svg",
   },
   x: {
     title: "X",
-    light: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/x.svg",
+    light:
+      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/x.svg",
     dark: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/x.svg",
   },
   instagram: {
     title: "Instagram",
-    light: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/instagram-icon.svg",
+    light:
+      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/instagram-icon.svg",
     dark: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/instagram-icon.svg",
   },
 };
@@ -158,14 +140,14 @@ const CONTACT_LINKS: ContactLinks = {
   contactDetails: [
     {
       icon: MapPin,
-      text: "support@store.com",
-      link: "support@store.com",
+      text: "parvezhossain744471@gmail.com",
+      link: "parvezhossain744471@gmail.com",
       type: LINK_TYPES.EMAIL_LINK as LinkTypes,
     },
     {
       icon: Phone,
-      text: "+12345678910",
-      link: "+12345678910",
+      text: "+8801872243808",
+      link: "+8801872243808",
       type: LINK_TYPES.PHONE_LINK as LinkTypes,
     },
     {
@@ -209,10 +191,8 @@ const EcommerceFooter1 = ({
         <div>
           <div className="flex items-center justify-between gap-4 md:gap-12.5">
             <Separator className="flex-1" />
-            <div className="basis-30 md:basis-37.5">
-              <Link href="/">
-                FoodHub
-              </Link>
+            <div className="">
+              <Link href="/">FoodHub</Link>
             </div>
             <Separator className="flex-1" />
           </div>
@@ -223,7 +203,7 @@ const EcommerceFooter1 = ({
           </p>
           <Separator
             orientation="vertical"
-            className="!h-4.5 bg-foreground/60 max-sm:hidden"
+            className="h-4.5! bg-foreground/60 max-sm:hidden"
           />
           <p className="max-md:text-xs">Developed By Parvez Hossain Alif</p>
           <Button size="icon" variant="outline">
@@ -235,14 +215,7 @@ const EcommerceFooter1 = ({
   );
 };
 
-const newsletterFormSchema = z.object({
-  email: z.string().email(),
-});
-
-type newsletterFormType = z.infer<typeof newsletterFormSchema>;
-
 const NewsletterSection = ({ title, description }: NewsletterFormProps) => {
-
   return (
     <div className="space-y-6">
       <div className="space-y-4">
@@ -266,9 +239,12 @@ const FooterLinksSection = ({ sections }: FooterLinksSectionProps) => {
           <ul className="space-y-3">
             {items.map(({ text, link }) => (
               <li key={crypto.randomUUID()}>
-                <a href={link} className="underline-offset-4 hover:underline">
+                <Link
+                  href={link}
+                  className="underline-offset-4 hover:underline"
+                >
                   {text}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
