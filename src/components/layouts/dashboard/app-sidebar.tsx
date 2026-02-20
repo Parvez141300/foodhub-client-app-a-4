@@ -19,7 +19,7 @@ import { providerRoutes } from "@/routes/providerRoutes";
 import { Route } from "@/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
+import { LayoutDashboardIcon } from "lucide-react";
 
 export function AppSidebar({
   userInfo,
@@ -54,7 +54,10 @@ export function AppSidebar({
         {/* We create a SidebarGroup for each parent. */}
         {routes.map((item) => (
           <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+            <SidebarGroupLabel className="flex items-center gap-3">
+              <LayoutDashboardIcon />
+              {item.title}
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {item.items.map((item) => (
