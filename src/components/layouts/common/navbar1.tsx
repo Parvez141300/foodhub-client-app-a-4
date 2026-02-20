@@ -64,6 +64,7 @@ const Navbar1 = ({
   menu = [
     { title: "Home", url: "/" },
     { title: "Meals", url: "/meals" },
+    { title: "Dashboard", url: "/dashboard" },
   ],
   auth = {
     login: { title: "Login", url: "/login" },
@@ -71,6 +72,7 @@ const Navbar1 = ({
   },
   className,
 }: Navbar1Props) => {
+  
   return (
     <section className={cn("py-4", className)}>
       <div className="max-w-7xl mx-auto px-4">
@@ -99,7 +101,12 @@ const Navbar1 = ({
             </div>
           </div>
           <div className="flex gap-2">
+            {/* theme switch */}
             <ModeToggle />
+            
+            {/* after login avatar */}
+
+            {/* login and register */}
             <Button asChild variant="outline" size="sm">
               <Link href={auth.login.url}>{auth.login.title}</Link>
             </Button>
@@ -154,10 +161,10 @@ const Navbar1 = ({
                   <div className="flex flex-col gap-3">
                     <ModeToggle />
                     <Button asChild variant="outline">
-                      <a href={auth.login.url}>{auth.login.title}</a>
+                      <Link href={auth.login.url}>{auth.login.title}</Link>
                     </Button>
                     <Button asChild>
-                      <a href={auth.signup.url}>{auth.signup.title}</a>
+                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
                     </Button>
                   </div>
                 </div>
