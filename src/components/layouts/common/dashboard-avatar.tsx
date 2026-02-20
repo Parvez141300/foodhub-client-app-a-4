@@ -20,13 +20,21 @@ import {
 import Link from "next/link";
 import { toast } from "sonner";
 
-export function DashboardAvatar({ userInfo }: { userInfo: any }) {
+export function DashboardAvatar({
+  userInfo,
+  onLogout,
+}: {
+  userInfo: any;
+  onLogout: () => void;
+}) {
   const handleLogout = async () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
           try {
             toast.success("Logged out successfully");
+            onLogout();
+            location.reload();
           } catch (error: any) {
             toast.error(error.message);
           }
@@ -37,7 +45,11 @@ export function DashboardAvatar({ userInfo }: { userInfo: any }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full hover:cursor-pointer">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-full hover:cursor-pointer"
+        >
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
             <AvatarFallback>LR</AvatarFallback>
@@ -66,7 +78,9 @@ export function DashboardAvatar({ userInfo }: { userInfo: any }) {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOutIcon />
-          <span onClick={handleLogout} className="hover:cursor-pointer">Sign out</span>
+          <span onClick={handleLogout} className="hover:cursor-pointer">
+            Sign out
+          </span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

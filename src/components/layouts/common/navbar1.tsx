@@ -22,6 +22,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
 import { DashboardAvatar } from "./dashboard-avatar";
+import { useEffect, useState } from "react";
+import { env } from "@/env";
+import LoadingCircleSpinner from "@/components/global/LoadingCircleSpinner";
 
 interface MenuItem {
   title: string;
@@ -54,8 +57,10 @@ interface Navbar1Props {
   };
 }
 
+const NEXT_PUBLIC_AUTH_URL = env.NEXT_PUBLIC_AUTH_URL;
+
 const Navbar1 = ({
-  session,
+  session: initialSession,
   logo = {
     url: "/",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
@@ -73,8 +78,42 @@ const Navbar1 = ({
   },
   className,
 }: Navbar1Props) => {
-  const userInfo = session?.user || null;
-  console.log(userInfo);
+  const [session, setSession] = useState(initialSession);
+  const [loading, setLoading] = useState(!!initialSession);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        setLoading(true);
+        const session = await fetch(`${NEXT_PUBLIC_AUTH_URL}/get-session`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+
+        const data = await session.json();
+        setSession(data);
+      } catch (error) {
+        setSession(null);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSession();
+
+    if (!initialSession) {
+      fetchSession();
+    }
+  }, [initialSession]);
+  console.log(session?.user);
+
+  const handleLogout = async () => {
+    setSession(null);
+  };
+
   return (
     <section className={cn("py-4", className)}>
       <div className="max-w-7xl mx-auto px-4">
@@ -105,10 +144,15 @@ const Navbar1 = ({
           <div className="flex gap-2">
             {/* theme switch */}
             <ModeToggle />
-            {userInfo ? (
+            {loading ? (
+              <LoadingCircleSpinner />
+            ) : session?.user ? (
               <>
                 {/* after login avatar */}
-                <DashboardAvatar userInfo={userInfo} />
+                <DashboardAvatar
+                  userInfo={session?.user}
+                  onLogout={handleLogout}
+                />
               </>
             ) : (
               <>

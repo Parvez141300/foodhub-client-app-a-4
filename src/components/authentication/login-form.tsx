@@ -48,7 +48,7 @@ export function LoginForm({
         }
         if (data.user.id) {
           toast.success("Successfully logged in user", { id: toastId });
-          router.push("/");
+          location.href = "/";
         }
       } catch (error: any) {
         toast.error(error.message, { id: toastId });
