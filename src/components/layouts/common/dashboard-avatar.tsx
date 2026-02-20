@@ -1,6 +1,6 @@
-'use client';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+"use client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,19 +8,36 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import { authClient } from "@/lib/auth-client";
 import {
   BadgeCheckIcon,
   BellIcon,
   CreditCardIcon,
+  LayoutDashboardIcon,
   LogOutIcon,
-} from "lucide-react"
+} from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
 
-export function DashboardAvatar() {
+export function DashboardAvatar({ userInfo }: { userInfo: any }) {
+  const handleLogout = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          try {
+            toast.success("Logged out successfully");
+          } catch (error: any) {
+            toast.error(error.message);
+          }
+        },
+      },
+    });
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
+        <Button variant="ghost" size="icon" className="rounded-full hover:cursor-pointer">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
             <AvatarFallback>LR</AvatarFallback>
@@ -29,6 +46,10 @@ export function DashboardAvatar() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <LayoutDashboardIcon />
+            <Link href="/dashboard">Dashboard</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <BadgeCheckIcon />
             Account
@@ -45,9 +66,9 @@ export function DashboardAvatar() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOutIcon />
-          Sign Out
+          <span onClick={handleLogout} className="hover:cursor-pointer">Sign out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

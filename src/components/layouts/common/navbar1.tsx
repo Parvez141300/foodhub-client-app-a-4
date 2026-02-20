@@ -4,9 +4,7 @@ import { Menu } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import {
-  Accordion,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -23,6 +21,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
+import { DashboardAvatar } from "./dashboard-avatar";
 
 interface MenuItem {
   title: string;
@@ -33,6 +32,7 @@ interface MenuItem {
 }
 
 interface Navbar1Props {
+  session?: any;
   className?: string;
   logo?: {
     url: string;
@@ -55,6 +55,7 @@ interface Navbar1Props {
 }
 
 const Navbar1 = ({
+  session,
   logo = {
     url: "/",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
@@ -72,7 +73,8 @@ const Navbar1 = ({
   },
   className,
 }: Navbar1Props) => {
-  
+  const userInfo = session?.user || null;
+  console.log(userInfo);
   return (
     <section className={cn("py-4", className)}>
       <div className="max-w-7xl mx-auto px-4">
@@ -103,16 +105,22 @@ const Navbar1 = ({
           <div className="flex gap-2">
             {/* theme switch */}
             <ModeToggle />
-            
-            {/* after login avatar */}
-
-            {/* login and register */}
-            <Button asChild variant="outline" size="sm">
-              <Link href={auth.login.url}>{auth.login.title}</Link>
-            </Button>
-            <Button asChild size="sm">
-              <Link href={auth.signup.url}>{auth.signup.title}</Link>
-            </Button>
+            {userInfo ? (
+              <>
+                {/* after login avatar */}
+                <DashboardAvatar userInfo={userInfo} />
+              </>
+            ) : (
+              <>
+                {/* login and register */}
+                <Button asChild variant="outline" size="sm">
+                  <Link href={auth.login.url}>{auth.login.title}</Link>
+                </Button>
+                <Button asChild size="sm">
+                  <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                </Button>
+              </>
+            )}
           </div>
         </nav>
 
@@ -178,7 +186,6 @@ const Navbar1 = ({
 };
 
 const renderMenuItem = (item: MenuItem) => {
-
   return (
     <NavigationMenuItem key={item.title}>
       <Link
@@ -192,13 +199,11 @@ const renderMenuItem = (item: MenuItem) => {
 };
 
 const renderMobileMenuItem = (item: MenuItem) => {
-
   return (
     <Link key={item.title} href={item.url} className="text-md font-semibold">
       {item.title}
     </Link>
   );
 };
-
 
 export { Navbar1 };
