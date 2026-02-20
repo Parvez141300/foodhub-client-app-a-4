@@ -211,14 +211,31 @@ const Navbar1 = ({
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
 
-                  <div className="flex flex-col gap-3">
+                  <div className="flex justify-between items-center">
                     <ModeToggle />
-                    <Button asChild variant="outline">
-                      <Link href={auth.login.url}>{auth.login.title}</Link>
-                    </Button>
-                    <Button asChild>
-                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                    </Button>
+                    {loading ? (
+                      <LoadingCircleSpinner />
+                    ) : session?.user ? (
+                      <>
+                        {/* after login avatar */}
+                        <DashboardAvatar
+                          userInfo={session?.user}
+                          onLogout={handleLogout}
+                        />
+                      </>
+                    ) : (
+                      <div className="flex items-center gap-3">
+                        {/* login and register */}
+                        <Button asChild variant="outline" size="sm">
+                          <Link href={auth.login.url}>{auth.login.title}</Link>
+                        </Button>
+                        <Button asChild size="sm">
+                          <Link href={auth.signup.url}>
+                            {auth.signup.title}
+                          </Link>
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </SheetContent>
