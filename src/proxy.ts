@@ -9,7 +9,7 @@ export const proxy = async (req: NextRequest) => {
     let isProvider = false;
     let isAuthenticated = false;
     let session = await userServices.getSession();
-    if (session) {
+    if (session?.user) {
         isAuthenticated = true;
         isAdmin = session?.user.role === Roles.ADMIN;
         isCustomer = session?.user.role === Roles.CUSTOMER;
