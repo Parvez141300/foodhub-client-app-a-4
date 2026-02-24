@@ -27,10 +27,22 @@ export const categoryService = {
                 'Content-Type': 'application/json',
                 Cookie: cookieStore.toString()
             },
-            body: JSON.stringify({name: categoryName, creator_id: creatorId})
+            body: JSON.stringify({ name: categoryName, creator_id: creatorId })
         });
 
         const res = result.json();
         return res;
     },
+    deleteCategory: async (categoryId: string) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/admin/categories/${categoryId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: cookieStore.toString()
+            },
+        });
+        const res = result.json();
+        return res;
+    }
 }
