@@ -3,12 +3,12 @@ import { cookies } from "next/headers";
 
 const BACKEND_URL = env.BACKEND_URL;
 
-export const categoryService = {
-    getAllCategory: async () => {
+export const cuisineService = {
+    getAllCuisine: async () => {
         try {
-            const result = await fetch(`${BACKEND_URL}/api/admin/categories`, {
+            const result = await fetch(`${BACKEND_URL}/api/admin/cuisines`, {
                 next: {
-                    tags: ["categories"]
+                    tags: ["cuisines"]
                 }
             });
             const categories = await result.json();
@@ -18,23 +18,23 @@ export const categoryService = {
             return { data: null }
         }
     },
-    createCategory: async (categoryName: string, creatorId: string) => {
+    createCuisine: async (cuisineName: string, creatorId: string) => {
         const cookieStore = await cookies();
-        const result = await fetch(`${BACKEND_URL}/api/admin/categories`, {
+        const result = await fetch(`${BACKEND_URL}/api/admin/cuisines`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 Cookie: cookieStore.toString()
             },
-            body: JSON.stringify({ name: categoryName, creator_id: creatorId })
+            body: JSON.stringify({ name: cuisineName, creator_id: creatorId })
         });
 
         const res = result.json();
         return res;
     },
-    deleteCategory: async (categoryId: string) => {
+    deleteCuisine: async (cuisineId: string) => {
         const cookieStore = await cookies();
-        const result = await fetch(`${BACKEND_URL}/api/admin/categories/${categoryId}`, {
+        const result = await fetch(`${BACKEND_URL}/api/admin/cuisines/${cuisineId}`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
