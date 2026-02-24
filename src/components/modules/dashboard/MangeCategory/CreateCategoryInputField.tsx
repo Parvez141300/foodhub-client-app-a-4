@@ -10,7 +10,8 @@ const CreateCategoryInputField = () => {
   const handleCreate = async (e: any) => {
     e.preventDefault();
     const toastId = toast.loading("Creating category");
-    const category = e.target.category.value;
+    const form = e.target;
+    const category = form.category.value;
     if (!category.trim()) {
       return toast.error("Give valid category");
     }
@@ -19,9 +20,10 @@ const CreateCategoryInputField = () => {
       const res = await createCategory(category);
       console.log('category response', res);
       if(!res?.id){
-        return toast.error("Category creation failed", {id: toastId});
+        return toast.error("This category is already availabe", {id: toastId});
       }
       toast.success("Successfully created category", { id: toastId });
+      form.reset();
     } catch (error: any) {
       toast.error(error.message, {id: toastId});
     }
