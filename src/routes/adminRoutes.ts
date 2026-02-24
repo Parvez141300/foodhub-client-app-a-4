@@ -21,6 +21,14 @@ export const adminRoutes: Route[] = [
                 url: "/admin-dashboard/manage-categories",
             },
             {
+                title: "Manage Cuisines",
+                url: "/admin-dashboard/manage-cuisines",
+            },
+            {
+                title: "Manage Dieteries",
+                url: "/admin-dashboard/manage-dieteries",
+            },
+            {
                 title: "Manage Profile",
                 url: "/admin-dashboard/manage-profile",
             },
