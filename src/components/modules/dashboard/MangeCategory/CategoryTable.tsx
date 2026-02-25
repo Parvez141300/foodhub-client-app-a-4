@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { MoreHorizontalIcon } from "lucide-react";
 import { toast } from "sonner";
+import NoCategoryFound from "./NoCategoryFound";
 
 // {
 //     "id": "ab17d61a-b859-422e-bf28-f74c23983b80",
@@ -61,6 +62,9 @@ export function CategoryTable({
       toast.error(error.message, { id: toastId });
     }
   };
+  if(!categories.length){
+    return <NoCategoryFound />
+  }
   return (
     <Table>
       <TableHeader>
