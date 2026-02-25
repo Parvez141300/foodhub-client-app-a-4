@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { MoreHorizontalIcon } from "lucide-react";
 import { toast } from "sonner";
+import NoCuisineFound from "./NoCuisineFound";
 
 // {
 //     "id": "ab17d61a-b859-422e-bf28-f74c23983b80",
@@ -59,6 +60,11 @@ export function CuisineTable({
       toast.error(error.message, { id: toastId });
     }
   };
+
+  if(!cuisines.length){
+    return <NoCuisineFound />
+  }
+
   return (
     <Table>
       <TableHeader>
