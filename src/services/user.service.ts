@@ -25,10 +25,10 @@ export const userServices = {
             return { message: error && "something went wrong" }
         }
     },
-    getAllUser: async () => {
+    getAllUser: async (search?: string) => {
         try {
             const cookieStore = await cookies();
-            const result = await fetch(`${BACKEND_URL}/api/admin/users`, {
+            const result = await fetch(`${BACKEND_URL}/api/admin/users?search=${search || ''}`, {
                 next: {
                     tags: ["users"]
                 },
@@ -44,5 +44,5 @@ export const userServices = {
             console.log(error.message);
             return { data: null };
         }
-    }
+    },
 } 

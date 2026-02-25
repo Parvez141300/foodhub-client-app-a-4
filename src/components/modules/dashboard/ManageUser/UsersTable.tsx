@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/table";
 import { MoreHorizontalIcon } from "lucide-react";
 import NoUsersFound from "./NoUsersFound";
+import { useState } from "react";
+import { getAllUser } from "@/actions/user.action";
 
 // {
 //     "id": "G9zZwtR4BiiNUtK7UUjLb6Lfneb9qgfi",
@@ -45,7 +47,9 @@ type UsersType = {
   is_active: string;
 };
 
-export function UsersTable({ users }: { users: UsersType[] }) {
+export function UsersTable({ users: InitialUsers }: { users: UsersType[] }) {
+  const [users, setUsers] = useState(InitialUsers);
+
   if (!users.length) {
     return <NoUsersFound />;
   }
