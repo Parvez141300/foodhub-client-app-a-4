@@ -18,21 +18,9 @@ import {
 } from "@/components/ui/table";
 import { MoreHorizontalIcon } from "lucide-react";
 import NoUsersFound from "./NoUsersFound";
-import { useState } from "react";
-import { getAllUser } from "@/actions/user.action";
-
-// {
-//     "id": "G9zZwtR4BiiNUtK7UUjLb6Lfneb9qgfi",
-//     "name": "Parvez",
-//     "email": "parvez@gmail.com",
-//     "emailVerified": false,
-//     "image": null,
-//     "createdAt": "2026-01-30T15:52:19.660Z",
-//     "updatedAt": "2026-01-30T15:52:19.660Z",
-//     "role": "CUSTOMER",
-//     "phone": null,
-//     "is_active": "ACTIVE"
-// }
+import { UserStatus } from "@/constants/roles";
+import { updateUserStatus } from "@/actions/user.action";
+import { toast } from "sonner";
 
 type UsersType = {
   id: string;
@@ -47,8 +35,27 @@ type UsersType = {
   is_active: string;
 };
 
-export function UsersTable({ users: InitialUsers }: { users: UsersType[] }) {
-  const [users, setUsers] = useState(InitialUsers);
+export function UsersTable({ users }: { users: UsersType[] }) {
+  const handleUpdateStatus = async (userId: string, userStatus: string) => {
+    console.log("id and stattus", userId, userStatus);
+
+    const toastId = toast.loading("Updating user status");
+    try {
+      const res = await updateUserStatus(userId, userStatus);
+      if (!res.ok) {
+        return toast.error("This user does not exists to update", {
+          id: toastId,
+        });
+      } else {
+        return toast.success("Successfully updated user status", {
+          id: toastId,
+        });
+      }
+    } catch (error: any) {
+      toast.error(error.message, { id: toastId });
+      console.log(error.message);
+    }
+  };
 
   if (!users.length) {
     return <NoUsersFound />;
@@ -94,12 +101,28 @@ export function UsersTable({ users: InitialUsers }: { users: UsersType[] }) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem variant="destructive">
+                  {user?.is_active === "ACTIVE" ? (
+                    <DropdownMenuItem
+                      onClick={() =>
+                        handleUpdateStatus(user?.id, UserStatus.SUSPEND)
+                      }
+                    >
+                      SUSPEND
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem
+                      onClick={() =>
+                        handleUpdateStatus(user?.id, UserStatus.ACTIVE)
+                      }
+                    >
+                      ACTIVE
+                    </DropdownMenuItem>
+                  )}
+
+                  {/* <DropdownMenuSeparator /> */}
+                  {/* <DropdownMenuItem variant="destructive">
                     Delete
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>

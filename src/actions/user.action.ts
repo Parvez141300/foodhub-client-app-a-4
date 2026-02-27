@@ -7,3 +7,14 @@ export const getAllUser = async (search: string) => {
     updateTag('users');
     return result;
 }
+
+export const updateUserStatus = async (userId: string, userStatus: string) => {
+    const result = await userServices.updateUserStatus(userId, userStatus);
+    const data = await result.json();
+    updateTag("users");
+    return {
+        ok: result.ok,
+        status: result.status,
+        data,
+    };
+}

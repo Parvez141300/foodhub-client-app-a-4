@@ -3,3 +3,8 @@ export const Roles = {
     CUSTOMER: "CUSTOMER",
     PROVIDER: "PROVIDER",
 }
+
+export const UserStatus = {
+    ACTIVE: "ACTIVE",
+    SUSPEND: "SUSPEND",
+}

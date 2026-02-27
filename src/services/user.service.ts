@@ -45,4 +45,17 @@ export const userServices = {
             return { data: null };
         }
     },
+    updateUserStatus: async (userId: string, userStatus: string) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/admin/users/${userId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Cookie: cookieStore.toString(),
+            },
+            body: JSON.stringify({ is_active: userStatus }),
+        });
+
+        return result;
+    }
 } 
