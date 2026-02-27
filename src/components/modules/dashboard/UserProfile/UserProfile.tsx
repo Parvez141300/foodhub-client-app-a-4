@@ -31,6 +31,7 @@ import { z } from "zod";
 import divisionsData from "@/data/bangladesh-divisions-districts.json";
 import { Loader2, Pencil, Save, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const profileFormSchema = z.object({
   name: z.string().min(3, "Name Must be minimum 3 characters long"),
@@ -95,6 +96,11 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
     },
     onSubmit: async ({ value }) => {
       console.log("profile form values", value);
+      try {
+        toast.success("Sucessfully updated user info");
+      } catch (error: any) {
+        toast.error(error.message);
+      }
     },
   });
 
