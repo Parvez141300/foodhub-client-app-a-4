@@ -40,8 +40,8 @@ const profileFormSchema = z.object({
   district: z.string().min(1, "Please chose district"),
   thana: z.string().min(2, "Please enter your post office"),
   area: z.string().min(2, "Please enter your area"),
-  street: z.string().optional(),
-  postal_code: z.string().optional(),
+  street: z.string(),
+  postal_code: z.string(),
 });
 
 type UserDataType = {
@@ -63,9 +63,9 @@ type UserDataType = {
     area: string;
     division: string;
     district: string;
-    postal_code: string;
-    street: string;
     thana: string;
+    postal_code?: string;
+    street?: string;
   };
 };
 
@@ -135,50 +135,51 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
             <TabsTrigger value="address">Address</TabsTrigger>
           </TabsList>
           {/* profile tabs content */}
-          <TabsContent value="profile" className="space-y-1">
-            {/* Profile Header */}
-            <div className="flex items-center gap-4 py-4">
-              <Avatar className="h-20 w-20">
-                {userData?.image ? (
-                  <>
-                    <AvatarImage src={userData.image || ""} />
-                    <AvatarFallback className="text-lg">
-                      (userData.name)
-                    </AvatarFallback>
-                  </>
-                ) : (
-                  <>
-                    {" "}
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </>
-                )}
-              </Avatar>
-              <div>
-                <h3 className="text-xl font-semibold">{userData.name}</h3>
-                <p className="text-muted-foreground">{userData.email}</p>
-                <div className="flex gap-2 mt-2">
-                  <Badge>{userData.role}</Badge>
-                  {userData.emailVerified ? (
-                    <Badge variant="default">Email Verified</Badge>
+
+          {/* form */}
+          <form
+            id="profile-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}
+          >
+            <TabsContent value="profile" className="space-y-1">
+              {/* Profile Header */}
+              <div className="flex items-center gap-4 py-4">
+                <Avatar className="h-20 w-20">
+                  {userData?.image ? (
+                    <>
+                      <AvatarImage src={userData.image || ""} />
+                      <AvatarFallback className="text-lg">
+                        (userData.name)
+                      </AvatarFallback>
+                    </>
                   ) : (
-                    <Badge variant="secondary">Email Not Verified</Badge>
+                    <>
+                      {" "}
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="@shadcn"
+                      />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </>
                   )}
+                </Avatar>
+                <div>
+                  <h3 className="text-xl font-semibold">{userData.name}</h3>
+                  <p className="text-muted-foreground">{userData.email}</p>
+                  <div className="flex gap-2 mt-2">
+                    <Badge>{userData.role}</Badge>
+                    {userData.emailVerified ? (
+                      <Badge variant="default">Email Verified</Badge>
+                    ) : (
+                      <Badge variant="secondary">Email Not Verified</Badge>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            <Separator />
-            {/* form */}
-            <form
-              id="profile-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                form.handleSubmit();
-              }}
-            >
+              <Separator />
               <FieldGroup>
                 {/* name */}
                 <form.Field
@@ -254,18 +255,10 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
                   }}
                 />
               </FieldGroup>
-            </form>
-          </TabsContent>
-          {/* profile address content */}
-          <TabsContent value="address" className="space-y-1">
-            {/* address form */}
-            <form
-              id="address-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                form.handleSubmit();
-              }}
-            >
+            </TabsContent>
+            {/* profile address content */}
+            <TabsContent value="address" className="space-y-1">
+              {/* address form */}
               <FieldGroup>
                 {/* division field */}
                 <form.Field
@@ -422,8 +415,8 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
                   )}
                 />
               </FieldGroup>
-            </form>
-          </TabsContent>
+            </TabsContent>
+          </form>
         </Tabs>
       </CardContent>
       {/* card footer */}
