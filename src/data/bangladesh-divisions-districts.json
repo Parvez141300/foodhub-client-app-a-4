@@ -1,0 +1,68 @@
+{
+  "divisions": [
+    {
+      "id": "dhaka",
+      "name": "Dhaka",
+      "districts": [
+        "Dhaka", "Gazipur", "Narayanganj", "Tangail", "Kishoreganj", 
+        "Manikganj", "Munshiganj", "Narsingdi", "Faridpur", "Madaripur", 
+        "Shariatpur", "Gopalganj", "Rajbari"
+      ]
+    },
+    {
+      "id": "chittagong",
+      "name": "Chittagong",
+      "districts": [
+        "Chittagong", "Cox's Bazar", "Rangamati", "Khagrachari", "Bandarban", 
+        "Feni", "Brahmanbaria", "Comilla", "Noakhali", "Lakshmipur", 
+        "Chandpur"
+      ]
+    },
+    {
+      "id": "rajshahi",
+      "name": "Rajshahi",
+      "districts": [
+        "Rajshahi", "Natore", "Naogaon", "Chapainawabganj", "Pabna", 
+        "Sirajganj", "Bogra", "Joypurhat"
+      ]
+    },
+    {
+      "id": "khulna",
+      "name": "Khulna",
+      "districts": [
+        "Khulna", "Bagerhat", "Satkhira", "Jessore", "Jhenaidah", 
+        "Magura", "Narail", "Kushtia", "Chuadanga", "Meherpur"
+      ]
+    },
+    {
+      "id": "barishal",
+      "name": "Barishal",
+      "districts": [
+        "Barishal", "Patuakhali", "Bhola", "Barguna", "Jhalokati", 
+        "Pirojpur"
+      ]
+    },
+    {
+      "id": "sylhet",
+      "name": "Sylhet",
+      "districts": [
+        "Sylhet", "Moulvibazar", "Habiganj", "Sunamganj"
+      ]
+    },
+    {
+      "id": "rangpur",
+      "name": "Rangpur",
+      "districts": [
+        "Rangpur", "Dinajpur", "Gaibandha", "Kurigram", "Lalmonirhat", 
+        "Nilphamari", "Panchagarh", "Thakurgaon"
+      ]
+    },
+    {
+      "id": "mymensingh",
+      "name": "Mymensingh",
+      "districts": [
+        "Mymensingh", "Jamalpur", "Sherpur", "Netrokona"
+      ]
+    }
+  ]
+}
