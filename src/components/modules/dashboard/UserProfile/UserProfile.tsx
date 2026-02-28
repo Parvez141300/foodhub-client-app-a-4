@@ -1,5 +1,4 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -33,6 +32,7 @@ import { Loader2, Pencil, Save, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import FileUploadInputField from "@/components/file-upload-special-1";
+import { imageUploadToCloudinary } from "@/lib/image-upload";
 
 const profileFormSchema = z.object({
   name: z.string().min(3, "Name Must be minimum 3 characters long"),
@@ -100,9 +100,16 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
     },
     onSubmit: async ({ value }) => {
       console.log("profile form values", value);
-      const file = profileImage[0];
-      console.log('image upload file', file);
+
       try {
+        let imageUrl = userData?.image;
+        const file = profileImage[0];
+        if (profileImage.length > 0) {
+          // image upload to cloudinary function to get the image link
+          imageUrl = await imageUploadToCloudinary(file);
+        }
+        console.log("image upload file", file);
+        console.log("image link from cloudinary", imageUrl);
         toast.success("Sucessfully updated user info");
       } catch (error: any) {
         toast.error(error.message);
@@ -450,7 +457,7 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
                   {isSubmitting ? (
                     <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      সংরক্ষণ করা হচ্ছে...
+                      Saving
                     </>
                   ) : (
                     <>
