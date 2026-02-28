@@ -57,7 +57,9 @@ const FileUploadInputField = ({
         </FileUploadTrigger>
       </FileUpload>
       {!disabled && (
-        <p className="text-sm text-muted-foreground text-center">Click to change avatar By <br /> clicking the Edit button</p>
+        <p className="text-sm text-muted-foreground text-center">
+          Click to change avatar By <br /> clicking the Edit button
+        </p>
       )}
     </div>
   );
