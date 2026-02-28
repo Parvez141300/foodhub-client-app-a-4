@@ -5,6 +5,10 @@ export const adminRoutes: Route[] = [
         title: "Admin Dashboard",
         items: [
             {
+                title: "Manage Profile",
+                url: "/admin-dashboard/manage-profile",
+            },
+            {
                 title: "Manage Users",
                 url: "/admin-dashboard/manage-users",
             },
@@ -23,10 +27,6 @@ export const adminRoutes: Route[] = [
             {
                 title: "Manage Dietaries",
                 url: "/admin-dashboard/manage-dietaries",
-            },
-            {
-                title: "Manage Profile",
-                url: "/admin-dashboard/manage-profile",
             },
         ]
     },
