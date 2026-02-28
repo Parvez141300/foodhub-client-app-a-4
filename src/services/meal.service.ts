@@ -1,4 +1,5 @@
 import { env } from "@/env";
+import { cookies } from "next/headers";
 
 interface GetMealsParams {
     is_featured?: boolean;
@@ -37,4 +38,18 @@ export const mealService = {
             return { data: null };
         }
     },
+    createMeal: async (payload: Record<string, string>) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/provider/meals`,{
+            method: "POST",
+            headers: {
+                'Content-type' : 'application/json',
+                cookie: cookieStore.toString(),
+            },
+            body: JSON.stringify(payload),
+        });
+
+        const res = await result.json();
+        return res;
+    }
 }

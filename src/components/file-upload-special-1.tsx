@@ -5,6 +5,7 @@ import * as React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FileUpload, FileUploadTrigger } from "@/components/ui/file-upload";
+import { Button } from "./ui/button";
 
 export const title = "Avatar Upload";
 
@@ -56,6 +57,7 @@ const FileUploadInputField = ({
           </button>
         </FileUploadTrigger>
       </FileUpload>
+      <Button type="reset" onClick={() => setFiles([])}>Reset</Button>
       {!disabled && (
         <p className="text-sm text-muted-foreground text-center">
           Click to change avatar By <br /> clicking the Edit button

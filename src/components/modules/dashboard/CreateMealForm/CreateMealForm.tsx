@@ -1,4 +1,7 @@
 "use client";
+import { createMeal } from "@/actions/meal.action";
+import { getCurrentUser } from "@/actions/user.action";
+import FileUploadInputField from "@/components/file-upload-special-1";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,10 +26,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { imageUploadToCloudinary } from "@/lib/image-upload";
 import { useForm } from "@tanstack/react-form";
 import { Loader2, Save } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "sonner";
 import z from "zod";
 
 // form validation schema
@@ -66,6 +72,8 @@ const CreateMealForm = ({
   cuisines: CuisinesType[];
   dietaries: DietariesType[];
 }) => {
+  const [mealImage, setMealImage] = useState<File[]>([]);
+
   const defaultValues = {
     title: "",
     description: "",
@@ -82,9 +90,45 @@ const CreateMealForm = ({
       onSubmit: mealFormSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log("meal form data", value);
+      const currentUser = await getCurrentUser();
+      const toastId = toast.loading("creating a meal data");
+      try {
+        if (!mealImage.length) {
+          return toast.error("You haven't uploaded meal image", {
+            id: toastId,
+          });
+        }
+
+        let imageUrl = "";
+        const file = mealImage[0];
+        if (mealImage.length > 0) {
+          // image upload to cloudinary function to get the image link
+          imageUrl = await imageUploadToCloudinary(file);
+        }
+        const payloadData = {
+          ...value,
+          provider_id: currentUser?.user?.id,
+          image_url: imageUrl ? imageUrl : "",
+        };
+        console.log("meal form data", payloadData);
+        const result = await createMeal(payloadData);
+        console.log('result after form submission', result);
+        if (result?.id) {
+          toast.success("Successfully Created a Meal", { id: toastId });
+          setMealImage([]);
+          form.reset();
+        }
+      } catch (error: any) {
+        toast.error(error.message, { id: toastId });
+      }
     },
   });
+
+  //   set image in state
+  const handleImageChange = async (file: File[]) => {
+    console.log("meal image file", file);
+    setMealImage(file);
+  };
 
   return (
     <Card className="w-full">
@@ -107,7 +151,30 @@ const CreateMealForm = ({
         >
           <FieldGroup>
             {/* Title & Price & Stock in grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+              {/* toggle is avaiable */}
+              <form.Field
+                name="is_available"
+                children={(field) => {
+                  return (
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <FieldLabel htmlFor="is_available">
+                          Available for Order
+                        </FieldLabel>
+                        <p className="text-sm text-muted-foreground">
+                          Toggle off to hide this meal from customers
+                        </p>
+                      </div>
+                      <Switch
+                        id="is_available"
+                        checked={field.state.value}
+                        onCheckedChange={field.handleChange}
+                      />
+                    </div>
+                  );
+                }}
+              />
               {/* title */}
               <form.Field
                 name="title"
@@ -160,7 +227,6 @@ const CreateMealForm = ({
                   );
                 }}
               />
-
               {/* Stock */}
               <form.Field
                 name="stock"
@@ -190,7 +256,7 @@ const CreateMealForm = ({
               />
             </div>
             {/* select category, cuisine and dietary */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {/* Category Select */}
               <form.Field
                 name="category_id"
@@ -292,6 +358,19 @@ const CreateMealForm = ({
                 }}
               />
             </div>
+            {/* image field */}
+            <div className="flex flex-col justify-start py-6">
+              <div className="w-fit">
+                <FieldLabel>Image*</FieldLabel>
+                <FileUploadInputField
+                  onImageChage={handleImageChange}
+                  disabled={true}
+                />
+                <p className="text-sm text-muted-foreground mt-4 text-center">
+                  Upload a high-quality image of your meal
+                </p>
+              </div>
+            </div>
             <Separator className="my-4" />
             {/* Description */}
             <form.Field
@@ -334,7 +413,7 @@ const CreateMealForm = ({
                 Reset
               </Button>
               <Button form="meal-form" type="submit" disabled={!canSubmit}>
-                 {isSubmitting ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                     Creating...
