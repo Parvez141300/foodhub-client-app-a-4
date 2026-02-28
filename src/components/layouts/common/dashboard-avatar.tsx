@@ -50,10 +50,17 @@ export function DashboardAvatar({
           size="icon"
           className="rounded-full hover:cursor-pointer"
         >
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
-            <AvatarFallback>LR</AvatarFallback>
-          </Avatar>
+          {userInfo?.image ? (
+            <Avatar>
+              <AvatarImage src={userInfo?.image} alt="shadcn" />
+              <AvatarFallback>LR</AvatarFallback>
+            </Avatar>
+          ) : (
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
+              <AvatarFallback>LR</AvatarFallback>
+            </Avatar>
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
