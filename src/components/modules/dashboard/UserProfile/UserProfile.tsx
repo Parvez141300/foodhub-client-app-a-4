@@ -32,6 +32,7 @@ import divisionsData from "@/data/bangladesh-divisions-districts.json";
 import { Loader2, Pencil, Save, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import FileUploadInputField from "@/components/file-upload-special-1";
 
 const profileFormSchema = z.object({
   name: z.string().min(3, "Name Must be minimum 3 characters long"),
@@ -77,6 +78,9 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
     userData?.profile?.division || "",
   );
   const [districts, setDistricts] = useState<string[]>([]);
+  // profile image state
+  const [profileImage, setProfileImage] = useState<File[]>([]);
+
   //   form default values
   const defaultValues = {
     name: userData.name || "",
@@ -96,6 +100,8 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
     },
     onSubmit: async ({ value }) => {
       console.log("profile form values", value);
+      const file = profileImage[0];
+      console.log('image upload file', file);
       try {
         toast.success("Sucessfully updated user info");
       } catch (error: any) {
@@ -111,6 +117,12 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
     );
     setDistricts(division?.districts || []);
   }, [selectedDivision]);
+
+  // set image in profile image state
+  const handleImageChange = (files: File[]) => {
+    setProfileImage(files);
+  };
+
   return (
     <Card className="w-full">
       {/* card header */}
@@ -150,28 +162,15 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
               form.handleSubmit();
             }}
           >
+            {/* Profile Header */}
             <TabsContent value="profile" className="space-y-1">
-              {/* Profile Header */}
               <div className="flex items-center gap-4 py-4">
-                <Avatar className="h-20 w-20">
-                  {userData?.image ? (
-                    <>
-                      <AvatarImage src={userData.image || ""} />
-                      <AvatarFallback className="text-lg">
-                        (userData.name)
-                      </AvatarFallback>
-                    </>
-                  ) : (
-                    <>
-                      {" "}
-                      <AvatarImage
-                        src="https://github.com/shadcn.png"
-                        alt="@shadcn"
-                      />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </>
-                  )}
-                </Avatar>
+                {/* image preview or uplaod image field */}
+                <FileUploadInputField
+                  onImageChage={handleImageChange}
+                  existingImage={userData?.image}
+                  disabled={isEditing}
+                />
                 <div>
                   <h3 className="text-xl font-semibold">{userData.name}</h3>
                   <p className="text-muted-foreground">{userData.email}</p>
@@ -438,6 +437,7 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
                   onClick={() => {
                     form.reset();
                     setIsEditing(false);
+                    setProfileImage([]);
                   }}
                 >
                   Cancel
