@@ -8,6 +8,11 @@ export const getAllUser = async (search: string) => {
     return result;
 }
 
+export const getCurrentUser = async () => {
+    const result = await userServices.getSession();
+    return result;
+}
+
 export const updateUserStatus = async (userId: string, userStatus: string) => {
     const result = await userServices.updateUserStatus(userId, userStatus);
     const data = await result.json();

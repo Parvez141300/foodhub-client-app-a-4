@@ -33,6 +33,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import FileUploadInputField from "@/components/file-upload-special-1";
 import { imageUploadToCloudinary } from "@/lib/image-upload";
+import { getCurrentUser } from "@/actions/user.action";
+import { updateUserProfile } from "@/actions/profile.action";
 
 const profileFormSchema = z.object({
   name: z.string().min(3, "Name Must be minimum 3 characters long"),
@@ -99,8 +101,8 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
       onSubmit: profileFormSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log("profile form values", value);
-
+      const currentUser = await getCurrentUser();
+      const toastId = toast.loading("upading user profile data");
       try {
         let imageUrl = userData?.image;
         const file = profileImage[0];
@@ -108,11 +110,20 @@ const UserProfile = ({ user }: { user: UserDataType }) => {
           // image upload to cloudinary function to get the image link
           imageUrl = await imageUploadToCloudinary(file);
         }
-        console.log("image upload file", file);
-        console.log("image link from cloudinary", imageUrl);
-        toast.success("Sucessfully updated user info");
+        const payloadData = {
+          ...value,
+          user_id: currentUser?.user?.id,
+          image: imageUrl ? imageUrl : "",
+        };
+        const updateUserInfo = await updateUserProfile(payloadData);
+        if (updateUserInfo?.id) {
+          toast.success("Sucessfully updated user info", { id: toastId });
+        }
+        // console.log("profile form values", payloadData);
+        // console.log("image upload file", file);
+        // console.log("image link from cloudinary", imageUrl);
       } catch (error: any) {
-        toast.error(error.message);
+        toast.error(error.message, { id: toastId });
       }
     },
   });
