@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteMealById } from "@/actions/meal.action";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -113,15 +114,27 @@ export function ManageMealTable({
         {providerMeals?.map((meal) => (
           <TableRow key={meal?.id}>
             <TableCell className="font-medium">{meal?.id}</TableCell>
-            <TableCell>{meal?.stock}</TableCell>
+            <TableCell>
+              <Avatar>
+                <AvatarImage
+                  src={meal?.image_url}
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </TableCell>
             <TableCell className="font-medium">{meal?.title}</TableCell>
             <TableCell>{meal?.stock}</TableCell>
             <TableCell>{meal?.price}</TableCell>
             <TableCell>{meal?.category?.name}</TableCell>
             <TableCell>{meal?.cuisine.name}</TableCell>
             <TableCell>{meal?.dietery?.name}</TableCell>
-            <TableCell>{new Date(meal?.created_at).toLocaleDateString()}</TableCell>
-            <TableCell>{new Date(meal?.updated_at).toLocaleDateString()}</TableCell>
+            <TableCell>
+              {new Date(meal?.created_at).toLocaleDateString()}
+            </TableCell>
+            <TableCell>
+              {new Date(meal?.updated_at).toLocaleDateString()}
+            </TableCell>
             <TableCell className="text-right">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
