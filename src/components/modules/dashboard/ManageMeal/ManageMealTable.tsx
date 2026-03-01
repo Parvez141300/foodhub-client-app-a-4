@@ -120,8 +120,8 @@ export function ManageMealTable({
             <TableCell>{meal?.category?.name}</TableCell>
             <TableCell>{meal?.cuisine.name}</TableCell>
             <TableCell>{meal?.dietery?.name}</TableCell>
-            <TableCell>{meal?.created_at}</TableCell>
-            <TableCell>{meal?.updated_at}</TableCell>
+            <TableCell>{new Date(meal?.created_at).toLocaleDateString()}</TableCell>
+            <TableCell>{new Date(meal?.updated_at).toLocaleDateString()}</TableCell>
             <TableCell className="text-right">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
