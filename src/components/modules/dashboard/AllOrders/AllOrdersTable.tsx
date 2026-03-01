@@ -1,11 +1,4 @@
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+"use client";
 import {
   Table,
   TableBody,
@@ -14,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MoreHorizontalIcon } from "lucide-react";
 import NoOrderFound from "./NoOrderFound";
 
 type OrdersType = {
@@ -38,11 +30,13 @@ export function AllOrdersTable({ orders }: { orders: OrdersType[] }) {
   if (!orders.length) {
     return <NoOrderFound />;
   }
+
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>ID</TableHead>
+          <TableHead>Order Id</TableHead>
           <TableHead>User Id</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Phone</TableHead>
@@ -53,12 +47,13 @@ export function AllOrdersTable({ orders }: { orders: OrdersType[] }) {
           <TableHead>Order Status</TableHead>
           <TableHead>Total Price</TableHead>
           <TableHead>Created At</TableHead>
+          <TableHead>Actions</TableHead>
           {/* <TableHead className="text-right">Actions</TableHead> */}
         </TableRow>
       </TableHeader>
       <TableBody>
         {orders.map((order) => (
-          <TableRow>
+          <TableRow key={order?.id}>
             <TableCell className="font-medium">{order?.id}</TableCell>
             <TableCell className="font-medium">{order?.user_id}</TableCell>
             <TableCell>{order?.name}</TableCell>
