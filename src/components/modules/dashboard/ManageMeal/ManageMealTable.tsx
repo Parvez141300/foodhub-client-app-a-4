@@ -19,6 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { MoreHorizontalIcon } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 
 // {
@@ -116,10 +117,7 @@ export function ManageMealTable({
             <TableCell className="font-medium">{meal?.id}</TableCell>
             <TableCell>
               <Avatar>
-                <AvatarImage
-                  src={meal?.image_url}
-                  alt="@shadcn"
-                />
+                <AvatarImage src={meal?.image_url} alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </TableCell>
@@ -144,7 +142,9 @@ export function ManageMealTable({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href={`/provider-dashboard/edit-meal/${meal?.id}`}>Edit</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     variant="destructive"

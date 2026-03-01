@@ -83,4 +83,31 @@ export const mealService = {
         const res = await result.json();
         return res;
     },
+    getMealById: async (mealId: string) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/meals/${mealId}`, {
+            method: "GET",
+            headers: {
+                'Content-type': 'application/json',
+                cookie: cookieStore.toString(),
+            },
+        });
+
+        const res = await result.json();
+        return res;
+    },
+    updateMealById: async (mealId: string, payload: Record<string, any>) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/provider/meals/${mealId}`, {
+            method: "PATCH",
+            headers: {
+                'Content-type': 'application/json',
+                cookie: cookieStore.toString(),
+            },
+            body: JSON.stringify(payload),
+        });
+
+        const res = await result.json();
+        return res;
+    }
 }
