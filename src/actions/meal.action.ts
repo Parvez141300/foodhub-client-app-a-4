@@ -10,6 +10,7 @@ export const createMeal = async (payload: Record<string, any>) => {
 
 export const deleteMealById = async (mealId: string) => {
     const result = await mealService.deleteMealById(mealId);
+    updateTag('provider-meals');
     return result;
 }
 
