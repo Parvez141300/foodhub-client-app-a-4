@@ -41,10 +41,10 @@ export const mealService = {
     },
     createMeal: async (payload: Record<string, string>) => {
         const cookieStore = await cookies();
-        const result = await fetch(`${BACKEND_URL}/api/provider/meals`,{
+        const result = await fetch(`${BACKEND_URL}/api/provider/meals`, {
             method: "POST",
             headers: {
-                'Content-type' : 'application/json',
+                'Content-type': 'application/json',
                 cookie: cookieStore.toString(),
             },
             body: JSON.stringify(payload),
@@ -57,9 +57,9 @@ export const mealService = {
         const cookieStore = await cookies();
         const session = await userServices.getSession();
         const providerId = await session?.user?.id;
-        const result = await fetch(`${BACKEND_URL}/api/provider/meals/${providerId}`,{
+        const result = await fetch(`${BACKEND_URL}/api/provider/meals/${providerId}`, {
             headers: {
-                'Content-type' : 'application/json',
+                'Content-type': 'application/json',
                 cookie: cookieStore.toString(),
             },
             next: {
@@ -69,5 +69,18 @@ export const mealService = {
 
         const res = await result.json();
         return res;
-    }
+    },
+    deleteMealById: async (mealId: string) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/provider/meals/${mealId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-type': 'application/json',
+                cookie: cookieStore.toString(),
+            },
+        });
+
+        const res = await result.json();
+        return res;
+    },
 }

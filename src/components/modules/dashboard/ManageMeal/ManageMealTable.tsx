@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteMealById } from "@/actions/meal.action";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,6 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { MoreHorizontalIcon } from "lucide-react";
+import { toast } from "sonner";
 
 // {
 //     "id": "5df68d0d-200c-45ec-8c63-0e7f3db9e02a",
@@ -76,6 +78,20 @@ export function ManageMealTable({
 }: {
   providerMeals: ProviderMealsType[];
 }) {
+  const handleDeleteMeal = async (mealId: string) => {
+    const toastId = toast.loading("Deleting a meal");
+    try {
+      const res = await deleteMealById(mealId);
+      if (!res?.id) {
+        return toast.error("This meal does not exists to delete", {
+          id: toastId,
+        });
+      }
+      toast.success("Successfully deleted meal", { id: toastId });
+    } catch (error: any) {
+      toast.error(error.message, { id: toastId });
+    }
+  };
   return (
     <Table>
       <TableHeader>
@@ -117,7 +133,10 @@ export function ManageMealTable({
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem>Edit</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem variant="destructive">
+                  <DropdownMenuItem
+                    variant="destructive"
+                    onClick={() => handleDeleteMeal(meal?.id)}
+                  >
                     Delete
                   </DropdownMenuItem>
                 </DropdownMenuContent>
