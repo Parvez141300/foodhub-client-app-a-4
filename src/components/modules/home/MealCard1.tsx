@@ -99,6 +99,7 @@ export function MealCard1({ meal }: { meal: MealCardType }) {
             onClick={handleAddToCart}
             className="rounded-full w-10 h-10 hover:bg-primary hover:text-secondary duration-500"
             variant={isHovered ? "secondary" : "default"}
+            disabled={!meal.is_available}
           >
             <ShoppingCart className="w-5 h-5" />
           </Button>
@@ -106,6 +107,7 @@ export function MealCard1({ meal }: { meal: MealCardType }) {
             onClick={handleAddToWishList}
             className="rounded-full w-10 h-10 hover:bg-primary hover:text-secondary duration-500"
             variant={isHovered ? "secondary" : "default"}
+            disabled={!meal?.is_available}
           >
             <Heart className="w-5 h-5" />
           </Button>
