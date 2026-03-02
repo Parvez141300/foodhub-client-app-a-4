@@ -113,5 +113,16 @@ export const mealService = {
 
         const res = await result.json();
         return res;
-    }
+    },
+    getAllFeaturedMeals: async () => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/meals/featured`, {
+            next: {
+                tags: ["featured-meals"]
+            }
+        });
+
+        const res = await result.json();
+        return res;
+    },
 }

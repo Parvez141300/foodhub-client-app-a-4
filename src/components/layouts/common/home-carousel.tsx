@@ -57,12 +57,20 @@ const slides = [
 
 export function HomeCarousel() {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
+
+  const handleMouseEnter = () => {
+    plugin.current.stop();
+  };
+
+  const handleMouseLeave = () => {
+    plugin.current.play(); 
+  };
   return (
     <Carousel
       plugins={[plugin.current]}
       className="w-full"
-      onMouseEnter={plugin.current.stop}
-      onMouseLeave={plugin.current.reset}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       opts={{
         align: "center",
         loop: true,
