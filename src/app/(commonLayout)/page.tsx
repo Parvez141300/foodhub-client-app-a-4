@@ -6,7 +6,7 @@ import NewsletterPromo from "@/components/layouts/common/NewsLetterPromo";
 
 export default function HomePage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       <HomeCarousel />
       <HomeCategories />
       <HomeCardsNewProducts />
