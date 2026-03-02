@@ -53,9 +53,9 @@ export function HomeFeaturedCarousel({
         loop: true,
       }}
     >
-      <CarouselContent>
+      <CarouselContent className="-ml-4">
         {featuredMeals.map((meal, index) => (
-          <CarouselItem key={meal?.id} className="basis-1/2 pl-1 lg:basis-1/3">
+          <CarouselItem key={meal?.id} className="basis-1/2 pl-4 lg:basis-1/3">
             <MealCard1 meal={meal} />
           </CarouselItem>
         ))}
