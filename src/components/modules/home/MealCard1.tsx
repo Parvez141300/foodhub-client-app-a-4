@@ -1,43 +1,88 @@
-
-
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+"use client";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
-  CardDescription,
+  CardAction,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Eye, Heart, ShoppingCart } from "lucide-react";
+import { useState } from "react";
 
-const MealCard1 = () => {
+export function MealCard1() {
+  const [isHovered, setIsHovered] = useState(false);
+
+  // add to cart
+  const handleAddToCart = async () => {
+    console.log("added to cart");
+  };
+  // add to wishlist
+  const handleAddToWishList = async () => {
+    console.log("added to wish list");
+  };
   return (
-    <div className={"block max-w-md transition-opacity hover:opacity-80"}>
-      <Card className="h-full overflow-hidden p-0">
-        <CardHeader className="relative block p-0">
-          <AspectRatio ratio={1.268115942} className="overflow-hidden">
-            {/* <img
-              src={PRODUCT_CARD.image.src}
-              alt={PRODUCT_CARD.image.alt}
-              className="block size-full object-cover object-center"
-            /> */}
-          </AspectRatio>
-          <Badge className="absolute start-4 top-4">On Sell</Badge>
-        </CardHeader>
-        <CardContent className="flex h-full flex-col gap-4 pb-6">
-          <CardTitle className="text-xl font-semibold">Burger</CardTitle>
-          <CardDescription className="font-medium text-muted-foreground">
-            This is burger kings most favoriet burger, with a juicy beef patty,
-            melted cheese, fresh lettuce, ripe tomatoes, and our signature
-            sauce, all nestled between a soft sesame seed bun.
-          </CardDescription>
-          <div className="mt-auto">
-            <h3>5000</h3>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    <Card
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative mx-auto w-full max-w-sm pt-0 hover:shadow-xl"
+    >
+      <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
+      <div className="relative w-full overflow-hidden">
+        <img
+          src="https://avatar.vercel.sh/shadcn1"
+          alt="Event cover"
+          className={cn(
+            "aspect-video w-full object-cover transition-transform duration-500",
+            isHovered && "scale-110",
+          )}
+        />
+        {/* dark overlay on hover */}
+        <div
+          className={cn(
+            "absolute inset-0 bg-black/40 transition-opacity duration-500",
+            isHovered ? "opacity-100" : "opacity-0",
+          )}
+        />
+        {/* show cart, wish list and eye */}
+        <div
+          className={cn(
+            "absolute z-50 inset-0 flex items-center justify-center gap-4 transition-all duration-300",
+            isHovered ? "opacity-100 translate-y-16" : "opacity-0",
+          )}
+        >
+          {/* cart button */}
+          <Button
+            onClick={handleAddToCart}
+            className="rounded-full w-10 h-10 hover:bg-primary hover:text-secondary duration-500"
+            variant={isHovered ? "secondary" : "default"}
+          >
+            <ShoppingCart className="w-5 h-5" />
+          </Button>
+          <Button
+            onClick={handleAddToWishList}
+            className="rounded-full w-10 h-10 hover:bg-primary hover:text-secondary duration-500"
+            variant={isHovered ? "secondary" : "default"}
+          >
+            <Heart className="w-5 h-5" />
+          </Button>
+          <Button
+            className="rounded-full w-10 h-10 hover:bg-primary hover:text-secondary duration-500"
+            variant={isHovered ? "secondary" : "default"}
+          >
+            <Eye className="w-5 h-5" />
+          </Button>
+        </div>
+      </div>
+      <CardHeader className="flex flex-col items-center justify-center">
+        <CardTitle>Design systems meetup</CardTitle>
+        <Badge variant="secondary">In Stock</Badge>
+      </CardHeader>
+      <CardFooter className="flex justify-center">
+        <h3 className="text-xl font-bold">Price: 999tk</h3>
+      </CardFooter>
+    </Card>
   );
-};
-
-export default MealCard1;
+}
