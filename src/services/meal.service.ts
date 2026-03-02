@@ -29,7 +29,11 @@ export const mealService = {
                 })
             }
 
-            const res = await fetch(url.toString());
+            const res = await fetch(url.toString(), {
+                next: {
+                    tags: ["meals"],
+                }
+            });
             const meals = await res.json();
 
             return meals;
