@@ -11,7 +11,7 @@ const HomeCardsNewProducts = async () => {
         New Products ({meals?.data?.length})
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {meals?.data?.map((meal: any) => (
+        {meals?.data?.slice(0, 8).map((meal: any) => (
           <MealCard1 key={meal?.id} meal={meal} />
         ))}
       </div>
