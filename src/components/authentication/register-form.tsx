@@ -29,6 +29,8 @@ import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { env } from "@/env";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name Must be minimum 1 character"),
@@ -45,6 +47,7 @@ export function RegisterForm({
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
   const form = useForm({
     defaultValues: {
       name: "",
@@ -191,7 +194,7 @@ export function RegisterForm({
                 }}
               />
               {/* password field */}
-              <Field className="grid grid-cols-2 gap-4">
+              <Field className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <form.Field
                   name="password"
                   children={(field) => {
@@ -201,13 +204,32 @@ export function RegisterForm({
                       <Field>
                         {/* password field */}
                         <FieldLabel>Password</FieldLabel>
-                        <Input
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          type="password"
-                        />
+                        <div className="relative">
+                          <Input
+                            id={field.name}
+                            name={field.name}
+                            value={field.state.value}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                            placeholder="Enter password"
+                            type={showPassword ? "text" : "password"}
+                          />
+                          <Button
+                            className="absolute top-0 right-0 h-full px-3 hover:bg-transparent"
+                            onClick={() => setShowPassword(!showPassword)}
+                            size="icon"
+                            type="button"
+                            variant="ghost"
+                          >
+                            {showPassword ? (
+                              <EyeOff className="h-4 w-4 text-muted-foreground" />
+                            ) : (
+                              <Eye className="h-4 w-4 text-muted-foreground" />
+                            )}
+                          </Button>
+                        </div>
+                        {isInvalid && (
+                          <FieldError errors={field.state.meta.errors} />
+                        )}
                       </Field>
                     );
                   }}
@@ -228,6 +250,7 @@ export function RegisterForm({
                           value={field.state.value}
                           onChange={(e) => field.handleChange(e.target.value)}
                           type="password"
+                          placeholder="Retype Password"
                         />
                       </Field>
                     );

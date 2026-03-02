@@ -19,6 +19,8 @@ import * as z from "zod";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
   email: z.email("Please enter a email address"),
@@ -30,6 +32,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
   const form = useForm({
     defaultValues: {
       email: "",
@@ -106,20 +109,36 @@ export function LoginForm({
                     <Field>
                       <div className="flex items-center">
                         <FieldLabel htmlFor="password">Password</FieldLabel>
-                        <a
+                        {/* <a
                           href="#"
                           className="ml-auto text-sm underline-offset-2 hover:underline"
                         >
                           Forgot your password?
-                        </a>
+                        </a> */}
                       </div>
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        type="password"
-                      />
+                      <div className="relative">
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Enter Password"
+                        />
+                        <Button
+                          className="absolute top-0 right-0 h-full px-3 hover:bg-transparent"
+                          onClick={() => setShowPassword(!showPassword)}
+                          size="icon"
+                          type="button"
+                          variant="ghost"
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4 text-muted-foreground" />
+                          ) : (
+                            <Eye className="h-4 w-4 text-muted-foreground" />
+                          )}
+                        </Button>
+                      </div>
                       {isInvalid && (
                         <FieldError errors={field.state.meta.errors} />
                       )}
