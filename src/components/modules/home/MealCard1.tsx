@@ -76,12 +76,13 @@ export function MealCard1() {
           </Button>
         </div>
       </div>
-      <CardHeader className="flex flex-col items-center justify-center">
+      <CardHeader className="flex items-center justify-between">
         <CardTitle>Design systems meetup</CardTitle>
         <Badge variant="secondary">In Stock</Badge>
       </CardHeader>
-      <CardFooter className="flex justify-center">
-        <h3 className="text-xl font-bold">Price: 999tk</h3>
+      <CardFooter className="flex justify-between items-center">
+        <h3 className="text-lg font-bold">Price: 999tk</h3>
+        <Button>View Details</Button>
       </CardFooter>
     </Card>
   );
