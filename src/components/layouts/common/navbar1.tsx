@@ -31,6 +31,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { usePathname, useRouter } from "next/navigation";
 
 interface MenuItem {
   title: string;
@@ -87,6 +88,8 @@ const Navbar1 = ({
 }: Navbar1Props) => {
   const [session, setSession] = useState(initialSession);
   const [loading, setLoading] = useState(!!initialSession);
+  const pathName = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -126,11 +129,15 @@ const Navbar1 = ({
     e.preventDefault();
     const form = e.target;
     const search = form.search.value;
+    const isMealsRoute = pathName === "/meals" || pathName.startsWith("/meals/");
+    if(!isMealsRoute){
+      router.push("/meals");
+    }
     console.log("form search input", search);
   };
 
   return (
-    <section className={cn("py-4", className)}>
+    <section className={cn("mb-4 border-b-2", className)}>
       <div className="max-w-7xl mx-auto px-4">
         {/* Desktop Menu */}
         <div>
