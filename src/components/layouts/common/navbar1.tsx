@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { Heart, Menu, ShoppingCart } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -144,6 +144,14 @@ const Navbar1 = ({
                   userInfo={session?.user}
                   onLogout={handleLogout}
                 />
+
+                <Button variant={"secondary"} className="rounded-full w-8 h-8">
+                  <Heart className="w-5 h-5" />
+                </Button>
+
+                <Button variant={"secondary"} className="w-8 h-8 rounded-full">
+                  <ShoppingCart className="w-5 h-5" />
+                </Button>
               </>
             ) : (
               <>
@@ -204,6 +212,14 @@ const Navbar1 = ({
                           userInfo={session?.user}
                           onLogout={handleLogout}
                         />
+
+                        <Button variant={"secondary"} className="rounded-full w-8 h-8">
+                          <Heart className="w-5 h-5" />
+                        </Button>
+
+                        <Button variant={"secondary"} className="w-8 h-8 rounded-full">
+                          <ShoppingCart className="w-5 h-5" />
+                        </Button>
                       </>
                     ) : (
                       <div className="flex items-center gap-3">
