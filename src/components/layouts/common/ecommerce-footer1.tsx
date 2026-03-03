@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import Logo from "@/components/global/Logo";
 
 type NewsletterData = {
   title?: string;
@@ -192,7 +193,7 @@ const EcommerceFooter1 = ({
           <div className="flex items-center justify-between gap-4 md:gap-12.5">
             <Separator className="flex-1" />
             <div className="">
-              <Link href="/">Eat Food BD</Link>
+              <Logo />
             </div>
             <Separator className="flex-1" />
           </div>
