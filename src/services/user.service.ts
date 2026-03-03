@@ -57,5 +57,20 @@ export const userServices = {
         });
 
         return result;
+    },
+    getAllProvider: async () => {
+        const result = await fetch(`${BACKEND_URL}/api/providers`, {
+            next: {
+                tags: ["providers"]
+            }
+        });
+        const res = await result.json();
+
+        return res;
+    },
+    getProviderWithMeal: async (providerId: string) => {
+        const result = await fetch(`${BACKEND_URL}/api/providers/${providerId}`);
+        const res = await result.json();
+        return res;
     }
 } 
