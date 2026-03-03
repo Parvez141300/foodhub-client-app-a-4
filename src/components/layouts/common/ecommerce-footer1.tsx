@@ -73,9 +73,9 @@ const LINK_TYPES = {
 type LinkTypes = keyof typeof LINK_TYPES;
 
 const NEWSLETTER_DATA = {
-  title: "FoodHub",
+  title: "Eat Food BD",
   description:
-    "FoodHub is a full-stack web application for meal ordering. Customers can browse menus from various food providers, place orders, and track delivery status. Providers can manage their menus and fulfill orders. Admins oversee the platform and manage all users.",
+    "Eat Food BD is a full-stack web application for meal ordering. Customers can browse menus from various food providers, place orders, and track delivery status. Providers can manage their menus and fulfill orders. Admins oversee the platform and manage all users.",
 };
 
 const FOOTER_LINKS: FooterLinksSection[] = [
@@ -192,7 +192,7 @@ const EcommerceFooter1 = ({
           <div className="flex items-center justify-between gap-4 md:gap-12.5">
             <Separator className="flex-1" />
             <div className="">
-              <Link href="/">FoodHub</Link>
+              <Link href="/">Eat Food BD</Link>
             </div>
             <Separator className="flex-1" />
           </div>
@@ -219,9 +219,11 @@ const NewsletterSection = ({ title, description }: NewsletterFormProps) => {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h3 className="font-serif text-3xl leading-none font-medium">
-          {title}
-        </h3>
+        <div className="flex items-center">
+          <Link href={"/"} className="text-xl leading-none font-medium">
+            {title}
+          </Link>
+        </div>
         <p className="leading-normal font-light">{description}</p>
       </div>
     </div>

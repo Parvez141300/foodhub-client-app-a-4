@@ -25,6 +25,7 @@ import { DashboardAvatar } from "./dashboard-avatar";
 import { useEffect, useState } from "react";
 import { env } from "@/env";
 import LoadingCircleSpinner from "@/components/global/LoadingCircleSpinner";
+import Logo from "@/components/global/Logo";
 
 interface MenuItem {
   title: string;
@@ -122,18 +123,7 @@ const Navbar1 = ({
         <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-6">
             {/* Logo */}
-            <Link href={logo.url} className="flex items-center gap-2">
-              <Image
-                src={logo.src}
-                className="max-h-8 dark:invert"
-                alt={logo.alt}
-                width={50}
-                height={50}
-              />
-              <span className="text-lg font-semibold tracking-tighter">
-                {logo.title}
-              </span>
-            </Link>
+            <Logo />
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -173,15 +163,7 @@ const Navbar1 = ({
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href={logo.url} className="flex items-center gap-2">
-              <Image
-                src={logo.src}
-                className="max-h-8 dark:invert"
-                alt={logo.alt}
-                width={50}
-                height={50}
-              />
-            </Link>
+            <Logo />
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
