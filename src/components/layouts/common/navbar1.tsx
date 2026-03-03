@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Menu, ShoppingCart } from "lucide-react";
+import { Heart, Menu, SearchIcon, ShoppingCart } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -26,6 +26,11 @@ import { useEffect, useState } from "react";
 import { env } from "@/env";
 import LoadingCircleSpinner from "@/components/global/LoadingCircleSpinner";
 import Logo from "@/components/global/Logo";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 
 interface MenuItem {
   title: string;
@@ -71,8 +76,8 @@ const Navbar1 = ({
   menu = [
     { title: "Home", url: "/" },
     { title: "Meals", url: "/meals" },
-    { title: "Dashboard", url: "/dashboard" },
     { title: "Contact", url: "/contact" },
+    { title: "Dashboard", url: "/dashboard" },
   ],
   auth = {
     login: { title: "Login", url: "/login" },
@@ -116,14 +121,84 @@ const Navbar1 = ({
     setSession(null);
   };
 
+  // search
+  const handleSearch = (e: any) => {
+    e.preventDefault();
+    const form = e.target;
+    const search = form.search.value;
+    console.log("form search input", search);
+  };
+
   return (
     <section className={cn("py-4", className)}>
       <div className="max-w-7xl mx-auto px-4">
         {/* Desktop Menu */}
-        <nav className="hidden items-center justify-between lg:flex">
-          <div className="flex items-center gap-6">
-            {/* Logo */}
-            <Logo />
+        <div>
+          <nav className="hidden items-center justify-between lg:flex">
+            <div className="flex items-center gap-6">
+              {/* Logo */}
+              <Logo />
+            </div>
+            <div className="flex gap-2 items-center">
+              {/* search */}
+              <form onSubmit={handleSearch}>
+                <InputGroup>
+                  <InputGroupInput
+                    name="search"
+                    id="inline-start-input"
+                    placeholder="Search..."
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <button type="submit" className="cursor-pointer">
+                      <SearchIcon className="text-muted-foreground" />
+                    </button>
+                  </InputGroupAddon>
+                </InputGroup>
+              </form>
+              {/* buttons */}
+              <div className="flex gap-2">
+                {/* theme switch */}
+                <ModeToggle />
+                {loading ? (
+                  <LoadingCircleSpinner />
+                ) : session?.user ? (
+                  <>
+                    <Button
+                      variant={"outline"}
+                      className="rounded-full w-8 h-8"
+                    >
+                      <Heart className="w-5 h-5" />
+                    </Button>
+
+                    <Button
+                      variant={"outline"}
+                      className="w-8 h-8 rounded-full"
+                    >
+                      <ShoppingCart className="w-5 h-5" />
+                    </Button>
+
+                    {/* after login avatar */}
+                    <DashboardAvatar
+                      userInfo={session?.user}
+                      onLogout={handleLogout}
+                    />
+                  </>
+                ) : (
+                  <>
+                    {/* login and register */}
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={auth.login.url}>{auth.login.title}</Link>
+                    </Button>
+                    <Button asChild size="sm">
+                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                    </Button>
+                  </>
+                )}
+              </div>
+            </div>
+          </nav>
+          <div className="hidden lg:flex justify-between items-center">
+            <div />
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -132,112 +207,102 @@ const Navbar1 = ({
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-2">
-            {/* theme switch */}
-            <ModeToggle />
-            {loading ? (
-              <LoadingCircleSpinner />
-            ) : session?.user ? (
-              <>
-                {/* after login avatar */}
-                <DashboardAvatar
-                  userInfo={session?.user}
-                  onLogout={handleLogout}
-                />
-
-                <Button variant={"secondary"} className="rounded-full w-8 h-8">
-                  <Heart className="w-5 h-5" />
-                </Button>
-
-                <Button variant={"secondary"} className="w-8 h-8 rounded-full">
-                  <ShoppingCart className="w-5 h-5" />
-                </Button>
-              </>
-            ) : (
-              <>
-                {/* login and register */}
-                <Button asChild variant="outline" size="sm">
-                  <Link href={auth.login.url}>{auth.login.title}</Link>
-                </Button>
-                <Button asChild size="sm">
-                  <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                </Button>
-              </>
-            )}
-          </div>
-        </nav>
+        </div>
 
         {/* Mobile Menu */}
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Logo />
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="size-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="overflow-y-auto">
-                <SheetHeader>
-                  <SheetTitle>
-                    <Link href={logo.url} className="flex items-center gap-2">
-                      <Image
-                        src={logo.src}
-                        className="max-h-8 dark:invert"
-                        alt={logo.alt}
-                        width={50}
-                        height={50}
-                      />
-                    </Link>
-                  </SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-6 p-4">
-                  <Accordion
-                    type="single"
-                    collapsible
-                    className="flex w-full flex-col gap-4"
-                  >
-                    {menu.map((item) => renderMobileMenuItem(item))}
-                  </Accordion>
-
-                  <div className="flex justify-between items-center">
-                    <ModeToggle />
-                    {loading ? (
-                      <LoadingCircleSpinner />
-                    ) : session?.user ? (
-                      <>
-                        {/* after login avatar */}
-                        <DashboardAvatar
-                          userInfo={session?.user}
-                          onLogout={handleLogout}
+            <div className="flex items-center gap-2">
+              {/* search */}
+              <form onSubmit={handleSearch}>
+                <InputGroup>
+                  <InputGroupInput
+                    name="search"
+                    id="inline-start-input"
+                    placeholder="Search..."
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <button type="submit" className="cursor-pointer">
+                      <SearchIcon className="text-muted-foreground" />
+                    </button>
+                  </InputGroupAddon>
+                </InputGroup>
+              </form>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Menu className="size-4" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>
+                      <Link href={logo.url} className="flex items-center gap-2">
+                        <Image
+                          src={logo.src}
+                          className="max-h-8 dark:invert"
+                          alt={logo.alt}
+                          width={50}
+                          height={50}
                         />
+                      </Link>
+                    </SheetTitle>
+                  </SheetHeader>
+                  <div className="flex flex-col gap-6 p-4">
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="flex w-full flex-col gap-4"
+                    >
+                      {menu.map((item) => renderMobileMenuItem(item))}
+                    </Accordion>
 
-                        <Button variant={"secondary"} className="rounded-full w-8 h-8">
-                          <Heart className="w-5 h-5" />
-                        </Button>
-
-                        <Button variant={"secondary"} className="w-8 h-8 rounded-full">
-                          <ShoppingCart className="w-5 h-5" />
-                        </Button>
-                      </>
-                    ) : (
-                      <div className="flex items-center gap-3">
-                        {/* login and register */}
-                        <Button asChild variant="outline" size="sm">
-                          <Link href={auth.login.url}>{auth.login.title}</Link>
-                        </Button>
-                        <Button asChild size="sm">
-                          <Link href={auth.signup.url}>
-                            {auth.signup.title}
-                          </Link>
-                        </Button>
-                      </div>
-                    )}
+                    <div className="flex justify-between items-center">
+                      <ModeToggle />
+                      {loading ? (
+                        <LoadingCircleSpinner />
+                      ) : session?.user ? (
+                        <>
+                          <Button
+                            variant={"outline"}
+                            className="rounded-full w-8 h-8"
+                          >
+                            <Heart className="w-5 h-5" />
+                          </Button>
+                          <Button
+                            variant={"outline"}
+                            className="w-8 h-8 rounded-full"
+                          >
+                            <ShoppingCart className="w-5 h-5" />
+                          </Button>
+                          {/* after login avatar */}
+                          <DashboardAvatar
+                            userInfo={session?.user}
+                            onLogout={handleLogout}
+                          />
+                        </>
+                      ) : (
+                        <div className="flex items-center gap-3">
+                          {/* login and register */}
+                          <Button asChild variant="outline" size="sm">
+                            <Link href={auth.login.url}>
+                              {auth.login.title}
+                            </Link>
+                          </Button>
+                          <Button asChild size="sm">
+                            <Link href={auth.signup.url}>
+                              {auth.signup.title}
+                            </Link>
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </SheetContent>
-            </Sheet>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>

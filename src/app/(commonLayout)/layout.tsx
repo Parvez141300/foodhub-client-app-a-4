@@ -8,7 +8,7 @@ const CommonLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <Navbar1 session={session} />
-      <div className="max-w-7xl mx-auto my-6 px-4 min-h-screen space-y-8">
+      <div className="max-w-7xl mx-auto px-4 min-h-screen space-y-8">
         {children}
       </div>
       <EcommerceFooter1 />
