@@ -9,8 +9,8 @@ const Logo = () => {
       <Image
         src={LogoImage}
         alt="logo-image"
-        height={80}
-        width={80}
+        height={60}
+        width={60}
         loading="eager"
         className="rounded-full"
       />
