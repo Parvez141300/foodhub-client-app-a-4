@@ -19,3 +19,9 @@ export const updateMealById = async (mealId: string, payload: Record<string, any
     updateTag('provider-meals');
     return result;
 }
+
+export const getAllOrQueryMeal = async (params?: Record<string, any>) => {
+    const result = await mealService.getAllOrQueryMeal(params);
+    // updateTag("meals");
+    return result;
+}

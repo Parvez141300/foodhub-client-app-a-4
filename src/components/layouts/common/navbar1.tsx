@@ -88,6 +88,7 @@ const Navbar1 = ({
 }: Navbar1Props) => {
   const [session, setSession] = useState(initialSession);
   const [loading, setLoading] = useState(!!initialSession);
+
   const pathName = usePathname();
   const router = useRouter();
 
@@ -130,8 +131,14 @@ const Navbar1 = ({
     const form = e.target;
     const search = form.search.value;
     const isMealsRoute = pathName === "/meals" || pathName.startsWith("/meals/");
+
+    const encodedSearch = encodeURIComponent(search);
+
     if(!isMealsRoute){
-      router.push("/meals");
+      router.push(`/meals?s=${encodedSearch}`);
+    }
+    else{
+      router.replace(`/meals?s=${encodedSearch}`);
     }
     console.log("form search input", search);
   };
