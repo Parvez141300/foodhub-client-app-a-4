@@ -17,6 +17,32 @@ interface MealSercieOptions {
 const BACKEND_URL = env.BACKEND_URL;
 
 export const mealService = {
+    getAllOrQueryMeal: async (params?: GetMealsParams, options?: MealSercieOptions) => {
+        try {
+            const url = new URL(`${BACKEND_URL}/api/meals?`);
+
+            if (params) {
+                Object.entries(params).forEach(([key, value]) => {
+                    if (value !== null && value !== undefined && value !== '') {
+                        url.searchParams.append(key, value);
+                    }
+                })
+            }
+
+            const res = await fetch(url.toString(), {
+                next: {
+                    tags: ["meals"],
+                }
+            });
+            const meals = await res.json();
+
+            return meals;
+
+        } catch (error) {
+            console.log(error);
+            return { data: null };
+        }
+    },
     getHomeMeals: async (params?: GetMealsParams, options?: MealSercieOptions) => {
         try {
             const url = new URL(`${BACKEND_URL}/api/meals?`);
