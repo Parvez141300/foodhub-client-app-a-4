@@ -17,7 +17,7 @@ const HomeCategories = async () => {
         categories.length === 0 && <NoCategoryFound />
       }
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
-        {categories.map((category: any) => (
+        {categories?.map((category: any) => (
           <HomeCategoryCard key={category?.id} category={category} />
         ))}
       </div>
