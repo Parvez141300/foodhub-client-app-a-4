@@ -25,8 +25,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { FilterIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { FilterIcon, FunnelX } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
 
 type MealCardType = {
@@ -66,15 +66,55 @@ const MealLayout = ({
 }) => {
   const [meals, setMeals] = useState(initailMeals || []);
   const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
+  const [selectedCuisine, setSelectedCuisine] = useState<string[]>([]);
+  const [selectedDietary, setSelectedDietary] = useState<string[]>([]);
+  const [sortOrder, setSortOrder] = useState("");
+  const [limit, setLimit] = useState("");
 
   const searchParams = useSearchParams();
   const searched = searchParams.get("s");
 
+  const category = searchParams.get("category");
+  const cuisine = searchParams.get("cuisine");
+  const dietery = searchParams.get("dietery");
+  const sort_order = searchParams.get("sort_order");
+  const itemLimit = searchParams.get("limit");
+
+  const router = useRouter();
+
+  // first time render the url params to set in the state
+  useEffect(() => {
+    if (category) setSelectedCategory(category.split(","));
+    if (cuisine) setSelectedCuisine(cuisine.split(","));
+    if (dietery) setSelectedDietary(dietery.split(","));
+    if (sort_order) setSortOrder(sort_order);
+    if (itemLimit) setLimit(itemLimit);
+  }, []);
+
+  // fetch meal when url changes
   useEffect(() => {
     const fetchMeals = async () => {
       setLoading(true);
       try {
-        const result = await getAllOrQueryMeal({ search: searched });
+
+        const queryObj: Record<string, string> = {
+          search: "",
+          category: "",
+          cuisine: "",
+          dietery: "",
+          sort_order: "",
+          limit: "",
+        };
+
+        if (searched) queryObj.search = searched;
+        if (category) queryObj.category = category;
+        if (cuisine) queryObj.cuisine = cuisine;
+        if (dietery) queryObj.dietery = dietery;
+        if (sort_order) queryObj.sort_order = sort_order;
+        if (itemLimit) queryObj.limit = itemLimit;
+
+        const result = await getAllOrQueryMeal(queryObj);
         console.log("searhed result meals", result);
         if (result?.data) {
           setMeals(result?.data);
@@ -89,7 +129,73 @@ const MealLayout = ({
     };
 
     fetchMeals();
-  }, [searched]);
+  }, [searched, category, cuisine, dietery, sort_order, itemLimit]);
+
+  // handle category change
+  const handleCategoryChange = (categoryId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedCategory([...selectedCategory, categoryId]);
+    } else {
+      setSelectedCategory(selectedCategory.filter((id) => id !== categoryId));
+    }
+  };
+
+  // handle cuisine change
+  const handleCuisineChange = (cuisineId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedCuisine([...selectedCuisine, cuisineId]);
+    } else {
+      setSelectedCuisine(selectedCuisine.filter((id) => id !== cuisineId));
+    }
+  };
+
+  // handle ditary change
+  const handleDietaryChange = (dietaryId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedDietary([...selectedDietary, dietaryId]);
+    } else {
+      setSelectedDietary(selectedDietary.filter((id) => id !== dietaryId));
+    }
+  };
+
+  // handle apply filter
+  const handleApplyFilters = () => {
+    const params = new URLSearchParams();
+
+    if (searched) params.set("s", searched);
+    if (selectedCategory.length > 0)
+      params.set("category", selectedCategory.join(","));
+    if (selectedCuisine.length > 0)
+      params.set("cuisine", selectedCuisine.join(","));
+    if (selectedDietary.length > 0)
+      params.set("dietery", selectedDietary.join(","));
+    if (sortOrder) {
+      params.set("sort_order", sortOrder);
+    } else {
+      params.set("sort_order", "desc");
+    }
+    if (limit) {
+      params.set("limit", limit);
+    } else {
+      params.set("limit", "9");
+    }
+
+    console.log("params", params.toString());
+    router.push(`/meals?${params}`);
+  };
+
+  // handle reset filter
+  const handleResetFilters = () => {
+    setSelectedCategory([]);
+    setSelectedCuisine([]);
+    setSelectedDietary([]);
+    setLimit("");
+    setSortOrder("");
+    const params = new URLSearchParams();
+
+    if (searched) params.set("s", searched);
+    router.push(`/meals?${params.toString()}`);
+  };
 
   return (
     <div className="flex gap-5">
@@ -101,7 +207,14 @@ const MealLayout = ({
             {categories.length > 0 ? (
               categories?.map((category) => (
                 <Field key={category?.id} orientation="horizontal">
-                  <Checkbox id={category?.id} name={category?.id} />
+                  <Checkbox
+                    id={category?.id}
+                    name={category?.id}
+                    checked={selectedCategory.includes(category?.id)}
+                    onCheckedChange={(checked) =>
+                      handleCategoryChange(category?.id, checked as boolean)
+                    }
+                  />
                   <FieldLabel htmlFor={category?.id} className="font-normal">
                     {category?.name}
                   </FieldLabel>
@@ -120,7 +233,14 @@ const MealLayout = ({
             {cuisines.length > 0 ? (
               cuisines?.map((cuisine) => (
                 <Field key={cuisine?.id} orientation="horizontal">
-                  <Checkbox id={cuisine?.id} name={cuisine?.id} />
+                  <Checkbox
+                    id={cuisine?.id}
+                    name={cuisine?.id}
+                    checked={selectedCuisine.includes(cuisine?.id)}
+                    onCheckedChange={(checked) =>
+                      handleCuisineChange(cuisine?.id, checked as boolean)
+                    }
+                  />
                   <FieldLabel htmlFor={cuisine?.id} className="font-normal">
                     {cuisine?.name}
                   </FieldLabel>
@@ -139,7 +259,14 @@ const MealLayout = ({
             {dietaries.length > 0 ? (
               dietaries?.map((dietary) => (
                 <Field key={dietary?.id} orientation="horizontal">
-                  <Checkbox id={dietary?.id} name={dietary?.id} />
+                  <Checkbox
+                    id={dietary?.id}
+                    name={dietary?.id}
+                    checked={selectedDietary.includes(dietary?.id)}
+                    onCheckedChange={(checked) =>
+                      handleDietaryChange(dietary?.id, checked as boolean)
+                    }
+                  />
                   <FieldLabel htmlFor={dietary?.id} className="font-normal">
                     {dietary?.name}
                   </FieldLabel>
@@ -151,10 +278,15 @@ const MealLayout = ({
           </FieldGroup>
         </FieldSet>
         <Separator />
-        
-        <Button type="submit">
-          <FilterIcon /> Apply Filters
-        </Button>
+
+        <div className="flex items-center gap-2">
+          <Button type="reset" onClick={handleResetFilters}>
+            <FunnelX /> Reset
+          </Button>
+          <Button type="submit" onClick={handleApplyFilters}>
+            <FilterIcon /> Apply Filters
+          </Button>
+        </div>
       </aside>
       <main className="basis-full md:basis-3/4">
         {loading ? (
@@ -162,23 +294,25 @@ const MealLayout = ({
         ) : (
           <>
             <div className="flex justify-between items-center mb-5">
-              <div></div>
+              <div>
+                <div className="flex flex-col md:hidden"></div>
+              </div>
               <div className="flex items-center gap-2">
                 {/* order by */}
-                <Select>
+                <Select value={sortOrder} onValueChange={setSortOrder}>
                   <SelectTrigger className="w-full max-w-48">
                     <SelectValue placeholder="Order By" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Order By</SelectLabel>
-                      <SelectItem value="apple">Accending</SelectItem>
-                      <SelectItem value="banana">Deaccending</SelectItem>
+                      <SelectItem value="asc">Accending</SelectItem>
+                      <SelectItem value="desc">Deaccending</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
                 {/* limit per page */}
-                <Select>
+                <Select value={limit} onValueChange={setLimit}>
                   <SelectTrigger className="w-full max-w-48">
                     <SelectValue placeholder="Show" />
                   </SelectTrigger>

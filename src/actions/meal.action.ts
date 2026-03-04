@@ -21,7 +21,12 @@ export const updateMealById = async (mealId: string, payload: Record<string, any
 }
 
 export const getAllOrQueryMeal = async (params?: Record<string, any>) => {
-    const result = await mealService.getAllOrQueryMeal(params);
-    // updateTag("meals");
-    return result;
+    try {
+        console.log("Server action called with params:", params);
+        const result = await mealService.getAllOrQueryMeal(params);
+        return result;
+    } catch (error) {
+        console.error("Error in getAllOrQueryMeal:", error);
+        return { data: null, error: "Failed to fetch meals" };
+    }
 }
