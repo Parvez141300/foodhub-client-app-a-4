@@ -160,6 +160,7 @@ export default function MealDetailsPage({
                   src={meal?.image_url}
                   alt={meal?.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
                   priority
                 />
@@ -213,7 +214,11 @@ export default function MealDetailsPage({
                 <Truck className="w-4 h-4 mr-2" />
                 Order Now
               </Button>
-              <Button onClick={handleShare} variant="outline" className="w-full">
+              <Button
+                onClick={handleShare}
+                variant="outline"
+                className="w-full"
+              >
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
               </Button>
@@ -233,7 +238,9 @@ export default function MealDetailsPage({
                     >
                       -
                     </Button>
-                    <span className="w-12 text-center font-bold">{quantity}</span>
+                    <span className="w-12 text-center font-bold">
+                      {quantity}
+                    </span>
                     <Button
                       variant="outline"
                       size="icon"
@@ -271,16 +278,24 @@ export default function MealDetailsPage({
                   <CardContent className="p-6">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <p className="text-sm text-muted-foreground">Category</p>
-                        <p className="font-medium capitalize">{meal?.category?.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          Category
+                        </p>
+                        <p className="font-medium capitalize">
+                          {meal?.category?.name}
+                        </p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Cuisine</p>
-                        <p className="font-medium capitalize">{meal?.cuisine?.name}</p>
+                        <p className="font-medium capitalize">
+                          {meal?.cuisine?.name}
+                        </p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Dietary</p>
-                        <p className="font-medium capitalize">{meal?.dietery?.name}</p>
+                        <p className="font-medium capitalize">
+                          {meal?.dietery?.name}
+                        </p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Stock</p>
@@ -293,7 +308,9 @@ export default function MealDetailsPage({
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Last Updated</p>
+                        <p className="text-sm text-muted-foreground">
+                          Last Updated
+                        </p>
                         <p className="font-medium">
                           {new Date(meal?.updated_at).toLocaleDateString()}
                         </p>
@@ -410,7 +427,9 @@ export default function MealDetailsPage({
 
                   <div className="flex items-start gap-3">
                     <Badge
-                      variant={meal?.provider?.emailVerified ? "default" : "secondary"}
+                      variant={
+                        meal?.provider?.emailVerified ? "default" : "secondary"
+                      }
                       className="mt-1"
                     >
                       {meal?.provider?.emailVerified
