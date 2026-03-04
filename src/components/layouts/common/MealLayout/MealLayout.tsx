@@ -15,6 +15,7 @@ import {
   FieldLegend,
   FieldSet,
 } from "@/components/ui/field";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -25,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Slider } from "@/components/ui/slider";
 import { FilterIcon, FunnelX } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
@@ -71,6 +73,8 @@ const MealLayout = ({
   const [selectedDietary, setSelectedDietary] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState("");
   const [limit, setLimit] = useState("");
+  const [value, setValue] = useState([0, 800]);
+  console.log("price range", value);
 
   const searchParams = useSearchParams();
   const searched = searchParams.get("s");
@@ -80,6 +84,8 @@ const MealLayout = ({
   const dietery = searchParams.get("dietery");
   const sort_order = searchParams.get("sort_order");
   const itemLimit = searchParams.get("limit");
+  const minimumPrice = searchParams.get("minPrice");
+  const maximumPrice = searchParams.get("maxPrice");
 
   const router = useRouter();
 
@@ -90,6 +96,8 @@ const MealLayout = ({
     if (dietery) setSelectedDietary(dietery.split(","));
     if (sort_order) setSortOrder(sort_order);
     if (itemLimit) setLimit(itemLimit);
+    if (minimumPrice && maximumPrice)
+      setValue([Number(minimumPrice), Number(maximumPrice)]);
   }, []);
 
   // fetch meal when url changes
@@ -97,7 +105,6 @@ const MealLayout = ({
     const fetchMeals = async () => {
       setLoading(true);
       try {
-
         const queryObj: Record<string, string> = {
           search: "",
           category: "",
@@ -105,6 +112,8 @@ const MealLayout = ({
           dietery: "",
           sort_order: "",
           limit: "",
+          minPrice: "",
+          maxPrice: "",
         };
 
         if (searched) queryObj.search = searched;
@@ -113,6 +122,8 @@ const MealLayout = ({
         if (dietery) queryObj.dietery = dietery;
         if (sort_order) queryObj.sort_order = sort_order;
         if (itemLimit) queryObj.limit = itemLimit;
+        if (minimumPrice) queryObj.minPrice = minimumPrice;
+        if (maximumPrice) queryObj.maxPrice = maximumPrice;
 
         const result = await getAllOrQueryMeal(queryObj);
         console.log("searhed result meals", result);
@@ -129,7 +140,16 @@ const MealLayout = ({
     };
 
     fetchMeals();
-  }, [searched, category, cuisine, dietery, sort_order, itemLimit]);
+  }, [
+    searched,
+    category,
+    cuisine,
+    dietery,
+    sort_order,
+    itemLimit,
+    minimumPrice,
+    maximumPrice,
+  ]);
 
   // handle category change
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
@@ -179,6 +199,18 @@ const MealLayout = ({
     } else {
       params.set("limit", "9");
     }
+    let minPrice = String(value[0]);
+    let maxPrice = String(value[1]);
+    if (value[0]) {
+      params.set("minPrice", minPrice);
+    } else {
+      params.set("minPrice", "0");
+    }
+    if (value[1]) {
+      params.set("maxPrice", maxPrice);
+    } else {
+      params.set("maxPrice", "800");
+    }
 
     console.log("params", params.toString());
     router.push(`/meals?${params}`);
@@ -192,7 +224,7 @@ const MealLayout = ({
     setLimit("");
     setSortOrder("");
     const params = new URLSearchParams();
-
+    setValue([0, 800]);
     if (searched) params.set("s", searched);
     router.push(`/meals?${params.toString()}`);
   };
@@ -278,7 +310,23 @@ const MealLayout = ({
           </FieldGroup>
         </FieldSet>
         <Separator />
-
+        {/* price range */}
+        <div className="flex w-full max-w-md flex-col gap-2">
+          <Label htmlFor="slider">Price Range</Label>
+          <Slider
+            id="slider"
+            max={10000}
+            min={0}
+            onValueChange={setValue}
+            value={value}
+          />
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <span>{value[0]}tk</span>
+            <span>{value[1]}tk</span>
+          </div>
+        </div>
+        <Separator />
+        {/* apply or reset filters */}
         <div className="flex items-center gap-2">
           <Button type="reset" onClick={handleResetFilters}>
             <FunnelX /> Reset
