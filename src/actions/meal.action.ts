@@ -30,3 +30,8 @@ export const getAllOrQueryMeal = async (params?: Record<string, any>) => {
         return { data: null, error: "Failed to fetch meals" };
     }
 }
+
+export const getMealById = async (mealId: string) => {
+    const result = await mealService.getMealById(mealId);
+    return result;
+}
