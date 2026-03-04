@@ -44,6 +44,7 @@ export default function MealDetailsPage({
   const [meal, setMeal] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  console.log(meal);
 
   useEffect(() => {
     const fetchMeal = async () => {
@@ -412,16 +413,6 @@ export default function MealDetailsPage({
                       <div className="text-sm text-muted-foreground">
                         {getProviderPhone()}
                       </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <MapPin className="w-4 h-4 text-muted-foreground mt-0.5" />
-                    <div>
-                      <p className="text-sm font-medium">Location</p>
-                      <p className="text-sm text-muted-foreground">
-                        Dhaka, Bangladesh
-                      </p>
                     </div>
                   </div>
 
