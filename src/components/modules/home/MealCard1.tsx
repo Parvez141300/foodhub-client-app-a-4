@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Eye, Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 // {
@@ -111,12 +112,14 @@ export function MealCard1({ meal }: { meal: MealCardType }) {
           >
             <Heart className="w-5 h-5" />
           </Button>
-          <Button
-            className="rounded-full w-10 h-10 hover:bg-primary hover:text-secondary duration-500"
-            variant={isHovered ? "secondary" : "default"}
-          >
-            <Eye className="w-5 h-5" />
-          </Button>
+          <Link href={`/meals/${meal?.id}`}>
+            <Button
+              className="rounded-full w-10 h-10 hover:bg-primary hover:text-secondary duration-500"
+              variant={isHovered ? "secondary" : "default"}
+            >
+              <Eye className="w-5 h-5" />
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -132,7 +135,10 @@ export function MealCard1({ meal }: { meal: MealCardType }) {
       </CardHeader>
       <CardFooter className="flex justify-between items-center">
         <h3 className="text-lg font-bold">Price: {meal?.price}tk</h3>
-        <Button>View Details</Button>
+
+        <Link href={`/meals/${meal?.id}`}>
+          <Button>View Details</Button>
+        </Link>
       </CardFooter>
     </Card>
   );
