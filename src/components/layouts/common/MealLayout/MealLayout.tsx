@@ -26,6 +26,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Slider } from "@/components/ui/slider";
 import { FilterIcon, FunnelX } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -231,6 +241,7 @@ const MealLayout = ({
 
   return (
     <div className="flex gap-5">
+      {/* desktop filter left */}
       <aside className="hidden basis-1/4 md:flex md:flex-col gap-5">
         {/* categories */}
         <FieldSet className="gap-3">
@@ -343,7 +354,158 @@ const MealLayout = ({
           <>
             <div className="flex justify-between items-center mb-5">
               <div>
-                <div className="flex flex-col md:hidden"></div>
+                {/* mobile filter */}
+                <div className="flex flex-col md:hidden">
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" className="capitalize">
+                        <FilterIcon />
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent className="data-[side=bottom]:max-h-[50vh] data-[side=top]:max-h-[50vh]">
+                      <div className="no-scrollbar overflow-y-auto px-4 my-6 space-y-5">
+                        {/* categories */}
+                        <FieldSet className="gap-3">
+                          <h3 className="text-xl font-bold">
+                            Food Categories:
+                          </h3>
+                          <FieldGroup className="gap-3">
+                            {categories.length > 0 ? (
+                              categories?.map((category) => (
+                                <Field
+                                  key={category?.id}
+                                  orientation="horizontal"
+                                >
+                                  <Checkbox
+                                    id={category?.id}
+                                    name={category?.id}
+                                    checked={selectedCategory.includes(
+                                      category?.id,
+                                    )}
+                                    onCheckedChange={(checked) =>
+                                      handleCategoryChange(
+                                        category?.id,
+                                        checked as boolean,
+                                      )
+                                    }
+                                  />
+                                  <FieldLabel
+                                    htmlFor={category?.id}
+                                    className="font-normal"
+                                  >
+                                    {category?.name}
+                                  </FieldLabel>
+                                </Field>
+                              ))
+                            ) : (
+                              <NoCategoryFound />
+                            )}
+                          </FieldGroup>
+                        </FieldSet>
+                        <Separator />
+                        {/* cuisines */}
+                        <FieldSet className="gap-3">
+                          <h3 className="text-xl font-bold">Food Cuisines:</h3>
+                          <FieldGroup className="gap-3">
+                            {cuisines.length > 0 ? (
+                              cuisines?.map((cuisine) => (
+                                <Field
+                                  key={cuisine?.id}
+                                  orientation="horizontal"
+                                >
+                                  <Checkbox
+                                    id={cuisine?.id}
+                                    name={cuisine?.id}
+                                    checked={selectedCuisine.includes(
+                                      cuisine?.id,
+                                    )}
+                                    onCheckedChange={(checked) =>
+                                      handleCuisineChange(
+                                        cuisine?.id,
+                                        checked as boolean,
+                                      )
+                                    }
+                                  />
+                                  <FieldLabel
+                                    htmlFor={cuisine?.id}
+                                    className="font-normal"
+                                  >
+                                    {cuisine?.name}
+                                  </FieldLabel>
+                                </Field>
+                              ))
+                            ) : (
+                              <NoCuisineFound />
+                            )}
+                          </FieldGroup>
+                        </FieldSet>
+                        <Separator />
+                        {/* ditaries */}
+                        <FieldSet className="gap-3">
+                          <h3 className="text-xl font-bold">Food Dietaries:</h3>
+                          <FieldGroup className="gap-3">
+                            {dietaries.length > 0 ? (
+                              dietaries?.map((dietary) => (
+                                <Field
+                                  key={dietary?.id}
+                                  orientation="horizontal"
+                                >
+                                  <Checkbox
+                                    id={dietary?.id}
+                                    name={dietary?.id}
+                                    checked={selectedDietary.includes(
+                                      dietary?.id,
+                                    )}
+                                    onCheckedChange={(checked) =>
+                                      handleDietaryChange(
+                                        dietary?.id,
+                                        checked as boolean,
+                                      )
+                                    }
+                                  />
+                                  <FieldLabel
+                                    htmlFor={dietary?.id}
+                                    className="font-normal"
+                                  >
+                                    {dietary?.name}
+                                  </FieldLabel>
+                                </Field>
+                              ))
+                            ) : (
+                              <NoDietaryFound />
+                            )}
+                          </FieldGroup>
+                        </FieldSet>
+                        <Separator />
+                        {/* price range */}
+                        <div className="flex w-full max-w-md flex-col gap-2">
+                          <Label htmlFor="slider">Price Range</Label>
+                          <Slider
+                            id="slider"
+                            max={10000}
+                            min={0}
+                            onValueChange={setValue}
+                            value={value}
+                          />
+                          <div className="flex items-center justify-between text-sm text-muted-foreground">
+                            <span>{value[0]}tk</span>
+                            <span>{value[1]}tk</span>
+                          </div>
+                        </div>
+                        <Separator />
+                        {/* apply or reset filters */}
+                        <div className="flex items-center gap-2">
+                          <Button type="reset" onClick={handleResetFilters}>
+                            <FunnelX /> Reset
+                          </Button>
+                          <Button type="submit" onClick={handleApplyFilters}>
+                            <FilterIcon /> Apply Filters
+                          </Button>
+                        </div>
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 {/* order by */}
