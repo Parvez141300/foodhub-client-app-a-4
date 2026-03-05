@@ -34,6 +34,10 @@ import { use } from "react";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getCurrentUser } from "@/actions/user.action";
+import { Roles } from "@/constants/roles";
+import { createCartWithCartItem } from "@/actions/cart.action";
+import { createWishList } from "@/actions/wishlist.action";
 
 export default function MealDetailsPage({
   params,
@@ -43,15 +47,19 @@ export default function MealDetailsPage({
   const { id } = use(params);
   const [meal, setMeal] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [cartLoading, setCartLoading] = useState(false);
+  const [wishListLoading, setWishListLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  console.log(meal);
+  const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
     const fetchMeal = async () => {
       try {
         setLoading(true);
+        const session = await getCurrentUser();
         const data = await getMealById(id);
         setMeal(data);
+        setUserData(session?.user);
       } catch (error) {
         console.error("Error fetching meal:", error);
       } finally {
@@ -91,13 +99,80 @@ export default function MealDetailsPage({
   };
 
   // Handle add to cart
-  const handleAddToCart = () => {
-    toast.success(`Added ${quantity} x ${meal?.title} to cart`);
+  const handleAddToCart = async () => {
+    const toastId = toast.loading("Adding to cart");
+    setCartLoading(true);
+    try {
+      if (!userData) {
+        setCartLoading(false);
+        return toast.error("User Need to login to add to cart", {
+          id: toastId,
+        });
+      }
+      if (userData.role !== Roles.CUSTOMER) {
+        setCartLoading(false);
+        return toast.error("Only Customer user can add to cart", {
+          id: toastId,
+        });
+      }
+
+      const result = await createCartWithCartItem({
+        userId: userData.id,
+        mealId: id,
+        quantity: quantity,
+      });
+      console.log("added to cart response", result);
+      if (result?.id) {
+        toast.success(`Added ${quantity} x ${meal?.title} to cart`, {
+          id: toastId,
+        });
+      } else {
+        setCartLoading(false);
+        toast.error("Failed to add to cart", { id: toastId });
+      }
+    } catch (error: any) {
+      toast.error(error?.message, { id: toastId });
+    } finally {
+      setCartLoading(false);
+    }
   };
 
   // Handle add to wishlist
-  const handleAddToWishlist = () => {
-    toast.success(`${meal?.title} added to wishlist`);
+  const handleAddToWishlist = async () => {
+    const toastId = toast.loading("Adding to wish list");
+    setWishListLoading(true);
+    try {
+      if (!userData) {
+        setWishListLoading(false);
+        return toast.error("User Need to login to add to wish list", {
+          id: toastId,
+        });
+      }
+      if (userData.role !== Roles.CUSTOMER) {
+        setWishListLoading(false);
+        return toast.error("Only Customer user can add to wish list", {
+          id: toastId,
+        });
+      }
+
+      const result = await createWishList({
+        userId: userData.id,
+        mealId: id,
+      });
+      console.log("added to wish list response", result);
+      if (result?.id) {
+        toast.success(`Added ${quantity} x ${meal?.title} to wish list`, {
+          id: toastId,
+        });
+      } else {
+        setWishListLoading(false);
+        toast.error("This wish list already in Wish List", { id: toastId });
+      }
+    } catch (error: any) {
+      toast.error(error?.message, { id: toastId });
+    } finally {
+      setWishListLoading(false);
+    }
   };
 
   // Handle share
@@ -108,6 +183,12 @@ export default function MealDetailsPage({
 
   // Handle order now
   const handleOrderNow = () => {
+    if (!userData) {
+      return toast.error("User Need to login to add to cart");
+    }
+    if (userData.role !== Roles.CUSTOMER) {
+      return toast.error("Only Customer user can add to cart");
+    }
     toast.success("Proceeding to checkout...");
   };
 
@@ -192,19 +273,38 @@ export default function MealDetailsPage({
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <Button
                 onClick={handleAddToCart}
-                disabled={!meal?.is_available}
+                disabled={!meal?.is_available || cartLoading}
                 className="w-full"
               >
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                Add to Cart
+                {cartLoading ? (
+                  <>
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                    Adding to Cart...
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                    Add to Cart
+                  </>
+                )}
               </Button>
               <Button
                 onClick={handleAddToWishlist}
+                disabled={wishListLoading}
                 variant="outline"
                 className="w-full"
               >
-                <Heart className="w-4 h-4 mr-2" />
-                Wishlist
+                {wishListLoading ? (
+                  <>
+                    <Heart className="w-4 h-4 mr-2" />
+                    Adding to Wishlist...
+                  </>
+                ) : (
+                  <>
+                    <Heart className="w-4 h-4 mr-2" />
+                    Wishlist
+                  </>
+                )}
               </Button>
               <Button
                 onClick={handleOrderNow}
