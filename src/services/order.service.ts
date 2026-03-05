@@ -45,10 +45,24 @@ export const orderServices = {
                 "Content-Type": "application/json",
                 Cookie: cookieStore.toString(),
             },
-            body: JSON.stringify({provider_id: providerId, order_status: orderStatus})
+            body: JSON.stringify({ provider_id: providerId, order_status: orderStatus })
         });
         const res = await result.json();
 
         return res;
     },
+    createUserOrder: async (payload: any) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/orders`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Cookie: cookieStore.toString(),
+            },
+            body: JSON.stringify(payload)
+        });
+        const res = await result.json();
+
+        return res;
+    }
 }

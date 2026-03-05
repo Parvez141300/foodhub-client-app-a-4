@@ -44,6 +44,7 @@ import { Separator } from "@/components/ui/separator";
 import PaymentSystem from "./PaymentSystem";
 import Link from "next/link";
 import LoadingCircleSpinner from "@/components/global/LoadingCircleSpinner";
+import { createUserOrder } from "@/actions/order.action";
 
 const formSchema = z.object({
   name: z.string().min(5, "name must be at least 5 characters."),
@@ -222,14 +223,17 @@ export function CheckoutForm() {
           });
         }
         const orderObject = {
-            ...value,
-            user_id: userData?.id,
-            cartItems: [
-                ...orderData?.cartItems
-            ]
+          ...value,
+          user_id: userData?.id,
+          cartItems: [...orderData?.cartItems],
+        };
+        console.log("order object", orderObject);
+        const result = await createUserOrder(orderObject);
+        if (result?.id) {
+          toast.success("Successfully ordered", { id: toastId });
+        } else {
+          toast.error("Failed to order", { id: toastId });
         }
-        console.log('order object', orderObject);
-        toast.success("Successfully ordered", { id: toastId });
       } catch (error: any) {
         toast.error(error.message, { id: toastId });
       } finally {
@@ -323,8 +327,8 @@ export function CheckoutForm() {
                         name={field.name}
                         value={field.state.value}
                         onValueChange={(value) => {
-                          field.handleChange(value);
                           setSelectedDivision(value);
+                          field.handleChange(value);
                         }}
                       >
                         <SelectTrigger aria-invalid={isInvalid}>
@@ -438,7 +442,7 @@ export function CheckoutForm() {
                     field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
                     <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Thana</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>Street</FieldLabel>
                       <Input
                         id={field.name}
                         name={field.name}
@@ -460,7 +464,7 @@ export function CheckoutForm() {
                     field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
                     <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Area</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>Postal Code</FieldLabel>
                       <Input
                         id={field.name}
                         name={field.name}

@@ -7,3 +7,8 @@ export const updateOderStatus = async (orderId: string, providerId: string, orde
     updateTag("provider-orders");
     return result;
 }
+
+export const createUserOrder = async (payload: any) => {
+    const result = await orderServices.createUserOrder(payload);
+    return result;
+}
