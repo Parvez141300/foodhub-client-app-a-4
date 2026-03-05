@@ -35,13 +35,13 @@ export const wishListService = {
     },
     deleteUserWishListItem: async (wishListId: string, userId: string, mealId: string) => {
         const cookieStore = await cookies();
-        const result = await fetch(`${BACKEND_URL}/api/wishlist/${userId}`, {
+        const result = await fetch(`${BACKEND_URL}/api/wishlist/${wishListId}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",
                 Cookie: cookieStore.toString(),
             },
-            body: JSON.stringify({ wishListId: wishListId, user_id: userId, meal_id: mealId })
+            body: JSON.stringify({ user_id: userId, meal_id: mealId })
         });
         const res = await result.json();
         return res;
