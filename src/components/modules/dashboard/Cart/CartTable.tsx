@@ -19,8 +19,10 @@ import {
 import { MoreHorizontalIcon, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { deleteUserCartItem } from "@/actions/cart.action";
+import { toast } from "sonner";
 
 // Category Type
 export type Category = {
@@ -84,7 +86,6 @@ interface CartTableProps {
 }
 
 const CartTable = ({ cartData }: CartTableProps) => {
-
   const cart = cartData[0];
   const cartItems = cart.cartItems;
 
@@ -93,6 +94,23 @@ const CartTable = ({ cartData }: CartTableProps) => {
     return cartItems.reduce((total, item) => {
       return total + item.meal.price * item.quantity;
     }, 0);
+  };
+
+  //   delete cart item
+  const handleDelete = async (
+    cartId: string,
+    userId: string,
+    mealId: string,
+  ) => {
+    const toastId = toast.success("Deleting Cart item");
+    try {
+      const result = await deleteUserCartItem(cartId, userId, mealId);
+      if (result?.id) {
+        toast.success("Successfully deleted cart item", { id: toastId });
+      }
+    } catch (error: any) {
+      toast.error(error.message, { id: toastId });
+    }
   };
 
   return (
@@ -131,7 +149,8 @@ const CartTable = ({ cartData }: CartTableProps) => {
               <TableCell>
                 <div className="space-y-1">
                   <Link
-                    href={`/meal/${item.meal.id}`}
+                    href={`/meals/${item.meal.id}`}
+                    target="_blank"
                     className="font-medium hover:underline flex items-center gap-1"
                   >
                     {item.meal.title}
@@ -193,10 +212,17 @@ const CartTable = ({ cartData }: CartTableProps) => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem>
-                      <Link href={`/meal/${item.meal.id}`}>View Details</Link>
+                      <Link href={`/meals/${item.meal.id}`} target="_blank">
+                        View Details
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem variant="destructive">
+                    <DropdownMenuItem
+                      variant="destructive"
+                      onClick={() =>
+                        handleDelete(item.cart_id, cart.user_id, item.meal_id)
+                      }
+                    >
                       Delete
                     </DropdownMenuItem>
                   </DropdownMenuContent>

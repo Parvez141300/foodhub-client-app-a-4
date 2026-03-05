@@ -33,5 +33,18 @@ export const cartService = {
         });
         const res = await result.json();
         return res;
-    }
+    },
+    deleteUserCartItem: async (cartId: string, userId: string, mealId: string) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/cart/${cartId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json",
+                Cookie: cookieStore.toString(),
+            },
+            body: JSON.stringify({ user_id: userId, meal_id: mealId })
+        });
+        const res = await result.json();
+        return res;
+    },
 }
