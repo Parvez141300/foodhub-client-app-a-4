@@ -19,4 +19,31 @@ export const wishListService = {
 
         return res;
     },
+    getUserWishList: async (userId: string) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/wishlist/${userId}`, {
+            headers: {
+                "Content-type": "application/json",
+                Cookie: cookieStore.toString(),
+            },
+            next: {
+                tags: ["user-wishlist"]
+            }
+        });
+        const res = await result.json();
+        return res;
+    },
+    deleteUserWishListItem: async (wishListId: string, userId: string, mealId: string) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/wishlist/${userId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json",
+                Cookie: cookieStore.toString(),
+            },
+            body: JSON.stringify({ wishListId: wishListId, user_id: userId, meal_id: mealId })
+        });
+        const res = await result.json();
+        return res;
+    },
 }
