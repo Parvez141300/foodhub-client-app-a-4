@@ -250,6 +250,7 @@ const CartTable = ({ cartData }: CartTableProps) => {
               <span className="text-lg text-primary">৳{calculateTotal()}</span>
             </div>
           </div>
+          <Button className="w-full">Proceed to checkout</Button>
         </div>
       </div>
     </div>
