@@ -12,3 +12,8 @@ export const createUserOrder = async (payload: any) => {
     const result = await orderServices.createUserOrder(payload);
     return result;
 }
+
+export const getUserOrders = async (userId: string) => {
+    const result = await orderServices.getUserOrders(userId);
+    return result;
+}

@@ -64,5 +64,20 @@ export const orderServices = {
         const res = await result.json();
 
         return res;
+    },
+    getUserOrders: async (userId: string) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/orders?user_id=${userId}`, {
+            next: {
+                tags: ['user-orders']
+            },
+            headers: {
+                "Content-Type": "application/json",
+                Cookie: cookieStore.toString(),
+            }
+        });
+        const res = await result.json();
+
+        return res;
     }
 }
