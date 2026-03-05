@@ -1,4 +1,7 @@
 "use client";
+import { createCartWithCartItem } from "@/actions/cart.action";
+import { getCurrentUser } from "@/actions/user.action";
+import { createWishList } from "@/actions/wishlist.action";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,11 +11,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Roles } from "@/constants/roles";
 import { cn } from "@/lib/utils";
 import { Eye, Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 // {
 //     "id": "dd1264d4-90c2-4165-bae1-0ab9f583b8e3",
@@ -54,14 +59,98 @@ type MealCardType = {
 
 export function MealCard1({ meal }: { meal: MealCardType }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
+  const [wishListLoading, setWishListLoading] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
 
-  // add to cart
-  const handleAddToCart = async () => {
-    console.log("added to cart");
+  useEffect(() => {
+    const fetchUser = async () => {
+      const session = await getCurrentUser();
+      if (session?.user) {
+        setUserData(session.user);
+      } else {
+        setUserData(null);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  // Handle add to cart
+  const handleAddToCart = async (mealId: string) => {
+    const toastId = toast.loading("Adding to cart");
+    setCartLoading(true);
+    try {
+      if (!userData) {
+        setCartLoading(false);
+        return toast.error("User Need to login to add to cart", {
+          id: toastId,
+        });
+      }
+      if (userData.role !== Roles.CUSTOMER) {
+        setCartLoading(false);
+        return toast.error("Only Customer user can add to cart", {
+          id: toastId,
+        });
+      }
+
+      const result = await createCartWithCartItem({
+        userId: userData.id,
+        mealId: mealId,
+        quantity: 1,
+      });
+      console.log("added to cart response", result);
+      if (result?.id) {
+        toast.success(`Added ${1} x ${meal?.title} to cart`, {
+          id: toastId,
+        });
+      } else {
+        setCartLoading(false);
+        toast.error("Failed to add to cart", { id: toastId });
+      }
+    } catch (error: any) {
+      toast.error(error?.message, { id: toastId });
+    } finally {
+      setCartLoading(false);
+    }
   };
-  // add to wishlist
-  const handleAddToWishList = async () => {
-    console.log("added to wish list");
+
+  // Handle add to wishlist
+  const handleAddToWishlist = async (mealId: string) => {
+    const toastId = toast.loading("Adding to wish list");
+    setWishListLoading(true);
+    try {
+      if (!userData) {
+        setWishListLoading(false);
+        return toast.error("User Need to login to add to wish list", {
+          id: toastId,
+        });
+      }
+      if (userData.role !== Roles.CUSTOMER) {
+        setWishListLoading(false);
+        return toast.error("Only Customer user can add to wish list", {
+          id: toastId,
+        });
+      }
+
+      const result = await createWishList({
+        userId: userData.id,
+        mealId: mealId,
+      });
+      console.log("added to wish list response", result);
+      if (result?.id) {
+        toast.success(`Added ${1} x ${meal?.title} to wish list`, {
+          id: toastId,
+        });
+      } else {
+        setWishListLoading(false);
+        toast.error("This wish list already in Wish List", { id: toastId });
+      }
+    } catch (error: any) {
+      toast.error(error?.message, { id: toastId });
+    } finally {
+      setWishListLoading(false);
+    }
   };
   return (
     <Card
@@ -97,18 +186,18 @@ export function MealCard1({ meal }: { meal: MealCardType }) {
         >
           {/* cart button */}
           <Button
-            onClick={handleAddToCart}
+            onClick={() => handleAddToCart(meal?.id)}
             className="rounded-full w-10 h-10 hover:bg-primary hover:text-secondary duration-500"
             variant={isHovered ? "secondary" : "default"}
-            disabled={!meal.is_available}
+            disabled={!meal.is_available || cartLoading}
           >
             <ShoppingCart className="w-5 h-5" />
           </Button>
           <Button
-            onClick={handleAddToWishList}
+            onClick={() => handleAddToWishlist(meal?.id)}
             className="rounded-full w-10 h-10 hover:bg-primary hover:text-secondary duration-500"
             variant={isHovered ? "secondary" : "default"}
-            disabled={!meal?.is_available}
+            disabled={!meal?.is_available || wishListLoading}
           >
             <Heart className="w-5 h-5" />
           </Button>
