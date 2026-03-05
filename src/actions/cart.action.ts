@@ -14,3 +14,8 @@ export const deleteUserCartItem = async (cartId: string, userId: string, mealId:
     updateTag("user-cart");
     return result;
 }
+
+export const getUserCart = async (userId: string) => {
+    const result = await cartService.getUserCart(userId);
+    return result;
+}
