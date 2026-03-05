@@ -9,8 +9,12 @@ export const customerRoutes: Route[] = [
                 url: "/customer-dashboard/manage-profile",
             },
             {
-                title: "Cart",
-                url: "/customer-dashboard/cart",
+                title: "My Cart",
+                url: "/customer-dashboard/my-cart",
+            },
+            {
+                title: "My Wishlist",
+                url: "/customer-dashboard/my-wishlist",
             },
             {
                 title: "My Orders",

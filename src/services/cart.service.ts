@@ -20,4 +20,18 @@ export const cartService = {
 
         return res;
     },
+    getUserCart: async (userId: string) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/cart/${userId}`, {
+            headers: {
+                "Content-type": "application/json",
+                Cookie: cookieStore.toString(),
+            },
+            next: {
+                tags: ["user-cart"]
+            }
+        });
+        const res = await result.json();
+        return res;
+    }
 }
