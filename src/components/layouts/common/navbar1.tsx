@@ -32,6 +32,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { usePathname, useRouter } from "next/navigation";
+import { Roles } from "@/constants/roles";
 
 interface MenuItem {
   title: string;
@@ -131,14 +132,14 @@ const Navbar1 = ({
     e.preventDefault();
     const form = e.target;
     const search = form.search.value;
-    const isMealsRoute = pathName === "/meals" || pathName.startsWith("/meals/");
+    const isMealsRoute =
+      pathName === "/meals" || pathName.startsWith("/meals/");
 
     const encodedSearch = encodeURIComponent(search);
 
-    if(!isMealsRoute){
+    if (!isMealsRoute) {
       router.push(`/meals?s=${encodedSearch}`);
-    }
-    else{
+    } else {
       router.replace(`/meals?s=${encodedSearch}`);
     }
     console.log("form search input", search);
@@ -178,19 +179,27 @@ const Navbar1 = ({
                   <LoadingCircleSpinner />
                 ) : session?.user ? (
                   <>
-                    <Button
-                      variant={"outline"}
-                      className="rounded-full w-8 h-8"
-                    >
-                      <Heart className="w-5 h-5" />
-                    </Button>
+                    {session?.user.role === Roles.CUSTOMER && (
+                      <>
+                        <Button
+                          variant={"outline"}
+                          className="rounded-full w-8 h-8"
+                        >
+                          <Link href={"/customer-dashboard/my-wishlist"}>
+                            <Heart className="w-5 h-5" />
+                          </Link>
+                        </Button>
 
-                    <Button
-                      variant={"outline"}
-                      className="w-8 h-8 rounded-full"
-                    >
-                      <ShoppingCart className="w-5 h-5" />
-                    </Button>
+                        <Button
+                          variant={"outline"}
+                          className="w-8 h-8 rounded-full"
+                        >
+                          <Link href={"/customer-dashboard/my-cart"}>
+                            <ShoppingCart className="w-5 h-5" />
+                          </Link>
+                        </Button>
+                      </>
+                    )}
 
                     {/* after login avatar */}
                     <DashboardAvatar
@@ -280,18 +289,27 @@ const Navbar1 = ({
                         <LoadingCircleSpinner />
                       ) : session?.user ? (
                         <>
-                          <Button
-                            variant={"outline"}
-                            className="rounded-full w-8 h-8"
-                          >
-                            <Heart className="w-5 h-5" />
-                          </Button>
-                          <Button
-                            variant={"outline"}
-                            className="w-8 h-8 rounded-full"
-                          >
-                            <ShoppingCart className="w-5 h-5" />
-                          </Button>
+                          {session?.user.role === Roles.CUSTOMER && (
+                            <>
+                              <Button
+                                variant={"outline"}
+                                className="rounded-full w-8 h-8"
+                              >
+                                <Link href={"/customer-dashboard/my-wishlist"}>
+                                  <Heart className="w-5 h-5" />
+                                </Link>
+                              </Button>
+
+                              <Button
+                                variant={"outline"}
+                                className="w-8 h-8 rounded-full"
+                              >
+                                <Link href={"/customer-dashboard/my-cart"}>
+                                  <ShoppingCart className="w-5 h-5" />
+                                </Link>
+                              </Button>
+                            </>
+                          )}
                           {/* after login avatar */}
                           <DashboardAvatar
                             userInfo={session?.user}
