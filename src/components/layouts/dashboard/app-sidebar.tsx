@@ -18,8 +18,8 @@ import { customerRoutes } from "@/routes/customerRoutes";
 import { providerRoutes } from "@/routes/providerRoutes";
 import { Route } from "@/types";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { LayoutDashboardIcon } from "lucide-react";
+import Logo from "@/components/global/Logo";
 
 export function AppSidebar({
   userInfo,
@@ -46,9 +46,9 @@ export function AppSidebar({
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <Button>
-          <Link href={"/"}>FoodHub</Link>
-        </Button>
+        <div className="flex justify-start items-center">
+          <Logo /> Eat Food BD
+        </div>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
