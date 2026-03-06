@@ -38,6 +38,16 @@ import { getCurrentUser } from "@/actions/user.action";
 import { Roles } from "@/constants/roles";
 import { createCartWithCartItem } from "@/actions/cart.action";
 import { createWishList } from "@/actions/wishlist.action";
+import { getMealReview } from "@/actions/review.action";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
+import { Rating } from "@/components/reui/rating";
 
 export default function MealDetailsPage({
   params,
@@ -51,6 +61,10 @@ export default function MealDetailsPage({
   const [wishListLoading, setWishListLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [userData, setUserData] = useState<any>(null);
+  const [reviews, setReviews] = useState<any>(null);
+  const [productRating, setProductRating] = useState(0);
+
+  console.log("reviews", reviews);
 
   useEffect(() => {
     const fetchMeal = async () => {
@@ -58,6 +72,8 @@ export default function MealDetailsPage({
         setLoading(true);
         const session = await getCurrentUser();
         const data = await getMealById(id);
+        const reviewData = await getMealReview(id);
+        setReviews(reviewData);
         setMeal(data);
         setUserData(session?.user);
       } catch (error) {
@@ -191,6 +207,29 @@ export default function MealDetailsPage({
     }
     toast.success("Proceeding to checkout...");
   };
+
+  // rating message by toast
+  const handleRatingChange = (rating: number) => {
+    setProductRating(rating);
+    toast.success("Rated {rating} out of 5", {
+      description: `Rated ${rating} out of 5`,
+    });
+  };
+
+  // submit review
+  const handleReview = async (e: any) => {
+    e.preventDefault();
+    const form = e.target;
+    const userReview = form.review.value;
+    if(!productRating){
+      return toast.error("You haven't rated yet")
+    }
+    if(!userReview.trim()){
+      return toast.error("Review can't be empty")
+    }
+    console.log("user review", userReview, productRating);
+  };
+
 
   if (loading) {
     return (
@@ -365,6 +404,7 @@ export default function MealDetailsPage({
                 <TabsTrigger value="details">Details</TabsTrigger>
                 <TabsTrigger value="reviews">Reviews</TabsTrigger>
               </TabsList>
+              {/* description */}
               <TabsContent value="description" className="mt-4">
                 <Card>
                   <CardContent className="p-6">
@@ -374,6 +414,7 @@ export default function MealDetailsPage({
                   </CardContent>
                 </Card>
               </TabsContent>
+              {/* detaisl */}
               <TabsContent value="details" className="mt-4">
                 <Card>
                   <CardContent className="p-6">
@@ -420,11 +461,63 @@ export default function MealDetailsPage({
                   </CardContent>
                 </Card>
               </TabsContent>
+              {/* reviews */}
               <TabsContent value="reviews" className="mt-4">
                 <Card>
-                  <CardContent className="p-6 text-center text-muted-foreground">
-                    No reviews yet. Be the first to review!
+                  <CardHeader>
+                    <CardTitle>Review</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {reviews?.length > 0 ? (
+                      <>Reviews user</>
+                    ) : (
+                      <CardContent className="p-6 text-center text-muted-foreground">
+                        No reviews yet. Be the first to review!
+                      </CardContent>
+                    )}
                   </CardContent>
+                  {/* review and rating */}
+                  <CardFooter>
+                    <FieldGroup>
+                      {/* rating */}
+                      <Field>
+                        <FieldLabel>Rating</FieldLabel>
+                        <div className="space-y-8">
+                          <Rating
+                            rating={productRating}
+                            editable={true}
+                            onRatingChange={handleRatingChange}
+                            showValue={true}
+                          />
+                        </div>
+                      </Field>
+                      {/* review form */}
+                      <Field>
+                        <FieldLabel htmlFor="block-end-textarea">
+                          Your Review
+                        </FieldLabel>
+                        <form onSubmit={handleReview}>
+                          <InputGroup>
+                            <InputGroupTextarea
+                              id="block-end-textarea"
+                              name="review"
+                              placeholder="Write a review..."
+                            />
+                            <InputGroupAddon align="block-end">
+                              <InputGroupButton
+                                variant="default"
+                                size="sm"
+                                className="ml-auto"
+                                type="submit"
+                              >
+                                Post
+                              </InputGroupButton>
+                            </InputGroupAddon>
+                          </InputGroup>
+                        </form>
+                      </Field>
+                    </FieldGroup>
+                  </CardFooter>
                 </Card>
               </TabsContent>
             </Tabs>
