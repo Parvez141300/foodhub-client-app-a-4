@@ -74,6 +74,7 @@ export default function MealDetailsPage({
   const [userData, setUserData] = useState<any>(null);
   const [reviews, setReviews] = useState<any>(null);
   const [productRating, setProductRating] = useState(0);
+  const [fReview, setFReview] = useState(false);
 
   console.log("reviews", reviews);
 
@@ -83,8 +84,6 @@ export default function MealDetailsPage({
         setLoading(true);
         const session = await getCurrentUser();
         const data = await getMealById(id);
-        const reviewData = await getMealReview(id);
-        setReviews(reviewData);
         setMeal(data);
         setUserData(session?.user);
       } catch (error) {
@@ -96,6 +95,15 @@ export default function MealDetailsPage({
 
     fetchMeal();
   }, [id]);
+
+  // to render and rerender the review section
+  useEffect(() => {
+    const fetchReview = async () => {
+      const reviewData = await getMealReview(id);
+      setReviews(reviewData);
+    };
+    fetchReview();
+  }, [id, fReview]);
 
   // Helper function to display provider contact info
   const getProviderPhone = () => {
@@ -234,7 +242,7 @@ export default function MealDetailsPage({
     const userComment = form.review.value;
     const toastId = toast.loading("Creating a Review");
     try {
-      if(!userData.id){
+      if (!userData.id) {
         return toast.error("User need to login first to give review");
       }
       if (!productRating) {
@@ -253,6 +261,7 @@ export default function MealDetailsPage({
         toast.success("Successfully Created Review", { id: toastId });
         form.reset();
         setProductRating(0);
+        setFReview(true);
       } else {
         toast.error("Failed to create review", { id: toastId });
       }
@@ -539,7 +548,10 @@ export default function MealDetailsPage({
                               <ItemContent className="gap-1">
                                 <ItemTitle>{review?.user?.name}</ItemTitle>
                                 <ItemTitle>{review?.user?.email}</ItemTitle>
-                                <ItemTitle>{review?.rating} <StarIcon className="w-3" /> </ItemTitle>
+                                <ItemTitle>
+                                  {review?.rating}{" "}
+                                  <StarIcon className="w-3" />{" "}
+                                </ItemTitle>
                                 <ItemDescription>
                                   {review?.comment}
                                 </ItemDescription>
