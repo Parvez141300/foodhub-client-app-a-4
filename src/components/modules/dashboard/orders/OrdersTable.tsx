@@ -36,6 +36,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { orderStatus } from "@/constants/orderStatus";
+import { toast } from "sonner";
+import { updateUserPendingOrderStatus } from "@/actions/order.action";
 
 // Order Item Type
 export type OrderItem = {
@@ -93,6 +96,21 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
   const handleViewDetails = (order: OrderDataType) => {
     setSelectedOrder(order);
     setDialogOpen(true);
+  };
+
+  const handleCancelOrder = async (orderId: string) => {
+    const toastId = toast.loading("Cancelling Order");
+    try {
+      const result = await updateUserPendingOrderStatus(
+        orderId,
+        orderStatus.CANCELLED,
+      );
+      if (result?.id) {
+        toast.success("Successfully cancelled order status", { id: toastId });
+      }
+    } catch (error: any) {
+      toast.error(error.message, { id: toastId });
+    }
   };
 
   return (
@@ -183,6 +201,17 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
                       <Eye className="h-4 w-4 mr-2" />
                       View Details
                     </DropdownMenuItem>
+                    {order?.order_status === orderStatus.PENDING && (
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={() => handleCancelOrder(order?.id)}
+                          variant="destructive"
+                        >
+                          Cancel
+                        </DropdownMenuItem>
+                      </>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>

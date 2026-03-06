@@ -17,3 +17,9 @@ export const getUserOrders = async (userId: string) => {
     const result = await orderServices.getUserOrders(userId);
     return result;
 }
+
+export const updateUserPendingOrderStatus = async (orderId: string, orderStatus: string) => {
+    const result = await orderServices.updateUserPendingOrderStatus(orderId, orderStatus);
+    updateTag("user-orders");
+    return result;
+}

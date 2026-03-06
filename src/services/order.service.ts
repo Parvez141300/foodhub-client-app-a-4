@@ -79,5 +79,19 @@ export const orderServices = {
         const res = await result.json();
 
         return res;
+    },
+    updateUserPendingOrderStatus: async (orderId: string, orderStatus: string) => {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/customer/orders/${orderId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Cookie: cookieStore.toString(),
+            },
+            body: JSON.stringify({ order_status: orderStatus })
+        });
+        const res = await result.json();
+
+        return res;
     }
 }
