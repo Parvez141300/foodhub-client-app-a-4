@@ -20,15 +20,15 @@ export const proxy = async (req: NextRequest) => {
     }
     // admin dashboard route
     if (isAdmin && (pathName.startsWith('/dashboard') || pathName.startsWith('/customer-dashboard') || pathName.startsWith('/provider-dashboard'))) {
-        return NextResponse.redirect(new URL("/admin-dashboard", req.url));
+        return NextResponse.redirect(new URL("/admin-dashboard/manage-profile", req.url));
     }
     // customer dashboard route
     if (isCustomer && (pathName.startsWith('/dashboard') || pathName.startsWith('/admin-dashboard') || pathName.startsWith('/provider-dashboard'))) {
-        return NextResponse.redirect(new URL("/customer-dashboard", req.url));
+        return NextResponse.redirect(new URL("/customer-dashboard/manage-profile", req.url));
     }
     // provider dashboard route
     if (isProvider && (pathName.startsWith('/dashboard') || pathName.startsWith('/admin-dashboard') || pathName.startsWith('/customer-dashboard'))) {
-        return NextResponse.redirect(new URL("/provider-dashboard", req.url));
+        return NextResponse.redirect(new URL("/provider-dashboard/manage-profile", req.url));
     }
     NextResponse.next();
 }
