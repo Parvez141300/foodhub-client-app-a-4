@@ -1,10 +1,10 @@
-Project Name: FoodHub
+#Project Name: FoodHub
 
-Features:
+#Features:
+1) 
 
 
-Packages Used:
-
+#Packages Used:
 1)    "@t3-oss/env-nextjs": "^0.13.10",
 2)    "@tanstack/react-form": "^1.28.3",
 3)    "better-auth": "^1.4.18",
