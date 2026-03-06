@@ -26,6 +26,8 @@ import {
   MapPin,
   Star,
   Truck,
+  PlusIcon,
+  StarIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -48,6 +50,15 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group";
 import { Rating } from "@/components/reui/rating";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item";
 
 export default function MealDetailsPage({
   params,
@@ -223,6 +234,9 @@ export default function MealDetailsPage({
     const userComment = form.review.value;
     const toastId = toast.loading("Creating a Review");
     try {
+      if(!userData.id){
+        return toast.error("User need to login first to give review");
+      }
       if (!productRating) {
         return toast.error("You haven't rated yet");
       }
@@ -237,6 +251,8 @@ export default function MealDetailsPage({
       );
       if (result?.id) {
         toast.success("Successfully Created Review", { id: toastId });
+        form.reset();
+        setProductRating(0);
       } else {
         toast.error("Failed to create review", { id: toastId });
       }
@@ -268,6 +284,28 @@ export default function MealDetailsPage({
       </div>
     );
   }
+
+  //   {
+  //     "id": "a47f3c43-15be-4b3f-9143-e2e9de44757b",
+  //     "author_id": "0Rs866Gj0HwOe5nXyzMhTMalPSXSyse2",
+  //     "meal_id": "dd1264d4-90c2-4165-bae1-0ab9f583b8e3",
+  //     "rating": 4,
+  //     "comment": "It's really a good product I really love this. Because I take it every morning to boost myself for daily work. This is energy builder.",
+  //     "created_at": "2026-03-06T08:53:29.049Z",
+  //     "updated_at": "2026-03-06T08:53:29.049Z",
+  //     "user": {
+  //         "id": "0Rs866Gj0HwOe5nXyzMhTMalPSXSyse2",
+  //         "name": "Ismail",
+  //         "email": "ismail@gmail.com",
+  //         "emailVerified": false,
+  //         "image": null,
+  //         "createdAt": "2026-01-30T15:08:40.125Z",
+  //         "updatedAt": "2026-01-31T18:57:16.137Z",
+  //         "role": "CUSTOMER",
+  //         "phone": null,
+  //         "is_active": "ACTIVE"
+  //     }
+  // }
 
   return (
     <div className="min-h-screen bg-linear-to-b from-background to-secondary/5">
@@ -483,7 +521,42 @@ export default function MealDetailsPage({
                   </CardHeader>
                   <CardContent>
                     {reviews?.length > 0 ? (
-                      <>Reviews user</>
+                      <div className="space-y-3">
+                        {reviews.map((review: any) => (
+                          <ItemGroup key={review?.id} className="w-full">
+                            <Item variant="outline">
+                              <ItemMedia>
+                                <Avatar>
+                                  <AvatarImage
+                                    src={review?.user?.image}
+                                    className="grayscale"
+                                  />
+                                  <AvatarFallback>
+                                    {review?.user?.name}
+                                  </AvatarFallback>
+                                </Avatar>
+                              </ItemMedia>
+                              <ItemContent className="gap-1">
+                                <ItemTitle>{review?.user?.name}</ItemTitle>
+                                <ItemTitle>{review?.user?.email}</ItemTitle>
+                                <ItemTitle>{review?.rating} <StarIcon className="w-3" /> </ItemTitle>
+                                <ItemDescription>
+                                  {review?.comment}
+                                </ItemDescription>
+                              </ItemContent>
+                              <ItemActions>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="rounded-full"
+                                >
+                                  <PlusIcon />
+                                </Button>
+                              </ItemActions>
+                            </Item>
+                          </ItemGroup>
+                        ))}
+                      </div>
                     ) : (
                       <CardContent className="p-6 text-center text-muted-foreground">
                         No reviews yet. Be the first to review!
