@@ -217,15 +217,15 @@ export default function MealDetailsPage({
   };
 
   // Handle order now
-  const handleOrderNow = () => {
-    if (!userData) {
-      return toast.error("User Need to login to add to cart");
-    }
-    if (userData.role !== Roles.CUSTOMER) {
-      return toast.error("Only Customer user can add to cart");
-    }
-    toast.success("Proceeding to checkout...");
-  };
+  // const handleOrderNow = () => {
+  //   if (!userData) {
+  //     return toast.error("User Need to login to add to cart");
+  //   }
+  //   if (userData.role !== Roles.CUSTOMER) {
+  //     return toast.error("Only Customer user can add to cart");
+  //   }
+  //   toast.success("Proceeding to checkout...");
+  // };
 
   // rating message by toast
   const handleRatingChange = (rating: number) => {
@@ -370,7 +370,7 @@ export default function MealDetailsPage({
             </Card>
 
             {/* Action Buttons */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <Button
                 onClick={handleAddToCart}
                 disabled={!meal?.is_available || cartLoading}
@@ -406,7 +406,7 @@ export default function MealDetailsPage({
                   </>
                 )}
               </Button>
-              <Button
+              {/* <Button
                 onClick={handleOrderNow}
                 disabled={!meal?.is_available}
                 variant="secondary"
@@ -414,7 +414,7 @@ export default function MealDetailsPage({
               >
                 <Truck className="w-4 h-4 mr-2" />
                 Order Now
-              </Button>
+              </Button> */}
               <Button
                 onClick={handleShare}
                 variant="outline"
