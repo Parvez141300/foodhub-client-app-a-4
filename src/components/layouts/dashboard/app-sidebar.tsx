@@ -47,7 +47,7 @@ export function AppSidebar({
     <Sidebar {...props}>
       <SidebarHeader>
         <div className="flex justify-start items-center">
-          <Logo /> Eat Food BD
+          <Logo /> <span className="font-bold">Eat Food BD</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
