@@ -69,18 +69,6 @@ export function DashboardAvatar({
             <LayoutDashboardIcon />
             <Link href="/dashboard">Dashboard</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <BadgeCheckIcon />
-            Account
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CreditCardIcon />
-            Billing
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <BellIcon />
-            Notifications
-          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
