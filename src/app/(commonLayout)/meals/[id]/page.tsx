@@ -38,7 +38,7 @@ import { getCurrentUser } from "@/actions/user.action";
 import { Roles } from "@/constants/roles";
 import { createCartWithCartItem } from "@/actions/cart.action";
 import { createWishList } from "@/actions/wishlist.action";
-import { getMealReview } from "@/actions/review.action";
+import { createMealReview, getMealReview } from "@/actions/review.action";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import {
   InputGroup,
@@ -220,16 +220,30 @@ export default function MealDetailsPage({
   const handleReview = async (e: any) => {
     e.preventDefault();
     const form = e.target;
-    const userReview = form.review.value;
-    if(!productRating){
-      return toast.error("You haven't rated yet")
+    const userComment = form.review.value;
+    const toastId = toast.loading("Creating a Review");
+    try {
+      if (!productRating) {
+        return toast.error("You haven't rated yet");
+      }
+      if (!userComment.trim()) {
+        return toast.error("Review can't be empty");
+      }
+      const result = await createMealReview(
+        userData.id,
+        id,
+        productRating,
+        userComment,
+      );
+      if (result?.id) {
+        toast.success("Successfully Created Review", { id: toastId });
+      } else {
+        toast.error("Failed to create review", { id: toastId });
+      }
+    } catch (error: any) {
+      toast.error(error.message, { id: toastId });
     }
-    if(!userReview.trim()){
-      return toast.error("Review can't be empty")
-    }
-    console.log("user review", userReview, productRating);
   };
-
 
   if (loading) {
     return (
