@@ -545,13 +545,13 @@ export default function MealDetailsPage({
                                 </ItemDescription>
                               </ItemContent>
                               <ItemActions>
-                                <Button
+                                {/* <Button
                                   variant="ghost"
                                   size="icon"
                                   className="rounded-full"
                                 >
                                   <PlusIcon />
-                                </Button>
+                                </Button> */}
                               </ItemActions>
                             </Item>
                           </ItemGroup>
