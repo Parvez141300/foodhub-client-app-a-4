@@ -151,6 +151,13 @@ export default function MealDetailsPage({
         });
       }
 
+      if (quantity > meal?.quantity) {
+        return toast.error(
+          "Can not add this much of quantity to cart which exceed the limit of the meal stock",
+          { id: toastId },
+        );
+      }
+
       const result = await createCartWithCartItem({
         userId: userData.id,
         mealId: id,
@@ -294,28 +301,6 @@ export default function MealDetailsPage({
     );
   }
 
-  //   {
-  //     "id": "a47f3c43-15be-4b3f-9143-e2e9de44757b",
-  //     "author_id": "0Rs866Gj0HwOe5nXyzMhTMalPSXSyse2",
-  //     "meal_id": "dd1264d4-90c2-4165-bae1-0ab9f583b8e3",
-  //     "rating": 4,
-  //     "comment": "It's really a good product I really love this. Because I take it every morning to boost myself for daily work. This is energy builder.",
-  //     "created_at": "2026-03-06T08:53:29.049Z",
-  //     "updated_at": "2026-03-06T08:53:29.049Z",
-  //     "user": {
-  //         "id": "0Rs866Gj0HwOe5nXyzMhTMalPSXSyse2",
-  //         "name": "Ismail",
-  //         "email": "ismail@gmail.com",
-  //         "emailVerified": false,
-  //         "image": null,
-  //         "createdAt": "2026-01-30T15:08:40.125Z",
-  //         "updatedAt": "2026-01-31T18:57:16.137Z",
-  //         "role": "CUSTOMER",
-  //         "phone": null,
-  //         "is_active": "ACTIVE"
-  //     }
-  // }
-
   return (
     <div className="min-h-screen bg-linear-to-b from-background to-secondary/5">
       <div className="container max-w-7xl mx-auto py-8 px-4">
@@ -428,28 +413,30 @@ export default function MealDetailsPage({
             {/* Quantity Selector */}
             <Card>
               <CardContent className="p-4">
-                <div className="flex items-center gap-4">
-                  <span className="font-medium">Quantity:</span>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      disabled={quantity <= 1}
-                    >
-                      -
-                    </Button>
-                    <span className="w-12 text-center font-bold">
-                      {quantity}
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setQuantity(quantity + 1)}
-                      disabled={quantity >= meal?.stock}
-                    >
-                      +
-                    </Button>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-4">
+                    <span className="font-medium">Quantity:</span>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        disabled={quantity <= 1}
+                      >
+                        -
+                      </Button>
+                      <span className="w-12 text-center font-bold">
+                        {quantity}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setQuantity(quantity + 1)}
+                        disabled={quantity >= meal?.stock}
+                      >
+                        +
+                      </Button>
+                    </div>
                   </div>
                   <span className="text-sm text-muted-foreground">
                     {meal?.stock} available
