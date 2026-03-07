@@ -99,8 +99,8 @@ export default function MealDetailsPage({
   // to render and rerender the review section
   useEffect(() => {
     const fetchReview = async () => {
-      const reviewData = await getMealReview(id);
-      setReviews(reviewData);
+      const mealDataWithReview = await getMealReview(id);
+      setReviews(mealDataWithReview.reviews);
     };
     fetchReview();
   }, [id, fReview]);
