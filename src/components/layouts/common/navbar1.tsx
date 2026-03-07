@@ -146,200 +146,201 @@ const Navbar1 = ({
   };
 
   return (
-    <section className={cn("mb-4 border-b-2", className)}>
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Desktop Menu */}
-        <div>
-          <nav className="hidden items-center justify-between lg:flex">
-            <div className="flex items-center gap-6">
-              {/* Logo */}
-              <Logo />
-            </div>
-            <div className="flex gap-2 items-center">
-              {/* search */}
-              <form onSubmit={handleSearch}>
-                <InputGroup>
-                  <InputGroupInput
-                    name="search"
-                    id="inline-start-input"
-                    placeholder="Search..."
-                  />
-                  <InputGroupAddon align="inline-end">
-                    <button type="submit" className="cursor-pointer">
-                      <SearchIcon className="text-muted-foreground" />
-                    </button>
-                  </InputGroupAddon>
-                </InputGroup>
-              </form>
-              {/* buttons */}
-              <div className="flex gap-2">
-                {/* theme switch */}
-                <ModeToggle />
-                {loading ? (
-                  <LoadingCircleSpinner />
-                ) : session?.user ? (
-                  <>
-                    {session?.user.role === Roles.CUSTOMER && (
-                      <>
-                        <Button
-                          variant={"outline"}
-                          className="rounded-full w-8 h-8"
-                        >
-                          <Link href={"/customer-dashboard/my-wishlist"}>
-                            <Heart className="w-5 h-5" />
-                          </Link>
-                        </Button>
-
-                        <Button
-                          variant={"outline"}
-                          className="w-8 h-8 rounded-full"
-                        >
-                          <Link href={"/customer-dashboard/my-cart"}>
-                            <ShoppingCart className="w-5 h-5" />
-                          </Link>
-                        </Button>
-                      </>
-                    )}
-
-                    {/* after login avatar */}
-                    <DashboardAvatar
-                      userInfo={session?.user}
-                      onLogout={handleLogout}
+    <div className="relative">
+      <div
+        className={cn(
+          "border-b-2 fixed top-0 right-0 left-0 z-50 w-full bg-primary-foreground pb-2",
+          className,
+        )}
+      >
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex">
+            <nav className="hidden items-center justify-between lg:flex">
+              <div className="flex items-center relative -left-2">
+                {/* Logo */}
+                <Logo /> <span className="font-bold">Eat Food BD</span>
+              </div>
+              <div className="flex gap-2 items-center">
+                {/* search */}
+                <form onSubmit={handleSearch}>
+                  <InputGroup>
+                    <InputGroupInput
+                      name="search"
+                      id="inline-start-input"
+                      placeholder="Search..."
                     />
-                  </>
-                ) : (
-                  <>
-                    {/* login and register */}
-                    <Button asChild variant="outline" size="sm">
-                      <Link href={auth.login.url}>{auth.login.title}</Link>
-                    </Button>
-                    <Button asChild size="sm">
-                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                    </Button>
-                  </>
-                )}
+                    <InputGroupAddon align="inline-end">
+                      <button type="submit" className="cursor-pointer">
+                        <SearchIcon className="text-muted-foreground" />
+                      </button>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </form>
+                {/* buttons */}
+                <div className="flex gap-2">
+                  {/* theme switch */}
+                  <ModeToggle />
+                  {loading ? (
+                    <LoadingCircleSpinner />
+                  ) : session?.user ? (
+                    <>
+                      {session?.user.role === Roles.CUSTOMER && (
+                        <>
+                          <Button
+                            variant={"outline"}
+                            className="rounded-full w-8 h-8"
+                          >
+                            <Link href={"/customer-dashboard/my-wishlist"}>
+                              <Heart className="w-5 h-5" />
+                            </Link>
+                          </Button>
+
+                          <Button
+                            variant={"outline"}
+                            className="w-8 h-8 rounded-full"
+                          >
+                            <Link href={"/customer-dashboard/my-cart"}>
+                              <ShoppingCart className="w-5 h-5" />
+                            </Link>
+                          </Button>
+                        </>
+                      )}
+
+                      {/* after login avatar */}
+                      <DashboardAvatar
+                        userInfo={session?.user}
+                        onLogout={handleLogout}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      {/* login and register */}
+                      <Button asChild variant="outline" size="sm">
+                        <Link href={auth.login.url}>{auth.login.title}</Link>
+                      </Button>
+                      <Button asChild size="sm">
+                        <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </nav>
+            <div className="hidden lg:flex justify-between items-center">
+              <div />
+              <div className="flex items-center">
+                <NavigationMenu>
+                  <NavigationMenuList>
+                    {menu.map((item) => renderMenuItem(item))}
+                  </NavigationMenuList>
+                </NavigationMenu>
               </div>
             </div>
-          </nav>
-          <div className="hidden lg:flex justify-between items-center">
-            <div />
-            <div className="flex items-center">
-              <NavigationMenu>
-                <NavigationMenuList>
-                  {menu.map((item) => renderMenuItem(item))}
-                </NavigationMenuList>
-              </NavigationMenu>
-            </div>
           </div>
-        </div>
 
-        {/* Mobile Menu */}
-        <div className="block lg:hidden">
-          <div className="flex items-center justify-between">
+          {/* Mobile Menu */}
+          <div className="flex justify-between items-center lg:hidden">
             {/* Logo */}
             <Logo />
-            <div className="flex items-center gap-2">
-              {/* search */}
-              <form onSubmit={handleSearch}>
-                <InputGroup>
-                  <InputGroupInput
-                    name="search"
-                    id="inline-start-input"
-                    placeholder="Search..."
-                  />
-                  <InputGroupAddon align="inline-end">
-                    <button type="submit" className="cursor-pointer">
-                      <SearchIcon className="text-muted-foreground" />
-                    </button>
-                  </InputGroupAddon>
-                </InputGroup>
-              </form>
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline" size="icon">
-                    <Menu className="size-4" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent className="overflow-y-auto">
-                  <SheetHeader>
-                    <SheetTitle>
-                      <Link href={logo.url} className="flex items-center gap-2">
-                        <Image
-                          src={logo.src}
-                          className="max-h-8 dark:invert"
-                          alt={logo.alt}
-                          width={50}
-                          height={50}
+            {/* search */}
+            {/* <form onSubmit={handleSearch}>
+              <InputGroup>
+                <InputGroupInput
+                  name="search"
+                  id="inline-start-input"
+                  placeholder="Search..."
+                />
+                <InputGroupAddon align="inline-end">
+                  <button type="submit" className="cursor-pointer">
+                    <SearchIcon className="text-muted-foreground" />
+                  </button>
+                </InputGroupAddon>
+              </InputGroup>
+            </form> */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Menu className="size-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle>
+                    <Link href={logo.url} className="flex items-center gap-2">
+                      <Image
+                        src={logo.src}
+                        className="max-h-8 dark:invert"
+                        alt={logo.alt}
+                        width={50}
+                        height={50}
+                      />
+                    </Link>
+                  </SheetTitle>
+                </SheetHeader>
+                <div className="flex flex-col gap-6 p-4">
+                  <Accordion
+                    type="single"
+                    collapsible
+                    className="flex w-full flex-col gap-4"
+                  >
+                    {menu.map((item) => renderMobileMenuItem(item))}
+                  </Accordion>
+
+                  <div className="flex justify-between items-center">
+                    <ModeToggle />
+                    {loading ? (
+                      <LoadingCircleSpinner />
+                    ) : session?.user ? (
+                      <>
+                        {session?.user.role === Roles.CUSTOMER && (
+                          <>
+                            <Button
+                              variant={"outline"}
+                              className="rounded-full w-8 h-8"
+                            >
+                              <Link href={"/customer-dashboard/my-wishlist"}>
+                                <Heart className="w-5 h-5" />
+                              </Link>
+                            </Button>
+
+                            <Button
+                              variant={"outline"}
+                              className="w-8 h-8 rounded-full"
+                            >
+                              <Link href={"/customer-dashboard/my-cart"}>
+                                <ShoppingCart className="w-5 h-5" />
+                              </Link>
+                            </Button>
+                          </>
+                        )}
+                        {/* after login avatar */}
+                        <DashboardAvatar
+                          userInfo={session?.user}
+                          onLogout={handleLogout}
                         />
-                      </Link>
-                    </SheetTitle>
-                  </SheetHeader>
-                  <div className="flex flex-col gap-6 p-4">
-                    <Accordion
-                      type="single"
-                      collapsible
-                      className="flex w-full flex-col gap-4"
-                    >
-                      {menu.map((item) => renderMobileMenuItem(item))}
-                    </Accordion>
-
-                    <div className="flex justify-between items-center">
-                      <ModeToggle />
-                      {loading ? (
-                        <LoadingCircleSpinner />
-                      ) : session?.user ? (
-                        <>
-                          {session?.user.role === Roles.CUSTOMER && (
-                            <>
-                              <Button
-                                variant={"outline"}
-                                className="rounded-full w-8 h-8"
-                              >
-                                <Link href={"/customer-dashboard/my-wishlist"}>
-                                  <Heart className="w-5 h-5" />
-                                </Link>
-                              </Button>
-
-                              <Button
-                                variant={"outline"}
-                                className="w-8 h-8 rounded-full"
-                              >
-                                <Link href={"/customer-dashboard/my-cart"}>
-                                  <ShoppingCart className="w-5 h-5" />
-                                </Link>
-                              </Button>
-                            </>
-                          )}
-                          {/* after login avatar */}
-                          <DashboardAvatar
-                            userInfo={session?.user}
-                            onLogout={handleLogout}
-                          />
-                        </>
-                      ) : (
-                        <div className="flex items-center gap-3">
-                          {/* login and register */}
-                          <Button asChild variant="outline" size="sm">
-                            <Link href={auth.login.url}>
-                              {auth.login.title}
-                            </Link>
-                          </Button>
-                          <Button asChild size="sm">
-                            <Link href={auth.signup.url}>
-                              {auth.signup.title}
-                            </Link>
-                          </Button>
-                        </div>
-                      )}
-                    </div>
+                      </>
+                    ) : (
+                      <div className="flex items-center gap-3">
+                        {/* login and register */}
+                        <Button asChild variant="outline" size="sm">
+                          <Link href={auth.login.url}>{auth.login.title}</Link>
+                        </Button>
+                        <Button asChild size="sm">
+                          <Link href={auth.signup.url}>
+                            {auth.signup.title}
+                          </Link>
+                        </Button>
+                      </div>
+                    )}
                   </div>
-                </SheetContent>
-              </Sheet>
-            </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
