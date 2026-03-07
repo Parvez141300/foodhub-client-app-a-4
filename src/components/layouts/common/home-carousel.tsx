@@ -63,7 +63,7 @@ export function HomeCarousel() {
   };
 
   const handleMouseLeave = () => {
-    plugin.current.play(); 
+    plugin.current.play();
   };
   return (
     <Carousel
@@ -104,8 +104,8 @@ export function HomeCarousel() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      {/* <CarouselPrevious className="hidden lg:flex" />
+      <CarouselNext className="hidden lg:flex" /> */}
     </Carousel>
   );
 }
