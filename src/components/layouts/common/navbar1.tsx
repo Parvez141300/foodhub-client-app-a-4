@@ -155,7 +155,7 @@ const Navbar1 = ({
       >
         <div className="max-w-7xl mx-auto px-4">
           {/* Desktop Menu */}
-          <div className="hidden lg:flex">
+          <div className="hidden lg:flex lg:flex-col">
             <nav className="hidden items-center justify-between lg:flex">
               <div className="flex items-center relative -left-2">
                 {/* Logo */}
@@ -244,7 +244,7 @@ const Navbar1 = ({
             {/* Logo */}
             <Logo />
             {/* search */}
-            {/* <form onSubmit={handleSearch}>
+            <form onSubmit={handleSearch}>
               <InputGroup>
                 <InputGroupInput
                   name="search"
@@ -257,7 +257,7 @@ const Navbar1 = ({
                   </button>
                 </InputGroupAddon>
               </InputGroup>
-            </form> */}
+            </form>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
