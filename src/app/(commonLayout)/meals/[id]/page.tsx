@@ -250,13 +250,13 @@ export default function MealDetailsPage({
     const toastId = toast.loading("Creating a Review");
     try {
       if (!userData.id) {
-        return toast.error("User need to login first to give review");
+        return toast.error("User need to login first to give review", {id: toastId});
       }
       if (!productRating) {
-        return toast.error("You haven't rated yet");
+        return toast.error("You haven't rated yet", {id: toastId});
       }
       if (!userComment.trim()) {
-        return toast.error("Review can't be empty");
+        return toast.error("Review can't be empty", {id: toastId});
       }
       const result = await createMealReview(
         userData.id,
