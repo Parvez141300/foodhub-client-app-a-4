@@ -18,7 +18,7 @@ const MyOrdersPage = async () => {
   }
   
   const userOrders = await orderServices.getUserOrders(session?.user?.id);
-  
+  console.log('user orders', userOrders);
 
   return (
     <div className="space-y-5">

@@ -57,95 +57,6 @@ const formSchema = z.object({
   postal_code: z.string(),
 });
 
-// [
-//     {
-//         "id": "cf58f5c5-c85b-4669-a14d-c110c1fbd8f9",
-//         "cart_id": "8b187bfe-a27e-4470-92d8-86bd0c4e79de",
-//         "meal_id": "77eda86e-d654-4296-8018-2c2d7e641866",
-//         "quantity": 1,
-//         "meal": {
-//             "id": "77eda86e-d654-4296-8018-2c2d7e641866",
-//             "provider_id": "XGyEl3WBuhGpx4DAT82DQKRvSnKlI3oF",
-//             "category_id": "e5e8b32f-b0cc-481d-9675-4b7c5d4d0308",
-//             "cuisine_id": "af8a832f-1879-4418-acae-e842c641e64c",
-//             "dietery_id": "90d4bcae-1331-45c6-8e29-e6fcf00693a7",
-//             "title": "Chicken Taco",
-//             "description": "Chicken Taco Recipe - Valentina's CornerChicken tacos feature seasoned, tender shredded or diced chicken served in warm corn or flour tortillas. Common variations include crispy baked, grilled, or street-style, typically topped with cheese, diced onion, cilantro, salsa verde, and lime juice. They are often accompanied by sides like sour cream, guacamole, or pico de gallo. \n\nIsland Vibe Cooking\nYouTube • May 22, 2024\nKey Characteristics and Variations:\nProtein: Usually shredded chicken breast or thighs, sometimes seasoned with cumin, chili powder, and garlic.\nTexture: Can be soft (street-style) or crispy (baked in the oven).\nFlavor Profile: Ranging from smoky and spicy to tangy with citrus.\nCommon Toppings: Shredded lettuce, tomatoes, jack cheese, jalapeño ranch, and cilantro. \n\nCommon Preparation Styles:\nBaked/Crispy: Shredded chicken and cheese are placed in tortillas and baked until crunchy.\nStreet-Style: Grilled chicken with simple toppings like raw onion and cilantro.\nSkillet: Diced chicken cooked in a pan, sometimes with a sauce made from tomatoes or chiles.",
-//             "stock": 70,
-//             "price": 400,
-//             "image_url": "https://res.cloudinary.com/dapbx8al2/image/upload/v1772447350/uy9duuutatlx4rks7koa.jpg",
-//             "is_available": true,
-//             "is_featured": true,
-//             "created_at": "2026-03-02T10:29:28.586Z",
-//             "updated_at": "2026-03-02T10:29:28.586Z",
-//             "category": {
-//                 "id": "e5e8b32f-b0cc-481d-9675-4b7c5d4d0308",
-//                 "name": "taco"
-//             },
-//             "cuisine": {
-//                 "id": "af8a832f-1879-4418-acae-e842c641e64c",
-//                 "name": "Mexican"
-//             },
-//             "dietery": {
-//                 "id": "90d4bcae-1331-45c6-8e29-e6fcf00693a7",
-//                 "name": "Keto"
-//             }
-//         }
-//     },
-//     {
-//         "id": "11377c60-aa5d-4697-8725-498fc79d0084",
-//         "cart_id": "8b187bfe-a27e-4470-92d8-86bd0c4e79de",
-//         "meal_id": "5efeefd3-2c61-4ade-9ba7-44f24448bfc5",
-//         "quantity": 1,
-//         "meal": {
-//             "id": "5efeefd3-2c61-4ade-9ba7-44f24448bfc5",
-//             "provider_id": "XGyEl3WBuhGpx4DAT82DQKRvSnKlI3oF",
-//             "category_id": "59f73a5f-6515-443c-affb-0b8b234a347e",
-//             "cuisine_id": "42b630b8-472d-48d1-b108-72dcd87db609",
-//             "dietery_id": "dfe31fa4-573e-443b-b7e6-f97da8e12578",
-//             "title": "Chicken Sandwich",
-//             "description": "A classic turkey sandwich consists of sliced turkey breast—deli-style or roasted—layered with lettuce, tomato, and cheese (like cheddar, Swiss, or Monterey Jack) between slices of bread, often complemented by mayonnaise or mustard. It is a versatile, fresh, and savory meal that can be served cold or toasted/grilled, sometimes upgraded with bacon and avocado. \n\nIn The Kitchen With Gina Young\nYouTube • Sep 8, 2025\nCommon Variations:\nTurkey Club: A double-decker, toasted sandwich featuring turkey, bacon, lettuce, tomato, and mayo.\nHot Turkey Sandwich: Sliced or pulled turkey covered in warm gravy, often served open-faced, sometimes with cranberry sauce.\nDeli Turkey Sub: Turkey, cheese, and vegetables inside a submarine roll, commonly with mayo and mustard.\nGrilled Turkey & Cheese: Sliced bread with turkey and cheese, buttered and grilled until golden and melted. \n\nKey Components & Flavors:\nProtein: Sliced deli turkey (smoked, oven-roasted, honey-roasted) or leftover turkey.\nBread: White, sourdough, multigrain, focaccia, or rye.\nCondiments: Mayonnaise, yellow/Dijon mustard, cranberry sauce, or pesto.\nTexture/Veg: Crisp lettuce (iceberg, romaine, Bibb), sliced tomatoes, red onions, or pickles.\nCheese: Cheddar, Swiss, or Monterey Jack",
-//             "stock": 90,
-//             "price": 200,
-//             "image_url": "https://res.cloudinary.com/dapbx8al2/image/upload/v1772446579/s3fblgeudzrpezrr7fqn.jpg",
-//             "is_available": true,
-//             "is_featured": true,
-//             "created_at": "2026-03-02T10:16:38.411Z",
-//             "updated_at": "2026-03-02T10:16:38.411Z",
-//             "category": {
-//                 "id": "59f73a5f-6515-443c-affb-0b8b234a347e",
-//                 "name": "sandwich"
-//             },
-//             "cuisine": {
-//                 "id": "42b630b8-472d-48d1-b108-72dcd87db609",
-//                 "name": "Turkish"
-//             },
-//             "dietery": {
-//                 "id": "dfe31fa4-573e-443b-b7e6-f97da8e12578",
-//                 "name": "Diabetic Friendly"
-//             }
-//         }
-//     }
-// ]
-
-// {
-//     "user_id": "0Rs866Gj0HwOe5nXyzMhTMalPSXSyse2",
-//     "name": "Ismail",
-//     "phone": "0198491410",
-//     "division": "Dhaka",
-//     "district": "Gazipur",
-//     "thana": "Tongi",
-//     "area": "Ershad Nagar",
-//     "street": "3 no block",
-//     "postal_code": "2353",
-//     "cartItems": [
-//         {
-//             "meal_id": "aaec0599-34f5-4e72-960e-ce8b2a03396a",
-//             "quantity": 2
-//         }
-//     ]
-// }
-
 export function CheckoutForm() {
   const [selectedDivision, setSelectedDivision] = React.useState("");
   const [districts, setDistricts] = React.useState<string[]>([]);
@@ -214,7 +125,7 @@ export function CheckoutForm() {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      setLoading(true);
+      setOrderLoading(true);
       const toastId = toast.loading("Processing Checkout");
       try {
         if (orderData?.cartItems.length === 0) {
@@ -237,7 +148,7 @@ export function CheckoutForm() {
       } catch (error: any) {
         toast.error(error.message, { id: toastId });
       } finally {
-        setLoading(false);
+        setOrderLoading(false);
       }
     },
   });
@@ -571,7 +482,15 @@ export function CheckoutForm() {
                 className="w-full"
                 disabled={orderLoading}
               >
-                <BaggageClaim /> Place Order
+                {orderLoading ? (
+                  <>
+                    <BaggageClaim /> Ordering...
+                  </>
+                ) : (
+                  <>
+                    <BaggageClaim /> Place Order
+                  </>
+                )}
               </Button>
             </CardFooter>
           </>

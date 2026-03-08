@@ -240,9 +240,9 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
               <div className="flex justify-between items-center pt-2">
                 <div>
                   <p className="text-sm text-muted-foreground">Order ID</p>
-                  <p className="font-mono text-sm">{selectedOrder.id}</p>
+                  <p className="font-mono text-sm">{selectedOrder?.id}</p>
                 </div>
-                <Badge variant="outline">{selectedOrder.order_status}</Badge>
+                <Badge variant="outline">{selectedOrder?.order_status}</Badge>
               </div>
 
               <Separator />
@@ -253,19 +253,15 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div>
                     <p className="text-muted-foreground">Name</p>
-                    <p>{selectedOrder.name}</p>
+                    <p>{selectedOrder?.name}</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">Phone</p>
-                    <p>{selectedOrder.phone}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Email</p>
-                    <p>{selectedOrder.user.email}</p>
+                    <p>{selectedOrder?.phone}</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">Order Date</p>
-                    <p>{selectedOrder.created_at}</p>
+                    <p>{selectedOrder?.created_at}</p>
                   </div>
                 </div>
               </div>
@@ -278,30 +274,30 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div>
                     <p className="text-muted-foreground">Division</p>
-                    <p>{selectedOrder.division}</p>
+                    <p>{selectedOrder?.division}</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">District</p>
-                    <p>{selectedOrder.district}</p>
+                    <p>{selectedOrder?.district}</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">Thana</p>
-                    <p>{selectedOrder.thana}</p>
+                    <p>{selectedOrder?.thana}</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">Area</p>
-                    <p>{selectedOrder.area}</p>
+                    <p>{selectedOrder?.area}</p>
                   </div>
-                  {selectedOrder.street && (
+                  {selectedOrder?.street && (
                     <div className="col-span-2">
                       <p className="text-muted-foreground">Street</p>
-                      <p>{selectedOrder.street}</p>
+                      <p>{selectedOrder?.street}</p>
                     </div>
                   )}
-                  {selectedOrder.postal_code && (
+                  {selectedOrder?.postal_code && (
                     <div>
                       <p className="text-muted-foreground">Postal Code</p>
-                      <p>{selectedOrder.postal_code}</p>
+                      <p>{selectedOrder?.postal_code}</p>
                     </div>
                   )}
                 </div>

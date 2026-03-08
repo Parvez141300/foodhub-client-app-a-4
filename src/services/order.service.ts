@@ -67,7 +67,7 @@ export const orderServices = {
     },
     getUserOrders: async (userId: string) => {
         const cookieStore = await cookies();
-        const result = await fetch(`${BACKEND_URL}/api/orders?user_id=${userId}`, {
+        const result = await fetch(`${BACKEND_URL}/api/customer/orders?user_id=${userId}`, {
             next: {
                 tags: ['user-orders']
             },
