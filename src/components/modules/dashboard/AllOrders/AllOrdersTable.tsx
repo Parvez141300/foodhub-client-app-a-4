@@ -47,7 +47,6 @@ export function AllOrdersTable({ orders }: { orders: OrdersType[] }) {
           <TableHead>Order Status</TableHead>
           <TableHead>Total Price</TableHead>
           <TableHead>Created At</TableHead>
-          <TableHead>Actions</TableHead>
           {/* <TableHead className="text-right">Actions</TableHead> */}
         </TableRow>
       </TableHeader>

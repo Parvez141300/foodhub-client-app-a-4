@@ -40,7 +40,7 @@ export default async function DashboardLayout({
           />
           <DashboardTopMenuBar userInfo={userInfo} />
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
+        <div className="px-5 py-5">
           {userInfo?.role === Roles.ADMIN
             ? admin
             : userInfo?.role === Roles.CUSTOMER
