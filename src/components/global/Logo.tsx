@@ -1,16 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import LogoImage from "../../../public/logo-image/eat-food-bd-logo.png";
 
 const Logo = () => {
   return (
-    <Link href={"/"}>
+    <Link href={"/"} className="shadow-lg shadow-accent">
       <Image
-        src={LogoImage}
+        src={"/logo-image/feasto-logo.png"}
         alt="logo-image"
-        height={60}
-        width={60}
+        width={100}
+        height={100}
         loading="eager"
         className="rounded-full"
       />
