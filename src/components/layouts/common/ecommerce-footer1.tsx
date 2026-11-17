@@ -74,9 +74,9 @@ const LINK_TYPES = {
 type LinkTypes = keyof typeof LINK_TYPES;
 
 const NEWSLETTER_DATA = {
-  title: "Eat Food BD",
+  title: "Feasto",
   description:
-    "Eat Food BD is a full-stack web application for meal ordering. Customers can browse menus from various food providers, place orders, and track delivery status. Providers can manage their menus and fulfill orders. Admins oversee the platform and manage all users.",
+    "Feasto is a full-stack web application for meal ordering. Customers can browse menus from various food providers, place orders, and track delivery status. Providers can manage their menus and fulfill orders. Admins oversee the platform and manage all users.",
 };
 
 const FOOTER_LINKS: FooterLinksSection[] = [

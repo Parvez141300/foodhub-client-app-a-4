@@ -159,7 +159,7 @@ const Navbar1 = ({
             <nav className="hidden items-center justify-between lg:flex">
               <div className="flex items-center relative -left-2">
                 {/* Logo */}
-                <Logo /> <span className="font-bold">Eat Food BD</span>
+                <Logo />
               </div>
               <div className="flex gap-2 items-center">
                 {/* search */}
@@ -268,13 +268,7 @@ const Navbar1 = ({
                 <SheetHeader>
                   <SheetTitle>
                     <Link href={logo.url} className="flex items-center gap-2">
-                      <Image
-                        src={logo.src}
-                        className="max-h-8 dark:invert"
-                        alt={logo.alt}
-                        width={50}
-                        height={50}
-                      />
+                      <Logo />
                     </Link>
                   </SheetTitle>
                 </SheetHeader>
