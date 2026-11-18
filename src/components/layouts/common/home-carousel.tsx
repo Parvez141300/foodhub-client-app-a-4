@@ -9,6 +9,7 @@ import {
   Pagination,
   Navigation,
   EffectCreative,
+  EffectFade,
 } from "swiper/modules";
 
 // Swiper styles
@@ -16,6 +17,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-creative";
+import "swiper/css/effect-fade";
 
 import { Button } from "@/components/ui/button";
 
@@ -123,9 +125,10 @@ export function HeroSection() {
 function HeroCarousel() {
   return (
     <Swiper
-      modules={[Autoplay, Pagination, Navigation]}
+      modules={[Autoplay, Pagination, Navigation, EffectFade]}
       className="h-full w-full rounded-xl overflow-hidden"
       slidesPerView={1}
+      effect="fade"
       loop
       autoplay={{
         delay: 2000,
@@ -133,6 +136,7 @@ function HeroCarousel() {
         pauseOnMouseEnter: true,
       }}
       pagination={{ clickable: true }}
+      navigation
     >
       {heroSlides.map((slide, index) => (
         <SwiperSlide key={slide.id}>
@@ -172,7 +176,7 @@ function PromoFirstCarousel() {
   return (
     <Swiper
       direction="vertical"
-      modules={[Autoplay, EffectCreative, Pagination]}
+      modules={[Autoplay, Pagination]}
       className="h-full w-full rounded-xl overflow-hidden"
       effect="creative"
       grabCursor
@@ -184,18 +188,18 @@ function PromoFirstCarousel() {
         pauseOnMouseEnter: true,
       }}
       pagination={{ clickable: true }}
-      creativeEffect={{
-        prev: {
-          shadow: true,
-          translate: ["-125%", 0, -800],
-          rotate: [0, 0, -90],
-        },
-        next: {
-          shadow: true,
-          translate: ["125%", 0, -800],
-          rotate: [0, 0, 90],
-        },
-      }}
+      // creativeEffect={{
+      //   prev: {
+      //     shadow: true,
+      //     translate: ["-125%", 0, -800],
+      //     rotate: [0, 0, -90],
+      //   },
+      //   next: {
+      //     shadow: true,
+      //     translate: ["125%", 0, -800],
+      //     rotate: [0, 0, 90],
+      //   },
+      // }}
     >
       {promoSlides.map((promo) => (
         <SwiperSlide key={promo.id}>
