@@ -11,7 +11,6 @@ import Link from "next/link";
 import Logo from "@/components/global/Logo";
 
 type NewsletterData = {
-  title?: string;
   description?: string;
 };
 
@@ -74,7 +73,6 @@ const LINK_TYPES = {
 type LinkTypes = keyof typeof LINK_TYPES;
 
 const NEWSLETTER_DATA = {
-  title: "Feasto",
   description:
     "Feasto is a full-stack web application for meal ordering. Customers can browse menus from various food providers, place orders, and track delivery status. Providers can manage their menus and fulfill orders. Admins oversee the platform and manage all users.",
 };
@@ -180,7 +178,9 @@ const EcommerceFooter1 = ({
   className,
 }: EcommerceFooter1Props) => {
   return (
-    <section className={cn("pt-8 pb-8 xl:pt-12 bg-primary-foreground mt-4", className)}>
+    <section
+      className={cn("pt-8 pb-8 xl:pt-12 bg-primary-foreground mt-4", className)}
+    >
       <div className="max-w-7xl mx-auto px-4 space-y-10">
         <div className="grid grid-cols-1 gap-x-16 gap-y-8 md:grid-cols-2 xl:grid-cols-4">
           <div>
@@ -216,14 +216,12 @@ const EcommerceFooter1 = ({
   );
 };
 
-const NewsletterSection = ({ title, description }: NewsletterFormProps) => {
+const NewsletterSection = ({ description }: NewsletterFormProps) => {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
         <div className="flex items-center">
-          <Link href={"/"} className="text-xl leading-none font-medium">
-            {title}
-          </Link>
+          <Logo />
         </div>
         <p className="leading-normal font-light">{description}</p>
       </div>
