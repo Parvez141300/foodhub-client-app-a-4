@@ -1,4 +1,4 @@
-import { HomeCarousel } from "@/components/layouts/common/home-carousel";
+import { HeroSection } from "@/components/layouts/common/home-carousel";
 import HomeCardsNewProducts from "@/components/layouts/common/HomeCardsNewProducts/HomeCardsNewProducts";
 import HomeCategories from "@/components/layouts/common/HomeCategories/HomeCategories";
 import HomeFeaturedMeals from "@/components/layouts/common/HomeFeaturedMeals/HomeFeaturedMeals";
@@ -7,7 +7,7 @@ import NewsletterPromo from "@/components/layouts/common/NewsLetterPromo";
 export default function HomePage() {
   return (
     <div className="space-y-12">
-      <HomeCarousel />
+      <HeroSection />
       <HomeCategories />
       <HomeCardsNewProducts />
       <HomeFeaturedMeals />
