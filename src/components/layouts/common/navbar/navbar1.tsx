@@ -20,8 +20,8 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import Link from "next/link";
-import { ModeToggle } from "./ModeToggle";
-import { DashboardAvatar } from "./dashboard-avatar";
+import { ModeToggle } from "../ModeToggle";
+import { DashboardAvatar } from "../dashboard-avatar";
 import { useEffect, useState } from "react";
 import { env } from "@/env";
 import LoadingCircleSpinner from "@/components/global/LoadingCircleSpinner";
@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/input-group";
 import { usePathname, useRouter } from "next/navigation";
 import { Roles } from "@/constants/roles";
+import { CategoryCuisineDietaryDropDown } from "./CategoryCuisineDietaryDropDown";
 
 interface MenuItem {
   title: string;
@@ -157,7 +158,7 @@ const Navbar1 = ({
           {/* Desktop Menu */}
           <div className="hidden lg:flex lg:flex-col">
             <nav className="hidden items-center justify-between lg:flex">
-              <div className="flex items-center relative -left-2">
+              <div className="flex flex-col items-center relative -left-2">
                 {/* Logo */}
                 <Logo />
               </div>
@@ -227,8 +228,9 @@ const Navbar1 = ({
                 </div>
               </div>
             </nav>
-            <div className="hidden lg:flex justify-between items-center">
-              <div />
+            <div className="hidden lg:flex justify-between">
+              {/* category, cuisine, dietery drop down */}
+              <CategoryCuisineDietaryDropDown />
               <div className="flex items-center">
                 <NavigationMenu>
                   <NavigationMenuList>

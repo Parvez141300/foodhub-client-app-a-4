@@ -1,5 +1,5 @@
 import { EcommerceFooter1 } from "@/components/layouts/common/ecommerce-footer1";
-import { Navbar1 } from "@/components/layouts/common/navbar1";
+import { Navbar1 } from "@/components/layouts/common/navbar/navbar1";
 import { userServices } from "@/services/user.service";
 import React from "react";
 
