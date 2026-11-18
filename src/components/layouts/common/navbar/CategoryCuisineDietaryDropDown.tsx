@@ -58,58 +58,95 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function CategoryCuisineDietaryDropDown() {
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Category</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="w-96">
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built with Tailwind CSS.
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Cuisine</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="w-96">
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built with Tailwind CSS.
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Dietary</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="w-96">
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built with Tailwind CSS.
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+    <div className="flex items-center">
+      {/* category */}
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Category</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-32">
+                <li>
+                  <NavigationMenuLink>
+                    <Link href="#" className="flex-row items-center gap-2">
+                      Backlog
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink>
+                    <Link href="#" className="flex-row items-center gap-2">
+                      To Do
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink>
+                    <Link href="#" className="flex-row items-center gap-2">
+                      Done
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+      {/* cuisine list */}
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Cuisine</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-32">
+                <li>
+                  <NavigationMenuLink>
+                    <Link href="#" className="flex-row items-center gap-2">
+                      Backlog
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink>
+                    <Link href="#" className="flex-row items-center gap-2">
+                      To Do
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink>
+                    <Link href="#" className="flex-row items-center gap-2">
+                      Done
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+      {/* dietary */}
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Dietary</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-32">
+                <li>
+                  <NavigationMenuLink>
+                    <Link href="#" className="flex-row items-center gap-2">
+                      Backlog
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink>
+                    <Link href="#" className="flex-row items-center gap-2">
+                      To Do
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink>
+                    <Link href="#" className="flex-row items-center gap-2">
+                      Done
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
   );
 }
 
