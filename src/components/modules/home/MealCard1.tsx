@@ -180,7 +180,7 @@ export function MealCard1({ meal }: { meal: MealCardType }) {
         {/* show cart, wish list and eye */}
         <div
           className={cn(
-            "absolute z-50 inset-0 flex items-center justify-center gap-4 transition-all duration-300",
+            "absolute z-20 inset-0 flex items-center justify-center gap-4 transition-all duration-300",
             isHovered ? "opacity-100 translate-y-14" : "opacity-0",
           )}
         >
