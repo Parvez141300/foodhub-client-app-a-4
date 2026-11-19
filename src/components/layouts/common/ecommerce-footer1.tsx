@@ -192,9 +192,7 @@ const EcommerceFooter1 = ({
         <div>
           <div className="flex items-center justify-between gap-4 md:gap-12.5">
             <Separator className="flex-1" />
-            <div className="">
-              <Logo className="shadow-none"/>
-            </div>
+            <h3>Feasto</h3>
             <Separator className="flex-1" />
           </div>
         </div>
@@ -220,7 +218,7 @@ const NewsletterSection = ({ description }: NewsletterFormProps) => {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <div className="flex items-center bg-foreground rounded-full w-fit p-2">
+        <div className="flex items-center bg-white rounded-full w-fit">
           <Logo />
         </div>
         <p className="leading-normal font-light">{description}</p>
