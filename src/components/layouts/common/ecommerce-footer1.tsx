@@ -197,14 +197,14 @@ const EcommerceFooter1 = ({
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <p className="text-muted-foreground max-md:text-xs">
+          <p className="max-md:text-xs">
             Copyright © 2026
           </p>
           <Separator
             orientation="vertical"
             className="h-4.5! bg-foreground/60 max-sm:hidden"
           />
-          <p className="max-md:text-xs">Developed By Parvez Hossain Alif</p>
+          <p className="max-md:text-xs font-bold">Developed By Parvez Hossain Alif</p>
           <Button size="icon" variant="outline">
             <ChevronUp />
           </Button>
@@ -232,7 +232,7 @@ const FooterLinksSection = ({ sections }: FooterLinksSectionProps) => {
     <Fragment>
       {sections.map(({ title, items }) => (
         <div key={crypto.randomUUID()}>
-          <h2 className="mb-6 text-sm leading-tight font-medium text-muted-foreground uppercase">
+          <h2 className="mb-6 text-sm leading-tight font-medium text-bold uppercase">
             {title}
           </h2>
           <ul className="space-y-3">
@@ -240,7 +240,7 @@ const FooterLinksSection = ({ sections }: FooterLinksSectionProps) => {
               <li key={crypto.randomUUID()}>
                 <Link
                   href={link}
-                  className="underline-offset-4 hover:underline"
+                  className="underline-offset-4 hover:underline hover:text-accent duration-500"
                 >
                   {text}
                 </Link>
@@ -258,7 +258,7 @@ const ContactSection = ({ links }: ContactSectionProps) => {
 
   return (
     <div>
-      <h2 className="mb-6 text-sm leading-tight font-medium text-muted-foreground uppercase">
+      <h2 className="mb-6 text-sm leading-tight font-medium text-bold uppercase">
         Contact
       </h2>
       <div className="space-y-6">
@@ -270,7 +270,7 @@ const ContactSection = ({ links }: ContactSectionProps) => {
                 {item.type === LINK_TYPES.NO_LINK ? (
                   <p>{item.text}</p>
                 ) : (
-                  <a
+                  <Link
                     href={
                       LINK_TYPES.EMAIL_LINK
                         ? `mailto:${item.link}`
@@ -279,7 +279,7 @@ const ContactSection = ({ links }: ContactSectionProps) => {
                     className="underline-offset-4 hover:underline"
                   >
                     {item.text}
-                  </a>
+                  </Link>
                 )}
               </div>
             </li>
