@@ -2,9 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Logo = () => {
+const Logo = ({ className }: { className?: string }) => {
   return (
-    <Link href={"/"} className="shadow-lg shadow-accent">
+    <Link href={"/"} className={`${className}`}>
       <Image
         src={"/logo-image/feasto-logo.png"}
         alt="logo-image"

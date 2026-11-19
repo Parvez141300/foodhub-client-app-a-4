@@ -179,7 +179,7 @@ const EcommerceFooter1 = ({
 }: EcommerceFooter1Props) => {
   return (
     <section
-      className={cn("pt-8 pb-8 xl:pt-12 bg-primary-foreground mt-4", className)}
+      className={cn("pt-8 pb-8 xl:pt-12 bg-primary mt-4", className)}
     >
       <div className="max-w-7xl mx-auto px-4 space-y-10">
         <div className="grid grid-cols-1 gap-x-16 gap-y-8 md:grid-cols-2 xl:grid-cols-4">
@@ -193,7 +193,7 @@ const EcommerceFooter1 = ({
           <div className="flex items-center justify-between gap-4 md:gap-12.5">
             <Separator className="flex-1" />
             <div className="">
-              <Logo />
+              <Logo className="shadow-none"/>
             </div>
             <Separator className="flex-1" />
           </div>
@@ -220,7 +220,7 @@ const NewsletterSection = ({ description }: NewsletterFormProps) => {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <div className="flex items-center">
+        <div className="flex items-center bg-foreground rounded-full w-fit p-2">
           <Logo />
         </div>
         <p className="leading-normal font-light">{description}</p>

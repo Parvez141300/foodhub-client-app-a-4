@@ -161,7 +161,7 @@ const Navbar1 = ({
             <nav className="hidden items-center justify-between lg:flex w-full max-w-7xl mx-auto px-4">
               <div className="flex flex-col items-center relative -left-2">
                 {/* Logo */}
-                <Logo />
+                <Logo className="shadow-accent shadow-lg" />
               </div>
               <div className="flex gap-2 items-center">
                 {/* search */}
@@ -230,7 +230,7 @@ const Navbar1 = ({
               </div>
             </nav>
             {/* nav  second*/}
-            <div className="bg-[#FC7C05] py-2 px-4">
+            <div className="bg-primary py-2 px-4">
               <nav className="hidden lg:flex justify-between w-full max-w-7xl mx-auto">
                 {/* category, cuisine, dietery drop down */}
                 <CategoryCuisineDietaryDropDown />

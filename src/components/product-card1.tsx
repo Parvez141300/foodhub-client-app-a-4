@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
 
 interface ProductPrice {
   regular: number;
@@ -60,7 +61,7 @@ const ProductCard1 = ({ className }: ProductCard1Props) => {
   const { regular, sale, currency } = PRODUCT_CARD.price;
 
   return (
-    <a
+    <Link
       href={PRODUCT_CARD.link}
       className={cn(
         "block max-w-md transition-opacity hover:opacity-80",
@@ -106,7 +107,7 @@ const ProductCard1 = ({ className }: ProductCard1Props) => {
           </div>
         </CardContent>
       </Card>
-    </a>
+    </Link>
   );
 };
 
