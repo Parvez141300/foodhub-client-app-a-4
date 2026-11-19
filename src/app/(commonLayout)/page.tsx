@@ -3,6 +3,11 @@ import HomeCardsNewProducts from "@/components/layouts/common/HomeCardsNewProduc
 import HomeCategories from "@/components/layouts/common/HomeCategories/HomeCategories";
 import HomeFeaturedMeals from "@/components/layouts/common/HomeFeaturedMeals/HomeFeaturedMeals";
 import NewsletterPromo from "@/components/layouts/common/NewsLetterPromo";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home",
+};
 
 export default function HomePage() {
   return (
