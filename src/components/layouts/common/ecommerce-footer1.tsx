@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import Logo from "@/components/global/Logo";
+import { usePathname } from "next/navigation";
 
 type NewsletterData = {
   description?: string;
@@ -178,9 +179,7 @@ const EcommerceFooter1 = ({
   className,
 }: EcommerceFooter1Props) => {
   return (
-    <section
-      className={cn("pt-8 pb-8 xl:pt-12 bg-primary mt-4", className)}
-    >
+    <section className={cn("pt-8 pb-8 xl:pt-12 bg-primary mt-4", className)}>
       <div className="max-w-7xl mx-auto px-4 space-y-10">
         <div className="grid grid-cols-1 gap-x-16 gap-y-8 md:grid-cols-2 xl:grid-cols-4">
           <div>
@@ -192,20 +191,20 @@ const EcommerceFooter1 = ({
         <div>
           <div className="flex items-center justify-between gap-4 md:gap-12.5">
             <Separator className="flex-1" />
-            <h3>Feasto</h3>
+            <h3 className="text-3xl font-bold">Feasto</h3>
             <Separator className="flex-1" />
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <p className="max-md:text-xs">
-            Copyright © 2026
-          </p>
+          <p className="max-md:text-xs">Copyright © 2026</p>
           <Separator
             orientation="vertical"
             className="h-4.5! bg-foreground/60 max-sm:hidden"
           />
-          <p className="max-md:text-xs font-bold">Developed By Parvez Hossain Alif</p>
-          <Button size="icon" variant="outline">
+          <p className="max-md:text-xs">
+            Developed By: <span className="font-bold">Parvez Hossain Alif</span>
+          </p>
+          <Button size="icon" variant="secondary">
             <ChevronUp />
           </Button>
         </div>
@@ -228,6 +227,7 @@ const NewsletterSection = ({ description }: NewsletterFormProps) => {
 };
 
 const FooterLinksSection = ({ sections }: FooterLinksSectionProps) => {
+  const pathName = usePathname();
   return (
     <Fragment>
       {sections.map(({ title, items }) => (
@@ -240,7 +240,12 @@ const FooterLinksSection = ({ sections }: FooterLinksSectionProps) => {
               <li key={crypto.randomUUID()}>
                 <Link
                   href={link}
-                  className="underline-offset-4 hover:underline hover:text-accent duration-500"
+                  className={cn(
+                    `underline-offset-4 hover:underline hover:text-accent duration-500`,
+                    link === pathName
+                      ? "underline text-background font-bold"
+                      : "",
+                  )}
                 >
                   {text}
                 </Link>
