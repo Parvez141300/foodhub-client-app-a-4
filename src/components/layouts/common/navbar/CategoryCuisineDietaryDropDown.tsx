@@ -63,7 +63,7 @@ export function CategoryCuisineDietaryDropDown() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Category</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="bg-transparent">Category</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-32">
                 <li>
@@ -92,7 +92,7 @@ export function CategoryCuisineDietaryDropDown() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Cuisine</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="bg-transparent">Cuisine</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-32">
                 <li>
@@ -121,7 +121,7 @@ export function CategoryCuisineDietaryDropDown() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Dietary</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="bg-transparent">Dietary</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-32">
                 <li>

@@ -150,14 +150,15 @@ const Navbar1 = ({
     <div className="relative">
       <div
         className={cn(
-          "border-b-2 fixed top-0 right-0 left-0 z-50 w-full bg-primary-foreground pb-2",
+          "border-b-2 fixed top-0 right-0 left-0 z-50 w-full bg-primary-foreground",
           className,
         )}
       >
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="">
           {/* Desktop Menu */}
           <div className="hidden lg:flex lg:flex-col">
-            <nav className="hidden items-center justify-between lg:flex">
+            {/* nav first */}
+            <nav className="hidden items-center justify-between lg:flex w-full max-w-7xl mx-auto px-4">
               <div className="flex flex-col items-center relative -left-2">
                 {/* Logo */}
                 <Logo />
@@ -228,16 +229,19 @@ const Navbar1 = ({
                 </div>
               </div>
             </nav>
-            <div className="hidden lg:flex justify-between">
-              {/* category, cuisine, dietery drop down */}
-              <CategoryCuisineDietaryDropDown />
-              <div className="flex items-center">
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    {menu.map((item) => renderMenuItem(item))}
-                  </NavigationMenuList>
-                </NavigationMenu>
-              </div>
+            {/* nav  second*/}
+            <div className="bg-[#FC7C05] py-2 px-4">
+              <nav className="hidden lg:flex justify-between w-full max-w-7xl mx-auto">
+                {/* category, cuisine, dietery drop down */}
+                <CategoryCuisineDietaryDropDown />
+                <div className="flex items-center">
+                  <NavigationMenu>
+                    <NavigationMenuList>
+                      {menu.map((item) => renderMenuItem(item))}
+                    </NavigationMenuList>
+                  </NavigationMenu>
+                </div>
+              </nav>
             </div>
           </div>
 
@@ -345,7 +349,7 @@ const renderMenuItem = (item: MenuItem) => {
     <NavigationMenuItem key={item.title}>
       <Link
         href={item.url}
-        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
+        className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-background hover:underline duration-500"
       >
         {item.title}
       </Link>
