@@ -10,7 +10,7 @@ const CommonLayout = async ({ children }: { children: React.ReactNode }) => {
       <section className="mb-20 md:mb-32">
         <Navbar1 session={session} />
       </section>
-      <div className="max-w-7xl mx-auto px-4 min-h-screen space-y-8">
+      <div className="mx-auto px-4 min-h-screen space-y-8">
         {children}
       </div>
       <EcommerceFooter1 />
