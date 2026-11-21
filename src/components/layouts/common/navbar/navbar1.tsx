@@ -380,8 +380,8 @@ const renderMenuItem = (item: MenuItem) => {
       <Link
         href={item.url}
         className={cn(
-          `group inline-flex h-10 w-max items-center justify-center rounded-md  text-sm font-medium transition-colors hover:text-background hover:underline duration-500`,
-          item.url === pathName ? "underline text-background font-bold" : "",
+          `group inline-flex h-10 w-max items-center justify-center rounded-md  text-sm font-medium transition-colors hover:text-background duration-500`,
+          item.url === pathName ? "text-background font-bold" : "",
         )}
       >
         {item.title}
