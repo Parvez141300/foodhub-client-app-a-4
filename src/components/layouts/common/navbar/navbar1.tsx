@@ -92,6 +92,9 @@ const Navbar1 = ({
   const [session, setSession] = useState(initialSession);
   const [loading, setLoading] = useState(!!initialSession);
 
+  // for navbar show and hide state
+  const [isVisible, setIsVisible] = useState(true);
+
   const pathName = usePathname();
   const router = useRouter();
 
@@ -124,6 +127,32 @@ const Navbar1 = ({
   }, [initialSession]);
   console.log(session?.user);
 
+  // to hide and show navbar useEffect
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScrollHideShow = () => {
+      const currentScrollY = window.scrollY;
+
+      const scrollDown = currentScrollY > lastScrollY;
+      const scrollUp = currentScrollY < lastScrollY;
+
+      if (scrollDown && currentScrollY > 500) {
+        setIsVisible(false);
+      } else if (scrollUp) {
+        setIsVisible(true);
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScrollHideShow, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollHideShow);
+    };
+  }, []);
+
   const handleLogout = async () => {
     setSession(null);
   };
@@ -150,8 +179,9 @@ const Navbar1 = ({
     <div className="relative">
       <div
         className={cn(
-          "border-b-2 fixed top-0 right-0 left-0 z-50 w-full bg-primary-foreground",
+          "border-b-2 fixed top-0 right-0 left-0 z-50 w-full bg-primary-foreground duration-500",
           className,
+          isVisible ? "translate-y-0" : "-translate-y-full"
         )}
       >
         <div className="">
