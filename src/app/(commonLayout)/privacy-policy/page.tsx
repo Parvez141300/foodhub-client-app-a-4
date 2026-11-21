@@ -464,9 +464,9 @@ export default function PrivacyPolicyPage() {
     <main className="relative min-h-screen bg-background">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-linear-to-b from-primary/5 via-background to-transparent" />
 
-      <div className="relative mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+      <div className="relative">
         {/* HERO */}
-        <header className="py-12 sm:py-16">
+        <header className="py-12">
           <div className="flex flex-col gap-5">
             <Badge
               variant="secondary"
@@ -539,7 +539,7 @@ export default function PrivacyPolicyPage() {
               <ul className="space-y-1 border-l border-border">
                 {sections.map((s) => (
                   <li key={s.id}>
-                    <a
+                    <Link
                       href={`#${s.id}`}
                       className={cn(
                         "-ml-px block border-l-2 py-1.5 pl-4 text-sm transition-colors",
@@ -549,7 +549,7 @@ export default function PrivacyPolicyPage() {
                       )}
                     >
                       {s.title}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -611,7 +611,7 @@ export default function PrivacyPolicyPage() {
                   </div>
                 </div>
                 <Button asChild className="shrink-0">
-                  <a href="mailto:privacy@feasto.app">Email privacy team</a>
+                  <Link href="mailto:privacy@feasto.app">Email privacy team</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -620,7 +620,7 @@ export default function PrivacyPolicyPage() {
               This document is a template for informational purposes and does
               not constitute legal advice. See also our{" "}
               <Link
-                href="/terms"
+                href="/terms-and-conditions"
                 className="text-primary underline underline-offset-4"
               >
                 Terms and Conditions

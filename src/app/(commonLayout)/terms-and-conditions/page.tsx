@@ -290,6 +290,11 @@ function useActiveSection(ids: string[]) {
       .filter((el): el is HTMLElement => Boolean(el));
     if (!els.length) return;
 
+    console.log(
+      "bounding client rect",
+      document.getElementById(ids[0])?.getBoundingClientRect()
+    );
+
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
@@ -313,9 +318,9 @@ export default function TermsAndConditionsPage() {
     <main className="relative min-h-screen bg-background">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-linear-to-b from-primary/5 via-background to-transparent" />
 
-      <div className="relative mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+      <div className="relative">
         {/* HERO */}
-        <header className="py-12 sm:py-16">
+        <header className="py-12">
           <div className="flex flex-col gap-5">
             <Badge
               variant="secondary"
@@ -449,7 +454,7 @@ export default function TermsAndConditionsPage() {
                   </div>
                 </div>
                 <Button asChild className="shrink-0">
-                  <a href="mailto:legal@feasto.app">Contact legal</a>
+                  <Link href="mailto:legal@feasto.app">Contact legal</Link>
                 </Button>
               </CardContent>
             </Card>
