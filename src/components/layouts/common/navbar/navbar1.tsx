@@ -191,7 +191,7 @@ const Navbar1 = ({
             <nav className="hidden items-center justify-between lg:flex w-full mx-auto px-4">
               <div className="flex flex-col items-center relative -left-2">
                 {/* Logo */}
-                <Logo className="shadow-accent shadow-lg" />
+                <Logo />
               </div>
               <div className="flex gap-2 items-center">
                 {/* search */}
