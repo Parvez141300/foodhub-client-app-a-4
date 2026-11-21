@@ -499,7 +499,7 @@ export default function PrivacyPolicyPage() {
                 asChild
                 className="h-auto p-0 text-primary"
               >
-                <Link href="/terms">
+                <Link href="/terms-and-conditions">
                   Read Terms and Conditions
                   <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>

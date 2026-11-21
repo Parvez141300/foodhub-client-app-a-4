@@ -53,7 +53,7 @@ const sections: Section[] = [
         an order, listing a menu, or otherwise using the platform, you agree to
         these Terms and to our{" "}
         <Link
-          href="/privacy"
+          href="/privacy-policy"
           className="font-medium text-primary underline underline-offset-4"
         >
           Privacy Policy
@@ -348,7 +348,7 @@ export default function TermsAndConditionsPage() {
                 asChild
                 className="h-auto p-0 text-primary"
               >
-                <Link href="/privacy">
+                <Link href="/privacy-policy">
                   Read Privacy Policy
                   <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
@@ -368,7 +368,7 @@ export default function TermsAndConditionsPage() {
               <ul className="space-y-1 border-l border-border">
                 {sections.map((s) => (
                   <li key={s.id}>
-                    <a
+                    <Link
                       href={`#${s.id}`}
                       className={cn(
                         "-ml-px block border-l-2 py-1.5 pl-4 text-sm transition-colors",
@@ -378,7 +378,7 @@ export default function TermsAndConditionsPage() {
                       )}
                     >
                       {s.title}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
