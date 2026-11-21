@@ -95,7 +95,7 @@ const promoSlides = [
 
 export function HeroSection() {
   return (
-    <section className="w-full max-w-7xl mx-auto">
+    <section className="w-full mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         {/* Hero — 3/4 width */}
         <div className="lg:col-span-3">

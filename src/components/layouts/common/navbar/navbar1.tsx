@@ -181,14 +181,14 @@ const Navbar1 = ({
         className={cn(
           "border-b-2 fixed top-0 right-0 left-0 z-50 w-full bg-primary-foreground duration-500",
           className,
-          isVisible ? "translate-y-0" : "-translate-y-full"
+          isVisible ? "translate-y-0" : "-translate-y-full",
         )}
       >
         <div className="">
           {/* Desktop Menu */}
           <div className="hidden lg:flex lg:flex-col">
             {/* nav first */}
-            <nav className="hidden items-center justify-between lg:flex w-full max-w-7xl mx-auto px-4">
+            <nav className="hidden items-center justify-between lg:flex w-full mx-auto px-4">
               <div className="flex flex-col items-center relative -left-2">
                 {/* Logo */}
                 <Logo className="shadow-accent shadow-lg" />
@@ -261,16 +261,15 @@ const Navbar1 = ({
             </nav>
             {/* nav  second*/}
             <div className="bg-primary py-2 px-4">
-              <nav className="hidden lg:flex justify-between w-full max-w-7xl mx-auto">
+              <nav className="hidden lg:flex justify-between w-full mx-auto">
                 {/* category, cuisine, dietery drop down */}
                 <CategoryCuisineDietaryDropDown />
-                <div className="flex items-center">
-                  <NavigationMenu>
-                    <NavigationMenuList>
-                      {menu.map((item) => renderMenuItem(item))}
-                    </NavigationMenuList>
-                  </NavigationMenu>
-                </div>
+                {/* menus items */}
+                <NavigationMenu className="">
+                  <NavigationMenuList className="flex items-center gap-4">
+                    {menu.map((item) => renderMenuItem(item))}
+                  </NavigationMenuList>
+                </NavigationMenu>
               </nav>
             </div>
           </div>
@@ -381,7 +380,7 @@ const renderMenuItem = (item: MenuItem) => {
       <Link
         href={item.url}
         className={cn(
-          `group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-background hover:underline duration-500`,
+          `group inline-flex h-10 w-max items-center justify-center rounded-md  text-sm font-medium transition-colors hover:text-background hover:underline duration-500`,
           item.url === pathName ? "underline text-background font-bold" : "",
         )}
       >
