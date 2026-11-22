@@ -55,7 +55,7 @@ const ProviderDetailsPage = async ({
   };
 
   return (
-    <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div className="py-8">
       {/* Header Section */}
       <div className="mb-8 flex flex-col justify-center items-center">
         <h1 className="text-3xl font-bold text-foreground">Provider Profile</h1>
