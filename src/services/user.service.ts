@@ -5,72 +5,82 @@ const AUTH_URL = env.AUTH_URL;
 
 const BACKEND_URL = env.BACKEND_URL;
 
-export const userServices = {
-    getSession: async () => {
-        try {
-            const cookieStore = await cookies();
-            console.log(cookieStore.toString());
-            const res = await fetch(`${AUTH_URL}/get-session`, {
-                headers: {
-                    Cookie: cookieStore.toString(),
-                },
-                cache: "no-store"
-            });
-            const session = await res.json();
-            if (session === null) {
-                return { message: "session is missing..." }
-            }
-            return session;
-        } catch (error) {
-            return { message: error && "something went wrong" }
-        }
-    },
-    getAllUser: async (search?: string) => {
-        try {
-            const cookieStore = await cookies();
-            const result = await fetch(`${BACKEND_URL}/api/admin/users?search=${search || ''}`, {
-                next: {
-                    tags: ["users"]
-                },
-                headers: {
-                    "Content-Type": "application/json",
-                    Cookie: cookieStore.toString(),
-                },
-            });
-
-            const users = await result.json();
-            return users;
-        } catch (error: any) {
-            console.log(error.message);
-            return { data: null };
-        }
-    },
-    updateUserStatus: async (userId: string, userStatus: string) => {
+const getSession = async () => {
+    try {
         const cookieStore = await cookies();
-        const result = await fetch(`${BACKEND_URL}/api/admin/users/${userId}`, {
-            method: "PATCH",
+        console.log(cookieStore.toString());
+        const res = await fetch(`${AUTH_URL}/get-session`, {
+            headers: {
+                Cookie: cookieStore.toString(),
+            },
+            cache: "no-store"
+        });
+        const session = await res.json();
+        if (session === null) {
+            return { message: "session is missing..." }
+        }
+        return session;
+    } catch (error) {
+        return { message: error && "something went wrong" }
+    }
+}
+
+const getAllUser = async (search?: string) => {
+    try {
+        const cookieStore = await cookies();
+        const result = await fetch(`${BACKEND_URL}/api/admin/users?search=${search || ''}`, {
+            next: {
+                tags: ["users"]
+            },
             headers: {
                 "Content-Type": "application/json",
                 Cookie: cookieStore.toString(),
             },
-            body: JSON.stringify({ is_active: userStatus }),
         });
 
-        return result;
-    },
-    getAllProvider: async () => {
-        const result = await fetch(`${BACKEND_URL}/api/providers`, {
-            next: {
-                tags: ["providers"]
-            }
-        });
-        const res = await result.json();
-
-        return res;
-    },
-    getProviderWithMeal: async (providerId: string) => {
-        const result = await fetch(`${BACKEND_URL}/api/providers/${providerId}`);
-        const res = await result.json();
-        return res;
+        const users = await result.json();
+        return users;
+    } catch (error: any) {
+        console.log(error.message);
+        return { data: null };
     }
+}
+
+const updateUserStatus = async (userId: string, userStatus: string) => {
+    const cookieStore = await cookies();
+    const result = await fetch(`${BACKEND_URL}/api/admin/users/${userId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify({ is_active: userStatus }),
+    });
+
+    return result;
+}
+
+const getAllProvider = async () => {
+    const result = await fetch(`${BACKEND_URL}/api/providers`, {
+        next: {
+            tags: ["providers"]
+        }
+    });
+    const res = await result.json();
+
+    return res;
+}
+
+const getProviderWithMeal = async (providerId: string) => {
+    const result = await fetch(`${BACKEND_URL}/api/providers/${providerId}`);
+    const res = await result.json();
+    return res;
+}
+
+export const userServices = {
+    getSession,
+    getAllUser,
+    updateUserStatus,
+    getAllProvider,
+    getProviderWithMeal,
 } 
