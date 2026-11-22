@@ -303,7 +303,7 @@ export default function MealDetailsPage({
 
   return (
     <div className="min-h-screen bg-linear-to-b from-background to-secondary/5">
-      <div className="container max-w-7xl mx-auto py-8 px-4">
+      <div className="py-8">
         {/* Breadcrumb */}
         <div className="text-sm text-muted-foreground mb-6">
           <Link href="/" className="hover:text-primary">
