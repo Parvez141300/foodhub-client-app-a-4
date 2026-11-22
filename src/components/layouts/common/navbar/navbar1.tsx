@@ -179,7 +179,7 @@ const Navbar1 = ({
     <div className="relative">
       <div
         className={cn(
-          "border-b-2 fixed top-0 right-0 left-0 z-50 w-full bg-primary-foreground duration-500",
+          "fixed top-0 right-0 left-0 z-50 w-full bg-primary-foreground duration-500",
           className,
           isVisible ? "translate-y-0" : "-translate-y-full",
         )}
