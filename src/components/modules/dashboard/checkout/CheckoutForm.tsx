@@ -16,10 +16,12 @@ import {
 } from "@/components/ui/card";
 import {
   Field,
+  FieldContent,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
+  FieldTitle,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -41,10 +43,10 @@ import { getCurrentUser } from "@/actions/user.action";
 import { getUserCart } from "@/actions/cart.action";
 import { BaggageClaim } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import PaymentSystem from "./PaymentSystem";
 import Link from "next/link";
 import LoadingCircleSpinner from "@/components/global/LoadingCircleSpinner";
 import { createUserOrder } from "@/actions/order.action";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const formSchema = z.object({
   name: z.string().min(5, "name must be at least 5 characters."),
@@ -462,14 +464,38 @@ export function CheckoutForm() {
                 <span>{orderSubtotal + 0}</span>
               </div>
               <Separator />
-              <PaymentSystem />
+              {/* payment system */}
+              <RadioGroup defaultValue="plus" className="max-w-sm">
+                <FieldLabel htmlFor="plus-plan">
+                  <Field orientation="horizontal">
+                    <FieldContent>
+                      <FieldTitle>SSL Commerz</FieldTitle>
+                      <FieldDescription>
+                        Secure payment with this payment gateway.
+                      </FieldDescription>
+                    </FieldContent>
+                    <RadioGroupItem value="plus" id="plus-plan" />
+                  </Field>
+                </FieldLabel>
+                <FieldLabel htmlFor="pro-plan">
+                  <Field orientation="horizontal">
+                    <FieldContent>
+                      <FieldTitle>Cash On Delivery</FieldTitle>
+                      <FieldDescription>
+                        For growing businesses.
+                      </FieldDescription>
+                    </FieldContent>
+                    <RadioGroupItem value="pro" id="pro-plan" />
+                  </Field>
+                </FieldLabel>
+              </RadioGroup>
               <CardDescription>
                 Your personal data will be used to process your order, support
                 your experience throughout this website, and for other purposes
                 described in our{" "}
                 <Link
                   href={"/terms-and-conditions"}
-                  className="underline text-red-500"
+                  className="hover:underline text-primary"
                 >
                   Terms and Conditions
                 </Link>
