@@ -21,7 +21,7 @@ type CategoryType = {
 
 const HomeCategoryCard = ({ category }: { category: CategoryType }) => {
   return (
-    <Card className="p-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+    <Card className="p-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xs hover:shadow-foreground cursor-pointer">
       <span className="text-3xl font-bold uppercase">
         {category.name.charAt(0)}
       </span>
