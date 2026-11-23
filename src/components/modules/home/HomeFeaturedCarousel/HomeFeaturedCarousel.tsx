@@ -21,7 +21,7 @@ type FeaturedMealsType = {
   is_available: boolean;
 };
 
-const DESKTOP_SLIDES = 4;
+const DESKTOP_SLIDES = 5;
 // Swiper needs 2x slidesPerView for a seamless loop
 const MIN_LOOP_SLIDES = DESKTOP_SLIDES * 2; // 8
 
