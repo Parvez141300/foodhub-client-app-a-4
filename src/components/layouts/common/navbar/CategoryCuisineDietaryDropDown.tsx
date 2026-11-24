@@ -67,17 +67,17 @@ export function CategoryCuisineDietaryDropDown() {
             <NavigationMenuContent>
               <ul className="grid w-32">
                 <li>
-                  <NavigationMenuLink>
+                  <NavigationMenuLink asChild>
                     <Link href="#" className="flex-row items-center gap-2">
                       Backlog
                     </Link>
                   </NavigationMenuLink>
-                  <NavigationMenuLink>
+                  <NavigationMenuLink asChild>
                     <Link href="#" className="flex-row items-center gap-2">
                       To Do
                     </Link>
                   </NavigationMenuLink>
-                  <NavigationMenuLink>
+                  <NavigationMenuLink asChild>
                     <Link href="#" className="flex-row items-center gap-2">
                       Done
                     </Link>
@@ -96,17 +96,17 @@ export function CategoryCuisineDietaryDropDown() {
             <NavigationMenuContent>
               <ul className="grid w-32">
                 <li>
-                  <NavigationMenuLink>
+                  <NavigationMenuLink asChild>
                     <Link href="#" className="flex-row items-center gap-2">
                       Backlog
                     </Link>
                   </NavigationMenuLink>
-                  <NavigationMenuLink>
+                  <NavigationMenuLink asChild>
                     <Link href="#" className="flex-row items-center gap-2">
                       To Do
                     </Link>
                   </NavigationMenuLink>
-                  <NavigationMenuLink>
+                  <NavigationMenuLink asChild>
                     <Link href="#" className="flex-row items-center gap-2">
                       Done
                     </Link>
@@ -125,17 +125,17 @@ export function CategoryCuisineDietaryDropDown() {
             <NavigationMenuContent>
               <ul className="grid w-32">
                 <li>
-                  <NavigationMenuLink>
+                  <NavigationMenuLink asChild>
                     <Link href="#" className="flex-row items-center gap-2">
                       Backlog
                     </Link>
                   </NavigationMenuLink>
-                  <NavigationMenuLink>
+                  <NavigationMenuLink asChild>
                     <Link href="#" className="flex-row items-center gap-2">
                       To Do
                     </Link>
                   </NavigationMenuLink>
-                  <NavigationMenuLink>
+                  <NavigationMenuLink asChild>
                     <Link href="#" className="flex-row items-center gap-2">
                       Done
                     </Link>

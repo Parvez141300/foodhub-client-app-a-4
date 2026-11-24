@@ -376,17 +376,16 @@ const Navbar1 = ({
 const renderMenuItem = (item: MenuItem) => {
   const pathName = usePathname();
   return (
-    <NavigationMenuItem key={item.title}>
-      <Link
-        href={item.url}
-        className={cn(
-          `group inline-flex h-10 w-max items-center justify-center rounded-md  text-sm font-medium transition-colors hover:text-background duration-500`,
-          item.url === pathName ? "text-background font-bold" : "",
-        )}
-      >
-        {item.title}
-      </Link>
-    </NavigationMenuItem>
+    <Link
+      key={item.title}
+      href={item.url}
+      className={cn(
+        `group inline-flex h-10 w-max items-center justify-center rounded-md  text-sm font-medium transition-colors hover:text-background duration-500`,
+        item.url === pathName ? "text-background font-bold" : "",
+      )}
+    >
+      {item.title}
+    </Link>
   );
 };
 

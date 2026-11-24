@@ -22,8 +22,8 @@ type FeaturedMealsType = {
 };
 
 const DESKTOP_SLIDES = 5;
-// Swiper needs 2x slidesPerView for a seamless loop
-const MIN_LOOP_SLIDES = DESKTOP_SLIDES * 2; // 8
+// Swiper needs at least 2x slidesPerView for a seamless loop
+const MIN_LOOP_SLIDES = DESKTOP_SLIDES * 2; // 10
 
 export function HomeFeaturedCarousel({
   featuredMeals,
@@ -36,20 +36,30 @@ export function HomeFeaturedCarousel({
   const handleMouseEnter = () => swiperRef.current?.autoplay.stop();
   const handleMouseLeave = () => swiperRef.current?.autoplay.start();
 
-  // If there aren't enough meals for a seamless loop, duplicate them.
-  // This is what stops the "5th comes in, 1st pops off" glitch.
-  const canLoop = featuredMeals.length > DESKTOP_SLIDES;
-  const slidesToRender =
-    canLoop && featuredMeals.length < MIN_LOOP_SLIDES
-      ? Array.from(
-          { length: Math.ceil(MIN_LOOP_SLIDES / featuredMeals.length) },
-          (_, dup) =>
-            featuredMeals.map((meal) => ({
-              ...meal,
-              _key: `${meal.id}__dup_${dup}`,
-            })),
-        ).flat()
-      : featuredMeals.map((meal) => ({ ...meal, _key: meal.id }));
+  // Loop only makes sense when there's more than 1 item
+  const canLoop = featuredMeals.length > 1;
+
+  // Build the slide list.
+  // If looping and we have fewer than MIN_LOOP_SLIDES, duplicate the
+  // meals until we reach the minimum. This prevents the loop from
+  // glitching / not working when there are too few items.
+  const slidesToRender = (() => {
+    if (!canLoop) {
+      return featuredMeals.map((meal) => ({ ...meal, _key: meal.id }));
+    }
+
+    if (featuredMeals.length >= MIN_LOOP_SLIDES) {
+      return featuredMeals.map((meal) => ({ ...meal, _key: meal.id }));
+    }
+
+    const copies = Math.ceil(MIN_LOOP_SLIDES / featuredMeals.length);
+    return Array.from({ length: copies }, (_, dup) =>
+      featuredMeals.map((meal) => ({
+        ...meal,
+        _key: `${meal.id}__dup_${dup}`,
+      })),
+    ).flat();
+  })();
 
   return (
     <div
@@ -60,7 +70,7 @@ export function HomeFeaturedCarousel({
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
-        spaceBetween={24}
+        spaceBetween={20}
         loop={canLoop}
         speed={600}
         autoplay={{ delay: 2000, disableOnInteraction: false }}
@@ -69,7 +79,8 @@ export function HomeFeaturedCarousel({
         breakpoints={{
           0: { slidesPerView: 1 },
           640: { slidesPerView: 2 },
-          1024: { slidesPerView: DESKTOP_SLIDES },
+          1024: { slidesPerView: 3 },
+          1280: { slidesPerView: DESKTOP_SLIDES },
         }}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         className="pb-12"
