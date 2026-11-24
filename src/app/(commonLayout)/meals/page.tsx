@@ -4,6 +4,11 @@ import { cuisineService } from "@/services/cuisine.service";
 import { dietaryService } from "@/services/dietary.service";
 import { mealService } from "@/services/meal.service";
 import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Meals",
+};
 
 const MealsPage = async () => {
   const meals = await mealService.getAllOrQueryMeal();

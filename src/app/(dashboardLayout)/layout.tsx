@@ -16,6 +16,11 @@ import {
 } from "@/components/ui/sidebar";
 import { Roles } from "@/constants/roles";
 import { userServices } from "@/services/user.service";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
 
 export default async function DashboardLayout({
   admin,

@@ -1,6 +1,11 @@
 import ProviderCard from "@/components/modules/home/ProviderCard/ProviderCard";
 import { userServices } from "@/services/user.service";
 import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Providers",
+};
 
 const ProvidersWithTheirMealsPage = async () => {
   const providers = await userServices.getAllProvider();
