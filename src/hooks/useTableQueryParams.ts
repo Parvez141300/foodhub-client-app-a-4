@@ -57,6 +57,16 @@ export const useTableQueryParams = () => {
         keys.forEach((k) => updates[k] = undefined);
         updateParams(updates);
     }
+
+    return {
+        page,
+        limit,
+        searchValue,
+        handleSearchChange,
+        handlePageChange,
+        handleLimitChange,
+        clearFilterKeys,
+    }
 }
 
 
