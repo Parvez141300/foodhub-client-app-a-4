@@ -6,21 +6,19 @@ import React, { Suspense } from "react";
 
 const CartPage = async () => {
   const userData = await userServices.getSession();
-  const cartData = await cartService.getUserCart(userData.user.id);
+  const cartData = await cartService.getUserCart();
   console.log("cart data", cartData);
   return (
     <div className="space-y-5">
       <h3 className="text-xl font-semibold">My Cart</h3>
       <Suspense fallback={<LoadingSpinner />}>
         <div>
-          {!cartData ||
-          cartData.length === 0 ||
-          !cartData[0]?.cartItems?.length ? (
+          {cartData?.data?.cartItems?.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               Your cart is empty
             </div>
           ) : (
-            <CartTable cartData={cartData} />
+            <CartTable cartData={cartData.data} />
           )}
         </div>
       </Suspense>

@@ -20,7 +20,12 @@ const MealsPage = async () => {
 
   return (
     <div>
-      <MealLayout meals={meals?.data} categories={categories} cuisines={cuisines} dietaries={dietaries} />
+      <MealLayout
+        meals={meals?.data}
+        categories={categories?.data}
+        cuisines={cuisines}
+        dietaries={dietaries}
+      />
     </div>
   );
 };

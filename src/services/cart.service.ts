@@ -20,9 +20,9 @@ const createCartWithCartItem = async ({ userId, mealId, quantity }: { userId: st
     return res;
 }
 
-const getUserCart = async (userId: string) => {
+const getUserCart = async () => {
     const cookieStore = await cookies();
-    const result = await fetch(`${BACKEND_URL}/api/cart/${userId}`, {
+    const result = await fetch(`${BACKEND_URL}/api/cart`, {
         headers: {
             "Content-type": "application/json",
             Cookie: cookieStore.toString(),

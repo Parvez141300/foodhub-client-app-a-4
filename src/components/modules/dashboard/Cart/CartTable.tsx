@@ -82,11 +82,11 @@ export type CartDataType = {
 };
 
 interface CartTableProps {
-  cartData: CartDataType[];
+  cartData: CartDataType;
 }
 
 const CartTable = ({ cartData }: CartTableProps) => {
-  const cart = cartData[0];
+  const cart = cartData;
   const cartItems = cart.cartItems;
 
   // total price calculation
