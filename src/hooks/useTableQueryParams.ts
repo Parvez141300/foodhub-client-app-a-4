@@ -53,9 +53,9 @@ export const useTableQueryParams = () => {
 
     const clearFilterKeys = (keys: string[]) => {
         const updates: Record<string, undefined> = {};
-        setSearchValue("");
         keys.forEach((k) => updates[k] = undefined);
         updateParams(updates);
+        setSearchValue("");
     }
 
     return {

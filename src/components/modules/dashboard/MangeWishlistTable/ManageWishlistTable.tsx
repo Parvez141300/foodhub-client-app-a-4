@@ -34,12 +34,12 @@ const ManageWishlistTable = ({ queryString }: { queryString: string }) => {
         data={wishlistItems || []}
         columns={wishlistTableColumn}
         isLoading={isLoading}
-        emptyMessage="No Attendances found!"
+        emptyMessage="No Wish list found!"
         toolbar={{
           search: {
             value: searchValue,
             onChange: handleSearchChange,
-            placeholder: "Search by employee data...",
+            placeholder: "Search by meal title...",
           },
           onClearFilters: () => clearFilterKeys(["search", "page", "limit"]),
         }}
