@@ -11,7 +11,7 @@ const Logo = ({ className }: { className?: string }) => {
         width={100}
         height={100}
         loading="eager"
-        className="rounded-full"
+        className="rounded-full w-auto h-auto"
       />
     </Link>
   );

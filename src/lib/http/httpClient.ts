@@ -80,10 +80,11 @@ const clientPut = async <TData>(url: string, data?: unknown, options?: IApiReque
     }
 }
 
-const clientDelete = async <TData>(url: string, options?: IApiRequestOptions) => {
+const clientDelete = async <TData>(url: string, data?: unknown, options?: IApiRequestOptions) => {
     const cookieHeader = await getValidCookieHeader();
     try {
         const response = await axiosInstance.delete(url, {
+            data: data,
             params: options?.params,
             headers: {
                 ...options?.headers,

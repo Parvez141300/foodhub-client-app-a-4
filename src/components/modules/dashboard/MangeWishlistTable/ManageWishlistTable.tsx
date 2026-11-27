@@ -1,5 +1,8 @@
 "use client";
-import { getUserWishlist } from "@/actions/wishlist.action";
+import {
+  deleteUserWishListItem,
+  getUserWishlist,
+} from "@/actions/wishlist.action";
 import TanStackDataTable from "@/components/global/tables/TanStackDataTable/TanStackDataTable";
 import { useTableQueryParams } from "@/hooks/useTableQueryParams";
 import { useQuery } from "@tanstack/react-query";
@@ -8,6 +11,7 @@ import { wishlistTableColumn } from "./column/WishlistTableColumn";
 import { IWishlistItemWithMeal } from "@/types/wishlist.type";
 import { useRouter } from "next/navigation";
 import { env } from "@/env";
+import DeletePopUpDialog from "@/components/global/tables/TanStackDataTable/DeletePopUpDialog";
 
 const ManageWishlistTable = ({ queryString }: { queryString: string }) => {
   const {
@@ -38,6 +42,11 @@ const ManageWishlistTable = ({ queryString }: { queryString: string }) => {
     router.push(`${env.NEXT_PUBLIC_FRONTEND_URL}/meals/${data.meal_id}`);
   };
 
+  const handleDelete = (data: IWishlistItemWithMeal) => {
+    console.log(data);
+    setDeleting(data);
+  };
+
   return (
     <>
       <TanStackDataTable
@@ -57,6 +66,7 @@ const ManageWishlistTable = ({ queryString }: { queryString: string }) => {
         }}
         actions={{
           onView: handleView,
+          onDelete: handleDelete,
         }}
         pagination={
           paginationMeta
@@ -70,6 +80,25 @@ const ManageWishlistTable = ({ queryString }: { queryString: string }) => {
               }
             : undefined
         }
+      />
+
+      {/* delete dialog */}
+      <DeletePopUpDialog
+        open={!!deleting}
+        onOpenChange={(open) => {
+          if (!open) setDeleting(null);
+        }}
+        title="Delete Wishlist item"
+        itemName={`${deleting?.meal.title} meal from wish list`}
+        deleteAction={() =>
+          deleteUserWishListItem(
+            deleting?.wishlist_id as string,
+            deleting?.meal_id as string,
+          )
+        }
+        queryKey={["user-wishlist"]}
+        successMessage="deleted from wishlist successfully"
+        errorMessage="Failed to delete from wishlist"
       />
     </>
   );

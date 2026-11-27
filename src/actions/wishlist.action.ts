@@ -14,8 +14,8 @@ export const createWishList = async ({ userId, mealId }: { userId: string, mealI
     return result;
 }
 
-export const deleteUserWishListItem = async (wishListId: string, userId: string, mealId: string) => {
-    const result = await wishListService.deleteUserWishListItem(wishListId, userId, mealId);
+export const deleteUserWishListItem = async (wishListId: string, mealId: string) => {
+    const result = await wishListService.deleteUserWishListItem(wishListId, mealId);
     updateTag("user-wishlist");
     return result;
 }

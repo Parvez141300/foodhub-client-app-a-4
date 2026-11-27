@@ -27,18 +27,12 @@ const getUserWishList = async (queryString?: string) => {
     return response;
 }
 
-const deleteUserWishListItem = async (wishListId: string, userId: string, mealId: string) => {
-    const cookieStore = await cookies();
-    const result = await fetch(`${BACKEND_URL}/api/wishlist/${wishListId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-type": "application/json",
-            Cookie: cookieStore.toString(),
-        },
-        body: JSON.stringify({ user_id: userId, meal_id: mealId })
+const deleteUserWishListItem = async (wishListId: string, mealId: string) => {
+    const response = await httpClient.delete(`${env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${wishListId}`, {
+        meal_id: mealId,
     });
-    const res = await result.json();
-    return res;
+    console.log("delete wish list response",response);
+    return response;
 }
 
 export const wishListService = {
