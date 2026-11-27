@@ -275,7 +275,7 @@ const Navbar1 = ({
           </div>
 
           {/* Mobile Menu */}
-          <div className="flex justify-between items-center lg:hidden">
+          <div className="flex justify-between items-center lg:hidden px-4">
             {/* Logo */}
             <Logo />
             {/* search */}

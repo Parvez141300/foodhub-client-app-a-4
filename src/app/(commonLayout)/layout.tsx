@@ -7,7 +7,7 @@ const CommonLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await userServices.getSession();
   return (
     <div>
-      <section className="mb-20 md:mb-32">
+      <section className="mb-24 lg:mb-36">
         <Navbar1 session={session} />
       </section>
       <div className="mx-auto px-4 min-h-screen space-y-8">
