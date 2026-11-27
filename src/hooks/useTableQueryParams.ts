@@ -9,7 +9,7 @@ export const useTableQueryParams = () => {
     const searchParams = useSearchParams();
 
     // search state
-    const [searchValue, setSearchValue] = useState(searchParams.get("search") || "");
+    const [searchValue, setSearchValue] = useState(searchParams.get("search") ?? "");
     // pagination page and limit
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 10;
@@ -44,7 +44,7 @@ export const useTableQueryParams = () => {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            const currentSearchValue = searchParams.get("search");
+            const currentSearchValue = searchParams.get("search") ?? "";
             if (searchValue !== currentSearchValue) {
                 updateParams({ search: searchValue || undefined, page: 1 });
             }
@@ -53,7 +53,7 @@ export const useTableQueryParams = () => {
 
     const clearFilterKeys = (keys: string[]) => {
         const updates: Record<string, undefined> = {};
-
+        setSearchValue("");
         keys.forEach((k) => updates[k] = undefined);
         updateParams(updates);
     }

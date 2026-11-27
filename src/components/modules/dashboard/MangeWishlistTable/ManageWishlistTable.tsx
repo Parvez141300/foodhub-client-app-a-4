@@ -41,8 +41,7 @@ const ManageWishlistTable = ({ queryString }: { queryString: string }) => {
             onChange: handleSearchChange,
             placeholder: "Search by employee data...",
           },
-          onClearFilters: () =>
-            clearFilterKeys(["status", "departmentId", "startDate", "endDate"]),
+          onClearFilters: () => clearFilterKeys(["search", "page", "limit"]),
         }}
         pagination={
           paginationMeta
