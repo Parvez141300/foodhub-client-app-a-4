@@ -94,7 +94,7 @@ const TanStackDataTable = <TData extends RowData>({
             const rowData = row.original;
             return (
               <DropdownMenu>
-                <DropdownMenuTrigger>
+                <DropdownMenuTrigger asChild>
                   <Button variant="outline">
                     <EllipsisVertical />
                   </Button>

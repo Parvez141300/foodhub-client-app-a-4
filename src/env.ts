@@ -9,6 +9,7 @@ export const env = createEnv({
     },
     client: {
         NEXT_PUBLIC_NODE_ENV: z.string(),
+        NEXT_PUBLIC_FRONTEND_URL: z.string(),
         NEXT_PUBLIC_BACKEND_URL: z.string(),
         NEXT_PUBLIC_AUTH_URL: z.string(),
         NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string(),
@@ -19,6 +20,7 @@ export const env = createEnv({
         FRONTEND_URL: process.env.FRONTEND_URL,
         AUTH_URL: process.env.AUTH_URL,
         NEXT_PUBLIC_NODE_ENV: process.env.NEXT_PUBLIC_NODE_ENV,
+        NEXT_PUBLIC_FRONTEND_URL: process.env.NEXT_PUBLIC_FRONTEND_URL,
         NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
         NEXT_PUBLIC_AUTH_URL: process.env.NEXT_PUBLIC_AUTH_URL,
         NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
