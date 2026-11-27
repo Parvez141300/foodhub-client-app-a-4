@@ -1,52 +1,19 @@
 "use client";
+
 import { createCartWithCartItem } from "@/actions/cart.action";
 import { getCurrentUser } from "@/actions/user.action";
 import { createWishList } from "@/actions/wishlist.action";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Roles } from "@/constants/roles";
 import { cn } from "@/lib/utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Eye, Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
-// {
-//     "id": "dd1264d4-90c2-4165-bae1-0ab9f583b8e3",
-//     "provider_id": "XGyEl3WBuhGpx4DAT82DQKRvSnKlI3oF",
-//     "category_id": "2c091153-7591-4a60-8bfd-9e8a76956266",
-//     "cuisine_id": "e719dded-6948-4a59-8fe9-0dd902736ccc",
-//     "dietery_id": "468338e4-07bd-4885-b837-6129d7b332a7",
-//     "title": "Black Coffee",
-//     "description": "Chinese coffee is a rapidly growing, high-quality specialty industry, with over 95% of production concentrated in Yunnan province. Known for being gentle, sweet, and nutty with a creamy texture, Yunnan coffee predominantly features Catimor Arabica beans. It is increasingly recognized in the global specialty market, characterized by high altitude (2,000m+), rich soil, and a subtropical climate. \n\nKey Aspects of Chinese Coffee:\nGrowing Region: Almost all Chinese specialty coffee comes from Yunnan, a mountainous province in the southwest.\nFlavor Profile: Generally gentle, sweet, and creamy, making it excellent for espresso or balanced filter brews.\nVarietals: Roughly 70% of production comes from the Catimor hybrid, which is favored for its disease resistance.\nCoffee Culture: While tea has a longer history, coffee consumption is growing rapidly, with a focus on both high-quality, traceable specialty beans and a massive instant coffee market.\nKey Players: While Nestlé historically drove production via training, modern Chinese coffee focuses on organic, traceable, and specialty production. \n\nKey Differences from Other Regions:\nChinese coffee often offers a unique, milder alternative to bolder African or South American coffees, with growing appreciation for its distinct, sometimes nutty or fruit-forward notes",
-//     "stock": 250,
-//     "price": 150,
-//     "image_url": "https://res.cloudinary.com/dapbx8al2/image/upload/v1772447498/k9fjqzq9eqvpmoewnku1.jpg",
-//     "is_available": true,
-//     "is_featured": false,
-//     "created_at": "2026-03-02T10:31:57.110Z",
-//     "updated_at": "2026-03-02T10:31:57.110Z",
-//     "category": {
-//         "id": "2c091153-7591-4a60-8bfd-9e8a76956266",
-//         "name": "coffee"
-//     },
-//     "cuisine": {
-//         "id": "e719dded-6948-4a59-8fe9-0dd902736ccc",
-//         "name": "Chinese"
-//     },
-//     "dietery": {
-//         "id": "468338e4-07bd-4885-b837-6129d7b332a7",
-//         "name": "Healthy"
-//     }
-// }
 
 type MealCardType = {
   id: string;
@@ -60,35 +27,30 @@ type MealCardType = {
 export function MealCard1({ meal }: { meal: MealCardType }) {
   const [isHovered, setIsHovered] = useState(false);
   const [cartLoading, setCartLoading] = useState(false);
-  const [wishListLoading, setWishListLoading] = useState(false);
   const [userData, setUserData] = useState<any>(null);
 
+  const queryClient = useQueryClient();
+
+  // ── User fetch (আগের মতোই) ──
   useEffect(() => {
     const fetchUser = async () => {
       const session = await getCurrentUser();
-      if (session?.user) {
-        setUserData(session.user);
-      } else {
-        setUserData(null);
-      }
+      setUserData(session?.user ?? null);
     };
-
     fetchUser();
   }, []);
 
-  // Handle add to cart
+  // ── Add to Cart (আগের মতোই) ──
   const handleAddToCart = async (mealId: string) => {
     const toastId = toast.loading("Adding to cart");
     setCartLoading(true);
     try {
       if (!userData) {
-        setCartLoading(false);
         return toast.error("User Need to login to add to cart", {
           id: toastId,
         });
       }
       if (userData.role !== Roles.CUSTOMER) {
-        setCartLoading(false);
         return toast.error("Only Customer user can add to cart", {
           id: toastId,
         });
@@ -96,62 +58,68 @@ export function MealCard1({ meal }: { meal: MealCardType }) {
 
       const result = await createCartWithCartItem({
         userId: userData.id,
-        mealId: mealId,
+        mealId,
         quantity: 1,
       });
-      console.log("added to cart response", result);
+
       if (result?.id) {
-        toast.success(`Added ${1} x ${meal?.title} to cart`, {
-          id: toastId,
-        });
+        toast.success(`Added 1 x ${meal?.title} to cart`, { id: toastId });
+        // চাইলে cart query-ও invalidate করতে পারো:
+        // queryClient.invalidateQueries({ queryKey: ["user-cart"] });
       } else {
-        setCartLoading(false);
         toast.error("Failed to add to cart", { id: toastId });
       }
     } catch (error: any) {
-      toast.error(error?.message, { id: toastId });
+      toast.error(error?.message ?? "Something went wrong", { id: toastId });
     } finally {
       setCartLoading(false);
     }
   };
 
-  // Handle add to wishlist
-  const handleAddToWishlist = async (mealId: string) => {
-    const toastId = toast.loading("Adding to wish list");
-    setWishListLoading(true);
-    try {
-      if (!userData) {
-        setWishListLoading(false);
-        return toast.error("User Need to login to add to wish list", {
-          id: toastId,
-        });
-      }
-      if (userData.role !== Roles.CUSTOMER) {
-        setWishListLoading(false);
-        return toast.error("Only Customer user can add to wish list", {
-          id: toastId,
-        });
-      }
+  // ── Add to Wishlist (useMutation) ──
+  const { mutate: addToWishlistMutation, isPending: wishListLoading } =
+    useMutation({
+      mutationFn: (mealId: string) => createWishList(mealId),
 
-      const result = await createWishList({
-        userId: userData.id,
-        mealId: mealId,
-      });
-      console.log("added to wish list response", result);
-      if (result?.id) {
-        toast.success(`Added ${1} x ${meal?.title} to wish list`, {
-          id: toastId,
+      // loading toast তৈরি করে context হিসেবে toastId ফেরত দাও
+      onMutate: () => {
+        const toastId = toast.loading("Adding to wish list");
+        return { toastId };
+      },
+
+      onSuccess: (result, _mealId, context) => {
+        if (result?.id) {
+          toast.success(`Added ${meal?.title} to wish list`, {
+            id: context?.toastId,
+          });
+          // 👇 prefix-match — ["user-wishlist", queryString] সব invalidate হবে
+          queryClient.invalidateQueries({ queryKey: ["user-wishlist"] });
+        } else {
+          toast.error("This item is already in your Wish List", {
+            id: context?.toastId,
+          });
+        }
+      },
+
+      onError: (error: any, _mealId, context) => {
+        toast.error(error?.message ?? "Failed to add to wish list", {
+          id: context?.toastId,
         });
-      } else {
-        setWishListLoading(false);
-        toast.error("This wish list already in Wish List", { id: toastId });
-      }
-    } catch (error: any) {
-      toast.error(error?.message, { id: toastId });
-    } finally {
-      setWishListLoading(false);
+      },
+    });
+
+  const handleAddToWishlist = (mealId: string) => {
+    if (!userData) {
+      toast.error("User Need to login to add to wish list");
+      return;
     }
+    if (userData.role !== Roles.CUSTOMER) {
+      toast.error("Only Customer user can add to wish list");
+      return;
+    }
+    addToWishlistMutation(mealId);
   };
+
   return (
     <Card
       onMouseEnter={() => setIsHovered(true)}
@@ -170,21 +138,18 @@ export function MealCard1({ meal }: { meal: MealCardType }) {
             isHovered && "scale-110",
           )}
         />
-        {/* dark overlay on hover */}
         <div
           className={cn(
             "absolute inset-0 bg-black/40 transition-opacity duration-500",
             isHovered ? "opacity-100" : "opacity-0",
           )}
         />
-        {/* show cart, wish list and eye */}
         <div
           className={cn(
             "absolute z-20 inset-0 flex items-center justify-center gap-4 transition-all duration-300",
             isHovered ? "opacity-100 translate-y-14" : "opacity-0",
           )}
         >
-          {/* cart button */}
           <Button
             onClick={() => handleAddToCart(meal?.id)}
             className="rounded-full w-10 h-10 hover:bg-primary hover:text-secondary duration-500"
@@ -224,7 +189,6 @@ export function MealCard1({ meal }: { meal: MealCardType }) {
       </CardHeader>
       <CardFooter className="flex justify-between items-center">
         <h3 className="text-lg font-bold">Price: {meal?.price}tk</h3>
-
         <Button>
           <Link href={`/meals/${meal?.id}`}>View Details</Link>
         </Button>

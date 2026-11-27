@@ -6,20 +6,12 @@ import { cookies } from "next/headers";
 
 const BACKEND_URL = env.BACKEND_URL;
 
-const createWishList = async ({ userId, mealId }: { userId: string, mealId: string }) => {
-    const cookieStore = await cookies();
-    const result = await fetch(`${BACKEND_URL}/api/wishlist`, {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json",
-            Cookie: cookieStore.toString(),
-        },
-        body: JSON.stringify({ user_id: userId, meal_id: mealId })
+const createWishList = async (mealId: string) => {
+    const response = await httpClient.post(`${env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist`, {
+        meal_id: mealId,
     });
-
-    const res = await result.json();
-
-    return res;
+    console.log("delete wish list response", response);
+    return response;
 }
 
 const getUserWishList = async (queryString?: string) => {
@@ -31,7 +23,7 @@ const deleteUserWishListItem = async (wishListId: string, mealId: string) => {
     const response = await httpClient.delete(`${env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist/${wishListId}`, {
         meal_id: mealId,
     });
-    console.log("delete wish list response",response);
+    console.log("delete wish list response", response);
     return response;
 }
 

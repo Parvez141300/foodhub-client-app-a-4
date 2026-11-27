@@ -9,8 +9,8 @@ export const getUserWishlist = async (queryString?: string) => {
     return result;
 }
 
-export const createWishList = async ({ userId, mealId }: { userId: string, mealId: string }) => {
-    const result = await wishListService.createWishList({ userId, mealId });
+export const createWishList = async (mealId: string) => {
+    const result = await wishListService.createWishList(mealId);
     return result;
 }
 
