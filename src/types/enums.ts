@@ -1,0 +1,26 @@
+export enum OrderStatus {
+  PENDING = "PENDING",
+  PROCESSING = "PROCESSING",
+  DELIVERED = "DELIVERED",
+  CANCELLED = "CANCELLED",
+}
+
+export enum UserRole {
+  ADMIN = "ADMIN",
+  PROVIDER = "PROVIDER",
+  CUSTOMER = "CUSTOMER",
+}
+
+export enum PaymentGateway {
+  CASH_ON_DELIVERY = "CASH_ON_DELIVERY",
+  SSLCOMMERZ = "SSLCOMMERZ",
+}
+
+export enum PaymentStatus {
+  PENDING = "PENDING",
+  SUCCESS = "SUCCESS",
+  FAILED = "FAILED",
+  CANCELLED = "CANCELLED",
+  REFUNDED = "REFUNDED",
+  PARTIALLY_REFUNDED = "PARTIALLY_REFUNDED",
+}

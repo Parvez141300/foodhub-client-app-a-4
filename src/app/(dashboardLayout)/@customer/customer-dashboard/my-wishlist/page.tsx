@@ -1,34 +1,33 @@
-import LoadingSpinner from "@/components/global/LoadingSpinner";
-import WishListTable from "@/components/modules/dashboard/WishList/page";
+
+import { getUserWishlist } from "@/actions/wishlist.action";
+import ManageWishlistTable from "@/components/modules/dashboard/MangeWishlistTable/ManageWishlistTable";
 import { userServices } from "@/services/user.service";
 import { wishListService } from "@/services/wishlist.service";
-import React, { Suspense } from "react";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
-const WishListPage = async () => {
-  const userData = await userServices.getSession();
-  const userId = userData?.user?.id;
-  
-  const wishListData = await wishListService.getUserWishList(userId);
-  console.log("wishlist data from API:", wishListData);
-  
+const WishListPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
+  const queryParamsObject = await searchParams;
+
+  const queryString = Object.keys(queryParamsObject)
+    .map((key) => `${key}=${queryParamsObject[key]}`)
+    .join("&");
+
+  const queryClient = new QueryClient();
+
+  await queryClient.query({
+    queryKey: ["user-wishlist", queryString],
+    queryFn: () => getUserWishlist(queryString),
+  });
+
   return (
-    <div className="space-y-5">
-      <h3 className="text-xl font-semibold">My Wishlist</h3>
-      <Suspense fallback={<LoadingSpinner />}>
-        <div>
-          {!wishListData ||
-          wishListData.length === 0 ||
-          !wishListData[0]?.wishlistItems?.length ? (
-            <div className="text-center py-8 text-muted-foreground">
-              Your wishlist is empty. Start adding items you love!
-            </div>
-          ) : (
-            <WishListTable wishlistData={wishListData} />
-          )}
-        </div>
-      </Suspense>
-    </div>
-  );
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ManageWishlistTable queryString={queryString} />
+    </HydrationBoundary>
+  )
 };
 
 export default WishListPage;
