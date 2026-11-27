@@ -3,6 +3,10 @@
 import { wishListService } from "@/services/wishlist.service"
 import { updateTag } from "next/cache";
 
+export const getUserWishlist = async (queryString?: string) => {
+    
+}
+
 export const createWishList = async ({ userId, mealId }: { userId: string, mealId: string }) => {
     const result = await wishListService.createWishList({ userId, mealId });
     return result;

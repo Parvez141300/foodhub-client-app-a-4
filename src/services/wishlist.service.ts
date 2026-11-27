@@ -19,9 +19,9 @@ const createWishList = async ({ userId, mealId }: { userId: string, mealId: stri
     return res;
 }
 
-const getUserWishList = async (userId: string) => {
+const getUserWishList = async (queryString?: string) => {
     const cookieStore = await cookies();
-    const result = await fetch(`${BACKEND_URL}/api/wishlist/${userId}`, {
+    const result = await fetch(`${BACKEND_URL}/api/wishlist?${queryString}`, {
         headers: {
             "Content-type": "application/json",
             Cookie: cookieStore.toString(),
