@@ -63,13 +63,13 @@ interface IDataTablePagination {
 interface IDataTableProps<TData extends RowData> {
   title: string;
   description?: string;
-  columns: ColumnDef<DataTableFeatures, TData>[];
+  columns: ColumnDef<DataTableFeatures, TData, any>[];
   data: TData[];
   emptyMessage?: string;
   isLoading?: boolean;
-  actions: IDataTableActions<TData>;
+  actions?: IDataTableActions<TData>;
   toolbar: IDataTableToolbar;
-  pagination: IDataTablePagination;
+  pagination?: IDataTablePagination;
 }
 
 const TanStackDataTable = <TData extends RowData>({
@@ -83,7 +83,7 @@ const TanStackDataTable = <TData extends RowData>({
   toolbar,
   pagination,
 }: IDataTableProps<TData>) => {
-  const tableColumns: ColumnDef<DataTableFeatures, TData>[] = actions
+  const tableColumns: ColumnDef<DataTableFeatures, TData, any>[] = actions
     ? [
         ...columns,
         {

@@ -3,7 +3,7 @@
 
 import { DataTableFeatures } from "@/components/global/tables/TanStackDataTable/data-table-features";
 import { IWishlistItemWithMeal } from "@/types/wishlist.type";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import { Trash2, ShoppingCart, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,11 @@ const columnHelper = createColumnHelper<
   IWishlistItemWithMeal
 >();
 
-export const wishlistTableColumn = [
+export const wishlistTableColumn: ColumnDef<
+  DataTableFeatures,
+  IWishlistItemWithMeal,
+  any
+>[] = [
   // ১. Serial
   columnHelper.display({
     id: "serial",

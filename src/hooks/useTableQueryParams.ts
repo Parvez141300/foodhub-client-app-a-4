@@ -27,7 +27,7 @@ export const useTableQueryParams = () => {
                 }
             }
             );
-            router.push(`${pathname}${params.toString()}`)
+            router.push(`${pathname}?${params.toString()}`)
         }, [router, pathname, searchParams]);
 
     const handleSearchChange = (value: string) => {

@@ -1,5 +1,7 @@
 import { env } from "@/env";
 import { httpClient } from "@/lib/http/httpClient";
+import { IPaginatedData } from "@/types/pagination.type";
+import { IWishlist } from "@/types/wishlist.type";
 import { cookies } from "next/headers";
 
 const BACKEND_URL = env.BACKEND_URL;
@@ -21,7 +23,7 @@ const createWishList = async ({ userId, mealId }: { userId: string, mealId: stri
 }
 
 const getUserWishList = async (queryString?: string) => {
-    const response = await httpClient.get(`${env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist?${queryString}`);
+    const response = await httpClient.get<IPaginatedData<IWishlist>>(`${env.NEXT_PUBLIC_BACKEND_URL}/api/wishlist?${queryString}`);
     return response;
 }
 
