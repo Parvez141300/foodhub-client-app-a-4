@@ -1,8 +1,8 @@
 import { env } from "@/env";
 import axios from "axios";
 
-const instance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: env.NEXT_PUBLIC_BACKEND_URL,
-  timeout: 5000,
+  timeout: 60000, // 60 seconds
   withCredentials: true,
 });
